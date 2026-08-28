@@ -1,0 +1,26 @@
+{
+  "version": "v0.1.0",
+  "published_at": "2026-08-28T08:52:56.745Z",
+  "platforms": {
+    "macos-arm64": {
+      "filename": "Dictation-Repair-Book-macos-arm64.dmg",
+      "url": "https://github.com/B-Divyesh/sf-dictation-repair-book/releases/latest/download/Dictation-Repair-Book-macos-arm64.dmg",
+      "sha256": "1f19b5e8943598a19dcad00f14b50a7faa6fe3119331d8a428ea25dc3e198642"
+    },
+    "macos-x64": {
+      "filename": "Dictation-Repair-Book-macos-x64.dmg",
+      "url": "https://github.com/B-Divyesh/sf-dictation-repair-book/releases/latest/download/Dictation-Repair-Book-macos-x64.dmg",
+      "sha256": "4e2c14684453435efe17867b491e8aa083ec5417ecea112769b6b5a5d30e9f30"
+    },
+    "windows-x64": {
+      "filename": "Dictation-Repair-Book-windows-x64.msi",
+      "url": "https://github.com/B-Divyesh/sf-dictation-repair-book/releases/latest/download/Dictation-Repair-Book-windows-x64.msi",
+      "sha256": "67163eb280260d05e660e88e573e21c9766bf9272ce792780883050145e54afa"
+    },
+    "linux-x64": {
+      "filename": "Dictation-Repair-Book-linux-x64.AppImage",
+      "url": "https://github.com/B-Divyesh/sf-dictation-repair-book/releases/latest/download/Dictation-Repair-Book-linux-x64.AppImage",
+      "sha256": "23e0761c6a5a008bd14d04e5585418772b8d76251f5038f49826da25ef090225"
+    }
+  }
+}
