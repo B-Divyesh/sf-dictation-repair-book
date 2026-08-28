@@ -1,0 +1,34 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Dictation Repair Book",
+  "version": "0.1.0",
+  "identifier": "in.sociobot.dictation-repair-book",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build:app",
+    "frontendDist": "../dist/app"
+  },
+  "app": {
+    "windows": [{
+      "title": "Dictation Repair Book",
+      "label": "main",
+      "width": 1180,
+      "height": 780,
+      "minWidth": 390,
+      "minHeight": 600,
+      "resizable": true
+    }],
+    "security": { "csp": "default-src 'self'; connect-src 'self' https://api.sociobot.in; img-src 'self' asset: http://asset.localhost; style-src 'self' 'unsafe-inline'; script-src 'self'" }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.ico", "icons/icon.icns"],
+    "category": "Utility",
+    "shortDescription": "Private reusable rules for dictation corrections",
+    "longDescription": "Turn explicit before-and-after transcript edits into an encrypted, inspectable, portable local glossary.",
+    "copyright": "Copyright 2026 Param Factory",
+    "linux": { "deb": { "depends": [] } }
+  }
+}

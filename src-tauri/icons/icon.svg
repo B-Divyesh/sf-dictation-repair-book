@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Dictation Repair Book icon">
+  <rect width="512" height="512" rx="72" fill="#171714"/>
+  <path d="M74 58h318l48 48v348H74z" fill="#f3efdf" stroke="#f3efdf" stroke-width="16"/>
+  <path d="M392 58v52h48" fill="#d9f23f" stroke="#171714" stroke-width="16"/>
+  <path d="M126 170h234M126 244h120M290 244h70M126 318h234" fill="none" stroke="#171714" stroke-width="24"/>
+  <path d="m232 226 42 42 100-108" fill="none" stroke="#e66345" stroke-width="28" stroke-linecap="square"/>
+  <path d="M112 400h288" stroke="#3157d5" stroke-width="30"/>
+</svg>

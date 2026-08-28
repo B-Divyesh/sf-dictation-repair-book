@@ -3,4 +3,9 @@ dist/
 .env
 *.log
 graphify-out/
+src-tauri/target/
+test-results/
+playwright-report/
+release-assets/
+downloaded-artifacts/
 .DS_Store

@@ -1,0 +1,31 @@
+[package]
+name = "dictation-repair-book"
+version = "0.1.0"
+description = "A private correction-to-glossary utility"
+authors = ["Param Factory"]
+edition = "2021"
+license = "MIT"
+
+[lib]
+name = "dictation_repair_book_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon"] }
+tauri-plugin-opener = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+aes-gcm = "0.10"
+base64 = "0.22"
+rand = "0.8"
+arboard = "3"
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+lto = true
+opt-level = "s"
+strip = true
