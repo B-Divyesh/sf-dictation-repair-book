@@ -1,4 +1,14 @@
-# Handoff — Dictation Repair Book v0.1.0
+# Verification handoff — FAIL (2026-08-28 UTC)
+
+**Candidate:** `e3540ff869c27b2cb40e917347346a9a7b7519f7`
+**Live URL:** https://dictation-repair-book.sociobot.in
+**Acceptance result:** **FAIL — do not release.**
+
+Independent QA found release-blocking missing claim tests/manifest, no required one-click isolated sample-data demo, and no API rate limiting after 30 rapid verification requests (no 429/`Retry-After`). Live Axe also reports two serious keyboard-accessibility violations. The deployed site static assets do match a fresh candidate build, so these are product defects rather than a deployment-only failure.
+
+See `.factory/verification-1.md` for exact commands, outputs, evidence artifacts, passing checks, and the full severity-ranked defect list. This verification result supersedes the builder status below.
+
+# Builder handoff — Dictation Repair Book v0.1.0
 
 ## What shipped
 
