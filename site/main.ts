@@ -1,7 +1,7 @@
 const repo = 'https://github.com/B-Divyesh/sf-dictation-repair-book';
-const manifestUrl = `${repo}/releases/latest/download/latest.json`;
-type Asset = { url: string; sha256: string; filename: string };
-type Manifest = { version: string; platforms: Record<string, Asset> };
+const releaseApi = 'https://api.github.com/repos/B-Divyesh/sf-dictation-repair-book/releases/latest';
+const canonicalManifest = `${repo}/releases/latest/download/latest.json`;
+type Release = { tag_name: string; assets: { name: string; browser_download_url: string }[] };
 
 function platformKey(): string {
   const platform = ((navigator as Navigator & { userAgentData?: { platform?: string } }).userAgentData?.platform || navigator.platform).toLowerCase();
@@ -18,14 +18,16 @@ async function resolveDownload() {
   const labels: Record<string, string> = { 'macos-arm64':'macOS (Apple silicon)', 'macos-x64':'macOS (Intel)', 'windows-x64':'Windows', 'linux-x64':'Linux AppImage' };
   const key = platformKey();
   try {
-    const response = await fetch(manifestUrl, { cache: 'no-cache' });
-    if (!response.ok) throw new Error();
-    const manifest = await response.json() as Manifest;
-    const asset = manifest.platforms[key];
-    if (!asset?.url) throw new Error();
-    button.href = asset.url;
+    const releaseResponse = await fetch(releaseApi, { cache: 'no-cache' });
+    if (!releaseResponse.ok) throw new Error();
+    const release = await releaseResponse.json() as Release;
+    const filenames: Record<string, string> = { 'macos-arm64':'Dictation-Repair-Book-macos-arm64.dmg', 'macos-x64':'Dictation-Repair-Book-macos-x64.dmg', 'windows-x64':'Dictation-Repair-Book-windows-x64.msi', 'linux-x64':'Dictation-Repair-Book-linux-x64.AppImage' };
+    const asset = release.assets.find((item) => item.name === filenames[key]);
+    if (!asset?.browser_download_url || !release.assets.some((item) => item.name === 'latest.json')) throw new Error();
+    button.href = asset.browser_download_url;
     button.textContent = `Download for ${labels[key]}`;
-    note.textContent = `${manifest.version} · checksum published · unsigned build`;
+    note.textContent = `${release.tag_name} · checksum published · unsigned build`;
+    button.dataset.manifest = canonicalManifest;
   } catch {
     button.href = `${repo}/releases/latest`;
     button.textContent = 'See available downloads';

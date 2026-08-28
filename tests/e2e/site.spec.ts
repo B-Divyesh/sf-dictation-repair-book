@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 test('landing page is accessible and keeps a usable download fallback', async ({ page }) => {
-  await page.route('**/latest.json', (route) => route.abort());
+  await page.route('**/repos/B-Divyesh/sf-dictation-repair-book/releases/latest', (route) => route.abort());
   await page.goto('/');
   await expect(page).toHaveTitle(/Dictation Repair Book/);
   await expect(page.locator('h1')).toHaveCount(1);
