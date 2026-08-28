@@ -4,6 +4,7 @@ dist/
 *.log
 graphify-out/
 src-tauri/target/
+src-tauri/gen/
 test-results/
 playwright-report/
 release-assets/
