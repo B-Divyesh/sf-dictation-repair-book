@@ -1,0 +1,15 @@
+{
+  "slug": "dictation-repair-book",
+  "title": "Dictation Repair Book",
+  "artifact_class": "desktop-app",
+  "user": "A voice-dictation user with names, code terms, medications, or workplace jargon who needs corrections to reliably become private reusable vocabulary rules.",
+  "job_to_be_done": "Turn explicit before/after transcript edits into private, inspectable, reusable vocabulary rules for clipboard dictation and Whisper.",
+  "success_measure": "After 50 approved corrections, at least 80% correct transcription for the user's top 20 custom terms in a blind retest.",
+  "monetization": "one-time",
+  "constraints": [
+    "Never read arbitrary fields or retain audio by default",
+    "Require opt-in per application",
+    "Encrypt the local glossary",
+    "Make exports interoperable and deletable"
+  ]
+}
