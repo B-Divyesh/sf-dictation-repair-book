@@ -2,14 +2,15 @@ import './style.css';
 import { applyRules, exportCsv, exportWhisper, inferProposal, type Proposal } from './repair';
 import { eraseVault, isNative, loadState, readClipboard, saveState, writeClipboard } from './storage';
 import { acceptReturnedLicense, cachedUnlock, checkoutUrl, clearLicense, storeLicense, verifyLicense } from './license';
-import type { Correction, RepairState } from './types';
+import { emptyState, type Correction, type RepairState } from './types';
 
 type Page = 'capture' | 'rules' | 'test' | 'settings';
-let state = await loadState();
+let startupError = '';
+let state = await loadState().catch(() => { startupError = 'The encrypted vault could not be opened. Export recovery is unavailable, but you can erase the damaged local vault in Settings.'; return emptyState(); });
 let page: Page = 'capture';
 let proposal: Proposal | null = null;
 let testResult: { text: string; applied: string[] } | null = null;
-let notice = '';
+let notice = startupError;
 let unlocked = cachedUnlock();
 let lastRemoved: Correction | null = null;
 
@@ -85,7 +86,7 @@ function render() {
   app.innerHTML = page === 'capture' ? capturePage() : page === 'rules' ? rulesPage() : page === 'test' ? testPage() : settingsPage();
 }
 
-async function persist(message = '') { await saveState(state); notice = message; render(); }
+async function persist(message = '') { try { await saveState(state); notice = message; } catch { notice = 'The local vault could not be saved. Your latest change may not persist; check disk access and try again.'; } render(); }
 function download(name: string, data: string, type: string) { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([data], { type })); a.download = name; a.click(); URL.revokeObjectURL(a.href); }
 function exportAction(kind: string) {
   if (kind === 'csv') download('dictation-rules.csv', exportCsv(approved()), 'text/csv');

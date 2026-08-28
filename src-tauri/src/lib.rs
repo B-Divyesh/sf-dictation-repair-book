@@ -74,7 +74,12 @@ fn save_state(app: AppHandle, state: Value) -> Result<(), String> {
     let dir = data_dir(&app)?;
     let temp = dir.join("repair-book.tmp");
     fs::write(&temp, STANDARD.encode(packet)).map_err(|e| e.to_string())?;
-    fs::rename(temp, dir.join("repair-book.enc")).map_err(|e| e.to_string())
+    let destination = dir.join("repair-book.enc");
+    #[cfg(windows)]
+    if destination.exists() {
+        fs::remove_file(&destination).map_err(|e| e.to_string())?;
+    }
+    fs::rename(temp, destination).map_err(|e| e.to_string())
 }
 
 #[tauri::command]
