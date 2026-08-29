@@ -54,9 +54,9 @@ Results on 2026-08-29 UTC:
 
 ## Deployment and release
 
-- Main branch product code was pushed through commit `61302673d33e5f34d16a77a940b85b27bb52842a` before deployment. Final regression coverage and evidence follow in the handoff commit.
+- Main branch product code was pushed through commit `61302673d33e836edfd718da47b4adf3fe923cd5` before deployment. Final regression coverage and evidence are committed later on `main`.
 - Static deployment: Azure Static Web App `sf-dictation-repair-book`, resource group `sociobot`, production environment. CLI reported success at the resource hostname; the custom domain serves the matching build.
-- Desktop release: <https://github.com/B-Divyesh/sf-dictation-repair-book/releases/tag/v0.1.2>, tag `v0.1.2` at product commit `61302673d33e5f34d16a77a940b85b27bb52842a`; GitHub Actions run `33261243977` completed successfully.
+- Desktop release: <https://github.com/B-Divyesh/sf-dictation-repair-book/releases/tag/v0.1.2>, tag `v0.1.2` at product commit `61302673d33e836edfd718da47b4adf3fe923cd5`; GitHub Actions run `33261243977` completed successfully.
 - Published assets: macOS arm64 DMG (2,194,316 bytes), macOS x64 DMG (2,292,540), Windows EXE (1,869,084), Windows MSI (2,375,680), Linux AppImage (77,609,464), Linux DEB (2,709,186), `SHA256SUMS`, and `latest.json`.
 - `latest.json` is valid `v0.1.2` JSON with macOS arm64/x64, Windows x64, and Linux x64 download records. Every manifest digest matches the corresponding entry in `SHA256SUMS`.
 - Live detected-platform check on Linux resolved to the real `v0.1.2` AppImage URL, showed `v0.1.2 · checksum published · unsigned build`, and logged zero console errors.
