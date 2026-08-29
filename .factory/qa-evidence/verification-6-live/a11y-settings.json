@@ -1,0 +1,47 @@
+{
+  "url": "https://dictation-repair-book.sociobot.in/demo/?demo=1#settings",
+  "title": "Settings & data — Demo — Dictation Repair Book",
+  "outline": [
+    {
+      "tag": "H1",
+      "text": "Settings & data"
+    },
+    {
+      "tag": "H3",
+      "text": "Application access"
+    },
+    {
+      "tag": "H3",
+      "text": "Take your words anywhere"
+    },
+    {
+      "tag": "H3",
+      "text": "Theme"
+    },
+    {
+      "tag": "H3",
+      "text": "Keep an unlimited repair book"
+    },
+    {
+      "tag": "H3",
+      "text": "Erase this repair book"
+    }
+  ],
+  "violations": [
+    {
+      "id": "heading-order",
+      "impact": "moderate",
+      "help": "Heading levels should only increase by one",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/heading-order?application=playwright",
+      "nodes": [
+        {
+          "target": [
+            "section:nth-child(1) > div:nth-child(1) > h3"
+          ],
+          "html": "<h3>Application access</h3>",
+          "failureSummary": "Fix any of the following:\n  Heading order invalid"
+        }
+      ]
+    }
+  ]
+}

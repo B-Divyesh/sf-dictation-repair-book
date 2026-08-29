@@ -1,0 +1,72 @@
+{
+  "initial": {
+    "rules": 3,
+    "terms": [
+      "metoprolol",
+      "Kubernetes",
+      "Niamh"
+    ],
+    "banner": "Demo — sample data, nothing is saved.\nReset demo\nStart for real"
+  },
+  "kubernetes": {
+    "result": "Deploy the Kubernetes service.",
+    "feedback": "1 rule applied: Kubernetes"
+  },
+  "medication": {
+    "result": "Take metoprolol after breakfast.",
+    "feedback": "1 rule applied: metoprolol"
+  },
+  "noMatch": {
+    "result": "No custom vocabulary appears here.",
+    "feedback": "No matching approved terms."
+  },
+  "required": {
+    "activeId": "before",
+    "beforeValid": false,
+    "proposalButtons": 0
+  },
+  "unchanged": {
+    "notice": "I could not isolate a changed term. Include one complete before and after phrase.",
+    "proposalButtons": 0
+  },
+  "proposal": {
+    "heard": "ampersand token",
+    "intended": "$&"
+  },
+  "literal": {
+    "result": "Use $& now.",
+    "feedback": "1 rule applied: $&"
+  },
+  "invalidImport": {
+    "notice": "That file is not a valid Dictation Repair Book backup. Your current book was not changed."
+  },
+  "preservedAfterInvalid": 1,
+  "origins": [
+    "https://dictation-repair-book.sociobot.in"
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://dictation-repair-book.sociobot.in/demo/?demo=1"
+    },
+    {
+      "method": "GET",
+      "url": "https://dictation-repair-book.sociobot.in/assets/demo-DL9sr3BM.js"
+    },
+    {
+      "method": "GET",
+      "url": "https://dictation-repair-book.sociobot.in/assets/modulepreload-polyfill-B5Qt9EMX.js"
+    },
+    {
+      "method": "GET",
+      "url": "https://dictation-repair-book.sociobot.in/assets/core-DlQNAQKj.js"
+    },
+    {
+      "method": "GET",
+      "url": "https://dictation-repair-book.sociobot.in/assets/demo-DaLJYFU-.css"
+    }
+  ],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failed": []
+}

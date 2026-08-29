@@ -1,0 +1,14 @@
+{
+  "update": {
+    "controller": true,
+    "active": "activated",
+    "script": "https://dictation-repair-book.sociobot.in/sw.js"
+  },
+  "demoStatus": 200,
+  "repaired": "Deploy the Kubernetes service.",
+  "missingStatus": 404,
+  "missingHeading": "Page not found",
+  "errors": [
+    "console:Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+}

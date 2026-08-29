@@ -1,0 +1,474 @@
+{
+  "audits": [
+    {
+      "path": "/",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scheme": "light",
+      "reducedMotion": "no-preference",
+      "status": 200,
+      "title": "Dictation Repair Book — reusable dictation rules",
+      "lang": "en",
+      "h1": [
+        "Turn dictation correctionsinto reusable rules."
+      ],
+      "main": 1,
+      "headings": [
+        "H1:Turn dictation correctionsinto reusable rules.",
+        "H2:Save corrections for later clipboard text.",
+        "H2:Create a reusable rulein three steps.",
+        "H3:Capture your edit",
+        "H3:Inspect the proposal",
+        "H3:Reuse your book",
+        "H2:See the installed repair book at work.",
+        "H2:How the app stores your vocabulary",
+        "H2:Install the desktop app.",
+        "H2:Pay once for more approved rules.",
+        "H2:Before you install"
+      ],
+      "missingAlt": 0,
+      "overflow": {
+        "scroll": 1440,
+        "client": 1440
+      },
+      "scrollBehavior": "smooth",
+      "animated": 0,
+      "seriousCritical": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "badResponses": [],
+      "origins": [
+        "https://dictation-repair-book.sociobot.in"
+      ],
+      "undersized": []
+    },
+    {
+      "path": "/demo/?demo=1",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scheme": "light",
+      "reducedMotion": "no-preference",
+      "status": 200,
+      "title": "Approved vocabulary — Demo — Dictation Repair Book",
+      "lang": "en",
+      "h1": [
+        "Approved vocabulary"
+      ],
+      "main": 1,
+      "headings": [
+        "H1:Approved vocabulary"
+      ],
+      "missingAlt": 0,
+      "overflow": {
+        "scroll": 1440,
+        "client": 1440
+      },
+      "scrollBehavior": "smooth",
+      "animated": 0,
+      "seriousCritical": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "badResponses": [],
+      "origins": [
+        "https://dictation-repair-book.sociobot.in"
+      ],
+      "undersized": []
+    },
+    {
+      "path": "/privacy/",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scheme": "light",
+      "reducedMotion": "no-preference",
+      "status": 200,
+      "title": "Privacy — Dictation Repair Book",
+      "lang": "en",
+      "h1": [
+        "Privacy policy"
+      ],
+      "main": 1,
+      "headings": [
+        "H1:Privacy policy",
+        "H2:What the app stores",
+        "H2:What it does not collect",
+        "H2:Licenses",
+        "H2:Exports and deletion",
+        "H2:Website and contact"
+      ],
+      "missingAlt": 0,
+      "overflow": {
+        "scroll": 1440,
+        "client": 1440
+      },
+      "scrollBehavior": "smooth",
+      "animated": 0,
+      "seriousCritical": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "badResponses": [],
+      "origins": [
+        "https://dictation-repair-book.sociobot.in"
+      ],
+      "undersized": []
+    },
+    {
+      "path": "/terms/",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scheme": "light",
+      "reducedMotion": "no-preference",
+      "status": 200,
+      "title": "Terms — Dictation Repair Book",
+      "lang": "en",
+      "h1": [
+        "Terms of use"
+      ],
+      "main": 1,
+      "headings": [
+        "H1:Terms of use",
+        "H2:The product",
+        "H2:Free and paid use",
+        "H2:Your data and responsibility",
+        "H2:Availability and warranty",
+        "H2:Contact"
+      ],
+      "missingAlt": 0,
+      "overflow": {
+        "scroll": 1440,
+        "client": 1440
+      },
+      "scrollBehavior": "smooth",
+      "animated": 0,
+      "seriousCritical": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "badResponses": [],
+      "origins": [
+        "https://dictation-repair-book.sociobot.in"
+      ],
+      "undersized": []
+    },
+    {
+      "path": "/404.html",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scheme": "light",
+      "reducedMotion": "no-preference",
+      "status": 200,
+      "title": "Page not found — Dictation Repair Book",
+      "lang": "en",
+      "h1": [
+        "Page not found"
+      ],
+      "main": 1,
+      "headings": [
+        "H1:Page not found"
+      ],
+      "missingAlt": 0,
+      "overflow": {
+        "scroll": 1440,
+        "client": 1440
+      },
+      "scrollBehavior": "smooth",
+      "animated": 0,
+      "seriousCritical": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "badResponses": [],
+      "origins": [
+        "https://dictation-repair-book.sociobot.in"
+      ],
+      "undersized": []
+    },
+    {
+      "path": "/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "scheme": "light",
+      "reducedMotion": "reduce",
+      "status": 200,
+      "title": "Dictation Repair Book — reusable dictation rules",
+      "lang": "en",
+      "h1": [
+        "Turn dictation correctionsinto reusable rules."
+      ],
+      "main": 1,
+      "headings": [
+        "H1:Turn dictation correctionsinto reusable rules.",
+        "H2:Save corrections for later clipboard text.",
+        "H2:Create a reusable rulein three steps.",
+        "H3:Capture your edit",
+        "H3:Inspect the proposal",
+        "H3:Reuse your book",
+        "H2:See the installed repair book at work.",
+        "H2:How the app stores your vocabulary",
+        "H2:Install the desktop app.",
+        "H2:Pay once for more approved rules.",
+        "H2:Before you install"
+      ],
+      "missingAlt": 0,
+      "overflow": {
+        "scroll": 390,
+        "client": 390
+      },
+      "scrollBehavior": "auto",
+      "animated": 0,
+      "seriousCritical": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "badResponses": [],
+      "origins": [
+        "https://dictation-repair-book.sociobot.in"
+      ],
+      "undersized": []
+    },
+    {
+      "path": "/demo/?demo=1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "scheme": "light",
+      "reducedMotion": "reduce",
+      "status": 200,
+      "title": "Approved vocabulary — Demo — Dictation Repair Book",
+      "lang": "en",
+      "h1": [
+        "Approved vocabulary"
+      ],
+      "main": 1,
+      "headings": [
+        "H1:Approved vocabulary"
+      ],
+      "missingAlt": 0,
+      "overflow": {
+        "scroll": 390,
+        "client": 390
+      },
+      "scrollBehavior": "auto",
+      "animated": 0,
+      "seriousCritical": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "badResponses": [],
+      "origins": [
+        "https://dictation-repair-book.sociobot.in"
+      ],
+      "undersized": []
+    },
+    {
+      "path": "/privacy/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "scheme": "light",
+      "reducedMotion": "reduce",
+      "status": 200,
+      "title": "Privacy — Dictation Repair Book",
+      "lang": "en",
+      "h1": [
+        "Privacy policy"
+      ],
+      "main": 1,
+      "headings": [
+        "H1:Privacy policy",
+        "H2:What the app stores",
+        "H2:What it does not collect",
+        "H2:Licenses",
+        "H2:Exports and deletion",
+        "H2:Website and contact"
+      ],
+      "missingAlt": 0,
+      "overflow": {
+        "scroll": 390,
+        "client": 390
+      },
+      "scrollBehavior": "auto",
+      "animated": 0,
+      "seriousCritical": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "badResponses": [],
+      "origins": [
+        "https://dictation-repair-book.sociobot.in"
+      ],
+      "undersized": []
+    },
+    {
+      "path": "/terms/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "scheme": "light",
+      "reducedMotion": "reduce",
+      "status": 200,
+      "title": "Terms — Dictation Repair Book",
+      "lang": "en",
+      "h1": [
+        "Terms of use"
+      ],
+      "main": 1,
+      "headings": [
+        "H1:Terms of use",
+        "H2:The product",
+        "H2:Free and paid use",
+        "H2:Your data and responsibility",
+        "H2:Availability and warranty",
+        "H2:Contact"
+      ],
+      "missingAlt": 0,
+      "overflow": {
+        "scroll": 390,
+        "client": 390
+      },
+      "scrollBehavior": "auto",
+      "animated": 0,
+      "seriousCritical": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "badResponses": [],
+      "origins": [
+        "https://dictation-repair-book.sociobot.in"
+      ],
+      "undersized": []
+    },
+    {
+      "path": "/",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scheme": "dark",
+      "reducedMotion": "reduce",
+      "status": 200,
+      "title": "Dictation Repair Book — reusable dictation rules",
+      "lang": "en",
+      "h1": [
+        "Turn dictation correctionsinto reusable rules."
+      ],
+      "main": 1,
+      "headings": [
+        "H1:Turn dictation correctionsinto reusable rules.",
+        "H2:Save corrections for later clipboard text.",
+        "H2:Create a reusable rulein three steps.",
+        "H3:Capture your edit",
+        "H3:Inspect the proposal",
+        "H3:Reuse your book",
+        "H2:See the installed repair book at work.",
+        "H2:How the app stores your vocabulary",
+        "H2:Install the desktop app.",
+        "H2:Pay once for more approved rules.",
+        "H2:Before you install"
+      ],
+      "missingAlt": 0,
+      "overflow": {
+        "scroll": 1440,
+        "client": 1440
+      },
+      "scrollBehavior": "auto",
+      "animated": 0,
+      "seriousCritical": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "badResponses": [],
+      "origins": [
+        "https://dictation-repair-book.sociobot.in"
+      ],
+      "undersized": []
+    }
+  ],
+  "missing": {
+    "status": 404,
+    "title": "Page not found — Dictation Repair Book",
+    "h1": [
+      "Page not found"
+    ],
+    "homeLinks": 0
+  },
+  "keyboard": {
+    "firstFocus": {
+      "text": "Skip to content",
+      "href": "#main"
+    },
+    "afterSkip": {
+      "id": "main",
+      "tag": "MAIN"
+    },
+    "focusStyle": {
+      "outline": "rgb(49, 87, 213) solid 3px",
+      "outlineColor": "rgb(49, 87, 213)",
+      "outlineWidth": "3px",
+      "outlineOffset": "3px"
+    },
+    "settingsVisible": true,
+    "rulesVisible": true
+  },
+  "firstRead": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "h1": "Turn dictation correctionsinto reusable rules.",
+      "cta": "Try it with sample data",
+      "ctaBox": {
+        "top": 557.7,
+        "bottom": 609.7,
+        "visible": true
+      },
+      "explanationBox": null
+    },
+    {
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "h1": "Turn dictation correctionsinto reusable rules.",
+      "cta": "Try it with sample data",
+      "ctaBox": {
+        "top": 583.7,
+        "bottom": 635.7,
+        "visible": true
+      },
+      "explanationBox": null
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "h1": "Turn dictation correctionsinto reusable rules.",
+      "cta": "Try it with sample data",
+      "ctaBox": {
+        "top": 623.1,
+        "bottom": 675.1,
+        "visible": true
+      },
+      "explanationBox": null
+    }
+  ]
+}
