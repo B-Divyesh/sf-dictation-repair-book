@@ -1,3 +1,15 @@
+# Verification 3 — PASS
+
+**Verified candidate:** `d476b4dd900130ff1748712af6db90c754c1c9cd`
+**Verified URL:** <https://dictation-repair-book.sociobot.in>
+**Independent result:** **PASS — accepted for release.**
+
+Fresh independent QA completed on 2026-08-29 UTC. All 22 declared claims passed individually; `npm test` (14 Vitest + 26 Playwright), typecheck, lint, production Vite build, full Rust test, Rust format check, and Rust compile check passed. The cold landing page clearly identifies the product, audience, and one-click sample demo. Live desktop/mobile, keyboard, reduced-motion, offline-reload, request-log, headers, Axe, and rate-limit checks passed. The observed license-verification allowance is 30 requests per client/window; request 31 returned `429 Retry-After: 3`.
+
+The live static deployment byte-matches the candidate `dist/site` assets and routes. The released Linux package checksum matches `SHA256SUMS` and its extracted binary stayed running under Xvfb for the 10-second smoke window. There are no blocker, serious, medium, or minor product defects from this verification. Full evidence is in `.factory/verification-3.md`.
+
+The only testing-tool note is that Lighthouse produced 100/100/100/100 and the expected web metrics, then its Chromium process reported `TARGET_CRASHED` while capturing a full-page screenshot; independent Playwright page loads had no crash or console errors.
+
 # Repair 2 handoff — PASS
 
 ## Outcome
