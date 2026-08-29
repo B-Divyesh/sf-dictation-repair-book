@@ -49,6 +49,8 @@ Prompt sheet:
 - Generator: Factory Azure image deployment via `/opt/fleet/lib/gen-image.sh`.
 - Generated: 2026-08-28.
 - License/provenance: original AI-generated project asset; prompt and source candidate are stored in `assets/src/`. No brands, real people, or copyrighted characters.
+- Social preview: `public/assets/social-card.jpg` is a 1200×630 center crop of the approved hero asset, created locally with ImageMagick on 2026-08-29; no new generated content was introduced.
+- Apple touch icon: `public/apple-touch-icon.png` is a 180×180 derivative of the hand-authored native app icon, created locally with ImageMagick on 2026-08-29.
 - Hand-authored SVG icons use simple geometric paths created for this project and are covered by the repository MIT license.
 
 ## Image review checklist

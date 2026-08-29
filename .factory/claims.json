@@ -1,58 +1,149 @@
 [
   {
     "id": "demo-sandbox",
-    "claim": "Try it with sample data opens a separate sample repair book that can be reset.",
-    "where": "landing hero and /demo/ banner",
+    "claim": "Try it with sample data opens a separate repair book that resets and is discarded on exit.",
+    "where": "landing hero, demo banner, README",
     "test": "npm run test:e2e -- --grep @claim:demo-sandbox",
-    "sandbox": "fresh browser context; seed a real-preview key; open /demo/; confirm only demo data is shown; reset sample data"
+    "sandbox": "fresh browser context; seed real-preview data; reset demo; mutate demo state; start for real; assert separate demo keys are deleted"
+  },
+  {
+    "id": "rule-management",
+    "claim": "A user can turn an explicit before/after correction into an approved reusable rule.",
+    "where": "landing workflow, desktop app, README",
+    "test": "npm run test:e2e -- --grep @claim:rule-management",
+    "sandbox": "fresh browser preview; add a source; propose and approve a Kubernetes correction; apply it to fresh text"
+  },
+  {
+    "id": "literal-code-replacement",
+    "claim": "Approved code terms containing replacement characters such as $& are inserted literally.",
+    "where": "brief support for code terms and desktop Test screen",
+    "test": "npm run test:unit -- --testNamePattern @claim:literal-code-replacement",
+    "sandbox": "unit fixture applies ampersand token to a sentence and asserts literal $& output and accurate applied-rule feedback"
   },
   {
     "id": "local-repair",
     "claim": "The repair book applies approved rules to a fresh transcript locally.",
     "where": "landing workflow and demo Test screen",
     "test": "npm run test:e2e -- --grep @claim:local-repair",
-    "sandbox": "fresh /demo/; repair the shipped Kubernetes sample phrase"
+    "sandbox": "fresh demo; repair the shipped Kubernetes sample phrase"
   },
   {
     "id": "portable-exports",
-    "claim": "Exports CSV and JSON without a paid license; CSV identifies the visible source application.",
-    "where": "landing workflow, Rules, and Settings",
+    "claim": "CSV and JSON exports remain available without a license, and CSV preserves visible source names after source removal.",
+    "where": "landing workflow, Rules, Settings, README",
     "test": "npm run test:e2e -- --grep @claim:portable-exports",
-    "sandbox": "fresh /demo/; download CSV and JSON; inspect CSV source column"
+    "sandbox": "fresh demo; remove Engineering notes; assert the visible and exported source name; download CSV and JSON"
+  },
+  {
+    "id": "json-roundtrip",
+    "claim": "A complete JSON backup can be imported without losing its rules.",
+    "where": "desktop Settings and README",
+    "test": "npm run test:e2e -- --grep @claim:json-roundtrip",
+    "sandbox": "fresh demo; export JSON; reset; import the download; assert the Kubernetes rule remains"
+  },
+  {
+    "id": "whisper-export",
+    "claim": "The app copies unique approved terms as a Whisper vocabulary prompt.",
+    "where": "landing workflow, desktop Settings, README",
+    "test": "npm run test:e2e -- --grep @claim:whisper-export",
+    "sandbox": "fresh demo with clipboard permission; copy the Whisper prompt and assert the three unique intended terms"
   },
   {
     "id": "private-demo",
     "claim": "The sample repair flow sends no request outside the product origin.",
     "where": "demo banner and privacy explanation",
     "test": "npm run test:e2e -- --grep @claim:private-demo",
-    "sandbox": "fresh /demo/; run a sample repair while recording every browser request"
+    "sandbox": "fresh demo; run a sample repair while recording every browser request"
+  },
+  {
+    "id": "website-privacy",
+    "claim": "The website loads no third-party scripts, fonts, or analytics.",
+    "where": "privacy page and README",
+    "test": "npm run test:e2e -- --grep @claim:website-privacy",
+    "sandbox": "fresh landing page; record requests; allow only the product origin and disclosed GitHub release API"
+  },
+  {
+    "id": "explicit-access",
+    "claim": "The desktop capability set grants no audio, global-keyboard, or arbitrary-field access.",
+    "where": "landing privacy section, privacy page, README",
+    "test": "npm run test:unit -- --testNamePattern @claim:explicit-access",
+    "sandbox": "inspect the shipped Tauri capability manifest and reject microphone, audio, global-shortcut, accessibility, or window-state permissions"
+  },
+  {
+    "id": "clipboard-on-command",
+    "claim": "Clipboard text is read only after the user presses Paste clipboard.",
+    "where": "landing workflow, privacy page, README",
+    "test": "npm run test:e2e -- --grep @claim:clipboard-on-command",
+    "sandbox": "fresh browser preview with an instrumented clipboard; assert zero reads before the button and one read after it"
   },
   {
     "id": "free-book",
-    "claim": "The first 25 approved rules are free.",
-    "where": "pricing section and desktop Settings",
+    "claim": "The first 25 approved rules and every export are free; a $24 one-time license permits further approvals.",
+    "where": "pricing section, desktop Settings, README, terms",
     "test": "npm run test:e2e -- --grep @claim:free-book",
-    "sandbox": "browser preview seeded with 25 approved rules; attempt one more approval"
+    "sandbox": "browser preview seeded with 25 rules; assert the free limit and price; seed a valid cached license and approve rule 26"
   },
   {
     "id": "erase-local-book",
-    "claim": "Erase all local data removes the browser-preview repair book after confirmation.",
+    "claim": "Erase all local data removes the browser repair book, license token, and cached verdict.",
     "where": "desktop Settings and privacy page",
     "test": "npm run test:e2e -- --grep @claim:erase-local-book",
-    "sandbox": "browser preview seeded with one rule; accept confirmation; assert state key is absent"
+    "sandbox": "seed one rule and both license keys; confirm erase; assert every scoped browser key is absent"
+  },
+  {
+    "id": "native-erase",
+    "claim": "Native erase removes the encrypted vault, temporary vault file, and local key.",
+    "where": "desktop Settings, privacy page, README",
+    "test": "cargo test --manifest-path src-tauri/Cargo.toml claim_native_erase_removes_vault_and_key",
+    "sandbox": "native Rust test creates all three private files in an isolated directory, erases them, and asserts the directory is empty"
   },
   {
     "id": "license-backoff",
-    "claim": "License verification respects a Retry-After response and does not retry during the wait.",
+    "claim": "License verification respects Retry-After and does not retry during the wait.",
     "where": "desktop license restore flow",
     "test": "npm run test:e2e -- --grep @claim:license-backoff",
-    "sandbox": "mock a 429 with Retry-After; submit the same pasted token twice; observe one request"
+    "sandbox": "mock a 429 with Retry-After; submit the same token twice; observe one request"
+  },
+  {
+    "id": "license-daily-cache",
+    "claim": "A cached valid license is verified at most once per day.",
+    "where": "desktop Settings, privacy page, README",
+    "test": "npm run test:e2e -- --grep @claim:license-daily-cache",
+    "sandbox": "seed a valid verdict checked now; reload twice; assert no verification request"
+  },
+  {
+    "id": "license-return",
+    "claim": "A returned purchase license is stored locally and stripped from the address bar.",
+    "where": "checkout return and license restore flow",
+    "test": "npm run test:e2e -- --grep @claim:license-return",
+    "sandbox": "open the app with a fixture license query; mock verification; assert local storage and a clean URL"
   },
   {
     "id": "encrypted-vault",
     "claim": "Native repair books use AES-256-GCM encryption at rest.",
     "where": "landing privacy section, privacy page, README",
     "test": "cargo test --manifest-path src-tauri/Cargo.toml claim_encrypted_vault_uses_aes_256_gcm",
-    "sandbox": "native Rust crypto unit test encrypts and decrypts a fixture with Aes256Gcm"
+    "sandbox": "native Rust crypto test encrypts and decrypts a fixture with Aes256Gcm"
+  },
+  {
+    "id": "checksum-installers",
+    "claim": "The one-line installers verify the downloaded package against the published SHA-256 checksum and refuse a mismatch.",
+    "where": "landing install section and README",
+    "test": "npm run test:unit -- --testNamePattern @claim:checksum-installers",
+    "sandbox": "inspect both shipped installers for platform SHA-256 calculation, comparison, and mismatch refusal"
+  },
+  {
+    "id": "release-matrix",
+    "claim": "The release workflow publishes macOS DMGs, Windows MSI/EXE, Linux AppImage/DEB, SHA256SUMS, and latest.json.",
+    "where": "landing downloads and README",
+    "test": "npm run test:unit -- --testNamePattern @claim:release-matrix",
+    "sandbox": "inspect the release matrix and release preparation script for every documented platform artifact and manifest"
+  },
+  {
+    "id": "offline-demo",
+    "claim": "The sample repair book works offline after its first site visit.",
+    "where": "landing offline status",
+    "test": "npm run test:e2e -- --grep @claim:offline-demo",
+    "sandbox": "fresh browser; visit landing and wait for service-worker control; go offline; navigate to demo; assert sample UI and zero errors"
   }
 ]

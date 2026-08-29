@@ -10,4 +10,4 @@ The demo ships three realistic approved rules:
 
 It opens directly on the Rules view so a visitor sees a working repair book before doing setup. The persistent **Demo** banner offers **Reset demo** and **Start for real**.
 
-Demo browser storage is `demo:drb_web_preview_state`. The ordinary browser preview uses `drb_web_preview_state`; native release builds use the encrypted Tauri vault. The demo never reads or writes either real-data location. Reset restores only the shipped sample state.
+Demo browser storage is `demo:drb_web_preview_state`. The ordinary browser preview uses `drb_web_preview_state`; native release builds use the encrypted Tauri vault. The demo never reads or writes either real-data location. Reset restores only the shipped sample state. Start for real deletes the demo state and its demo license keys before returning home.

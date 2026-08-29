@@ -39,7 +39,7 @@ The browser app preview intentionally uses local storage and labels itself as a 
 
 ## Try the sample repair book
 
-Open [the demo](https://dictation-repair-book.sociobot.in/demo/) or choose **Try it with sample data** on the landing page. It starts with three shipped correction rules and stores only under a separate demo browser-storage key. **Reset demo** restores those samples; **Start for real** returns to the download page. See [.factory/demo.md](.factory/demo.md) for the sample and storage boundary.
+Open [the demo](https://dictation-repair-book.sociobot.in/demo/) or choose **Try it with sample data** on the landing page. It starts with three shipped correction rules and stores only under a separate demo browser-storage key. **Reset demo** restores those samples; **Start for real** discards demo changes and returns to the download page. See [.factory/demo.md](.factory/demo.md) for the sample and storage boundary.
 
 ## Test and build
 
