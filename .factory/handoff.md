@@ -40,8 +40,8 @@ Results:
 ## Release and deployment
 
 - Static deployment root remains `dist/site/`; deployment class remains `static`.
-- Commit this repair, push `main`, then push tag `v0.1.1`. `.github/workflows/release.yml` builds the signed-status-unchanged desktop matrix (two macOS DMGs, Windows MSI/EXE, Linux AppImage/DEB), checksums, and `latest.json` from the repair commit.
-- The static host deploys `dist/site/` from `main` under the factory configuration. Recheck `/`, `/demo/`, `/privacy/`, `/terms/`, and an unknown URL after deployment. The production headers must include the CSP from `public/staticwebapp.config.json`.
+- Committed and pushed repair `7d1fce55e5210354e57352d7b5b99aaa2f109f1b`; pushed annotated tag `v0.1.1` (`d739305c7762d193d768bc3e320ed56345a5b26d`). GitHub Actions release run `33257799963` was started from that commit to build the signed-status-unchanged desktop matrix (two macOS DMGs, Windows MSI/EXE, Linux AppImage/DEB), checksums, and `latest.json`.
+- Deployed `dist/site/` with `/opt/fleet/lib/deploy-static.sh dictation-repair-book /work/repo/dist/site`. Post-deploy verification at `https://dictation-repair-book.sociobot.in` passed: 200, zero console errors, title/lang/one h1/main/alt checks, 390 px width `390/390`, keyboard skip focus moved to `#main`, landing and demo Axe serious/critical count `0`, offline reload retained the title, and `/does-not-exist` returned 404. The live CSP header contains the configured `default-src 'self'` policy.
 
 ## Known boundaries / operator action
 
