@@ -156,7 +156,7 @@ pub fn run() {
 mod tests {
     use super::*;
     #[test]
-    fn aes_round_trip() {
+    fn claim_encrypted_vault_uses_aes_256_gcm() {
         let key = [7_u8; 32];
         let nonce = [3_u8; 12];
         let cipher = Aes256Gcm::new_from_slice(&key).unwrap();

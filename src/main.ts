@@ -1,13 +1,13 @@
 import './style.css';
 import { applyRules, exportCsv, exportWhisper, inferProposal, type Proposal } from './repair';
-import { eraseVault, isNative, loadState, readClipboard, saveState, writeClipboard } from './storage';
+import { eraseVault, isDemo, isNative, loadState, readClipboard, sampleState, saveState, writeClipboard } from './storage';
 import { acceptReturnedLicense, cachedUnlock, checkoutUrl, clearLicense, storeLicense, verifyLicense } from './license';
 import { emptyState, type Correction, type RepairState } from './types';
 
 type Page = 'capture' | 'rules' | 'test' | 'settings';
 let startupError = '';
 let state = await loadState().catch(() => { startupError = 'The encrypted vault could not be opened. Export recovery is unavailable, but you can erase the damaged local vault in Settings.'; return emptyState(); });
-let page: Page = 'capture';
+let page: Page = isDemo() ? 'rules' : 'capture';
 let proposal: Proposal | null = null;
 let testResult: { text: string; applied: string[] } | null = null;
 let notice = startupError;
@@ -36,6 +36,7 @@ function chrome(content: string, title: string, kicker: string) {
       <nav aria-label="Repair book sections">${tabs.map((tab) => `<button class="nav-item ${page === tab.id ? 'active' : ''}" data-nav="${tab.id}" aria-current="${page === tab.id ? 'page' : 'false'}"><span aria-hidden="true">${tab.icon}</span>${tab.label}<kbd>${tab.key}</kbd></button>`).join('')}</nav>
       <div class="privacy-stamp"><span>LOCAL ONLY</span><p>${isNative() ? 'Vault encrypted on this device.' : 'Browser preview uses local storage.'}</p></div>
     </aside>
+    ${isDemo() ? `<aside class="demo-banner" aria-label="Demo controls"><span><b>Demo</b> — sample data stays separate from your repair book.</span><button class="button secondary" data-action="reset-demo">Reset demo</button><a class="button secondary" href="/">Start for real</a></aside>` : ''}
     <main id="main" tabindex="-1">
       <header class="work-header"><div><p class="eyebrow">${kicker}</p><h2>${title}</h2></div><span class="rule-count"><b>${approved().length}</b> approved</span></header>
       ${notice ? `<div class="notice" role="status">${esc(notice)}${lastRemoved ? ' <button data-action="undo-delete">Undo</button>' : ''}</div>` : ''}
@@ -89,7 +90,7 @@ function render() {
 async function persist(message = '') { try { await saveState(state); notice = message; } catch { notice = 'The local vault could not be saved. Your latest change may not persist; check disk access and try again.'; } render(); }
 function download(name: string, data: string, type: string) { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([data], { type })); a.download = name; a.click(); URL.revokeObjectURL(a.href); }
 function exportAction(kind: string) {
-  if (kind === 'csv') download('dictation-rules.csv', exportCsv(approved()), 'text/csv');
+  if (kind === 'csv') download('dictation-rules.csv', exportCsv(approved(), Object.fromEntries(state.apps.map((app) => [app.id, app.name]))), 'text/csv');
   if (kind === 'json') download('dictation-repair-book.json', JSON.stringify(state, null, 2), 'application/json');
   if (kind === 'whisper') void writeClipboard(exportWhisper(approved())).then(() => { notice = 'Whisper vocabulary copied to the clipboard.'; render(); });
 }
@@ -113,7 +114,8 @@ app.addEventListener('click', async (event) => {
   if (action === 'copy-result' && testResult) { await writeClipboard(testResult.text); notice = 'Repaired text copied.'; render(); }
   if (action?.startsWith('export-')) exportAction(action.slice(7));
   if (action === 'remove-license') { clearLicense(); unlocked = false; notice = 'License removed from this device.'; render(); }
-  if (action === 'erase' && confirm(`Erase all ${state.corrections.length} corrections and application labels from this device? This cannot be undone.`)) { await eraseVault(); localStorage.removeItem('drb_web_preview_state'); state = { version: 1, apps: [], corrections: [], settings: { theme: 'system' } }; notice = 'Local repair book erased.'; page = 'capture'; render(); }
+  if (action === 'erase' && confirm(`Erase all ${state.corrections.length} corrections and application labels from this device? This cannot be undone.`)) { await eraseVault(); state = { version: 1, apps: [], corrections: [], settings: { theme: 'system' } }; notice = 'Local repair book erased.'; page = 'capture'; render(); }
+  if (action === 'reset-demo' && isDemo()) { state = sampleState(); proposal = null; testResult = null; page = 'rules'; await persist('Demo reset to the shipped sample rules.'); }
   if (action === 'undo-delete' && lastRemoved) { state.corrections.unshift(lastRemoved); lastRemoved = null; await persist('Rule restored.'); }
   const deleteId = target.closest<HTMLElement>('[data-delete]')?.dataset.delete;
   if (deleteId) { const found = state.corrections.find((r) => r.id === deleteId); if (found) { lastRemoved = found; state.corrections = state.corrections.filter((r) => r.id !== deleteId); await persist(`Deleted rule “${found.heard} → ${found.intended}”.`); } }
@@ -126,7 +128,7 @@ app.addEventListener('submit', async (event) => {
   if (form.id === 'add-app-form') { const name = String(data.get('name')).trim(); if (name) { state.apps.push({ id: crypto.randomUUID(), name, enabled: true }); await persist(`${name} added as an approved source.`); } }
   if (form.id === 'capture-form') { proposal = inferProposal(String(data.get('before')), String(data.get('after'))); notice = proposal ? '' : 'I could not isolate a changed term. Include one complete before and after phrase.'; render(); }
   if (form.id === 'test-form') { testResult = applyRules(String(data.get('input')), approved()); for (const rule of state.corrections) if (testResult.applied.includes(rule.intended)) rule.hits++; await saveState(state); render(); }
-  if (form.id === 'license-form') { storeLicense(String(data.get('token'))); const verdict = await verifyLicense(true); unlocked = verdict.valid; notice = verdict.valid ? 'License verified. Unlimited rules are active.' : verdict.reason === 'offline' ? 'Could not reach verification. Your last valid status is unchanged.' : 'That license is not active for this product.'; render(); }
+  if (form.id === 'license-form') { storeLicense(String(data.get('token'))); const verdict = await verifyLicense(true); unlocked = verdict.valid; notice = verdict.valid ? 'License verified. Unlimited rules are active.' : verdict.reason === 'offline' ? 'Could not reach verification. Your last valid status is unchanged.' : verdict.reason === 'rate_limited' ? 'Verification is busy. Wait a moment before trying again; your last valid status is unchanged.' : 'That license is not active for this product.'; render(); }
 });
 
 app.addEventListener('change', async (event) => {

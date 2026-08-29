@@ -1,6 +1,6 @@
 {
-  "navigationFallback": { "rewrite": "/index.html", "exclude": ["/assets/*", "*.js", "*.css", "*.sh", "*.ps1", "*.json"] },
-  "globalHeaders": { "X-Content-Type-Options": "nosniff", "Referrer-Policy": "strict-origin-when-cross-origin", "Permissions-Policy": "camera=(), microphone=(), geolocation=()" },
+  "globalHeaders": { "X-Content-Type-Options": "nosniff", "Referrer-Policy": "strict-origin-when-cross-origin", "Permissions-Policy": "camera=(), microphone=(), geolocation=()", "Content-Security-Policy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://api.github.com https://api.sociobot.in; worker-src 'self'; form-action 'self' https://api.sociobot.in" },
+  "responseOverrides": { "404": { "rewrite": "/404.html", "statusCode": 404 } },
   "mimeTypes": { ".sh": "text/plain", ".ps1": "text/plain" },
   "routes": [
     { "route": "/assets/*", "headers": { "cache-control": "public, max-age=31536000, immutable" } },

@@ -37,6 +37,10 @@ npm run tauri dev    # native desktop window and tray
 
 The browser app preview intentionally uses local storage and labels itself as a preview. Release builds use the encrypted Rust vault.
 
+## Try the sample repair book
+
+Open [the demo](https://dictation-repair-book.sociobot.in/demo/) or choose **Try it with sample data** on the landing page. It starts with three shipped correction rules and stores only under a separate demo browser-storage key. **Reset demo** restores those samples; **Start for real** returns to the download page. See [.factory/demo.md](.factory/demo.md) for the sample and storage boundary.
+
 ## Test and build
 
 ```sh
@@ -81,6 +85,7 @@ The publish job assigns stable filenames, generates `SHA256SUMS` and `latest.jso
 - `src/` — desktop interface, rule inference, exports, and license handling.
 - `src-tauri/` — encrypted vault, explicit clipboard commands, and tray lifecycle.
 - `site/` — static landing and legal pages.
+- `site/demo/` — isolated browser demo using shipped sample rules.
 - `public/install.*` — checksum-verifying installers.
 - `scripts/prepare-release.mjs` — release asset normalization and manifest generation.
 - `.factory/design.md` — product-specific visual tokens, motion, and generated-asset provenance.

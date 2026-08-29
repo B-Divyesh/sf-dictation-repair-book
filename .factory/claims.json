@@ -1,0 +1,58 @@
+[
+  {
+    "id": "demo-sandbox",
+    "claim": "Try it with sample data opens a separate sample repair book that can be reset.",
+    "where": "landing hero and /demo/ banner",
+    "test": "npm run test:e2e -- --grep @claim:demo-sandbox",
+    "sandbox": "fresh browser context; seed a real-preview key; open /demo/; confirm only demo data is shown; reset sample data"
+  },
+  {
+    "id": "local-repair",
+    "claim": "The repair book applies approved rules to a fresh transcript locally.",
+    "where": "landing workflow and demo Test screen",
+    "test": "npm run test:e2e -- --grep @claim:local-repair",
+    "sandbox": "fresh /demo/; repair the shipped Kubernetes sample phrase"
+  },
+  {
+    "id": "portable-exports",
+    "claim": "Exports CSV and JSON without a paid license; CSV identifies the visible source application.",
+    "where": "landing workflow, Rules, and Settings",
+    "test": "npm run test:e2e -- --grep @claim:portable-exports",
+    "sandbox": "fresh /demo/; download CSV and JSON; inspect CSV source column"
+  },
+  {
+    "id": "private-demo",
+    "claim": "The sample repair flow sends no request outside the product origin.",
+    "where": "demo banner and privacy explanation",
+    "test": "npm run test:e2e -- --grep @claim:private-demo",
+    "sandbox": "fresh /demo/; run a sample repair while recording every browser request"
+  },
+  {
+    "id": "free-book",
+    "claim": "The first 25 approved rules are free.",
+    "where": "pricing section and desktop Settings",
+    "test": "npm run test:e2e -- --grep @claim:free-book",
+    "sandbox": "browser preview seeded with 25 approved rules; attempt one more approval"
+  },
+  {
+    "id": "erase-local-book",
+    "claim": "Erase all local data removes the browser-preview repair book after confirmation.",
+    "where": "desktop Settings and privacy page",
+    "test": "npm run test:e2e -- --grep @claim:erase-local-book",
+    "sandbox": "browser preview seeded with one rule; accept confirmation; assert state key is absent"
+  },
+  {
+    "id": "license-backoff",
+    "claim": "License verification respects a Retry-After response and does not retry during the wait.",
+    "where": "desktop license restore flow",
+    "test": "npm run test:e2e -- --grep @claim:license-backoff",
+    "sandbox": "mock a 429 with Retry-After; submit the same pasted token twice; observe one request"
+  },
+  {
+    "id": "encrypted-vault",
+    "claim": "Native repair books use AES-256-GCM encryption at rest.",
+    "where": "landing privacy section, privacy page, README",
+    "test": "cargo test --manifest-path src-tauri/Cargo.toml claim_encrypted_vault_uses_aes_256_gcm",
+    "sandbox": "native Rust crypto unit test encrypts and decrypts a fixture with Aes256Gcm"
+  }
+]

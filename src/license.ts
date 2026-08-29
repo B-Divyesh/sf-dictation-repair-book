@@ -1,6 +1,9 @@
 const slug = 'dictation-repair-book';
-const tokenKey = `sb_license:${slug}`;
-const verdictKey = `sb_license_verdict:${slug}`;
+const isDemo = () => location.pathname.replace(/\/$/, '') === '/demo';
+const namespace = isDemo() ? 'demo:' : '';
+const tokenKey = `${namespace}sb_license:${slug}`;
+const verdictKey = `${namespace}sb_license_verdict:${slug}`;
+const retryKey = `${namespace}sb_license_retry:${slug}`;
 const api = 'https://api.sociobot.in/api/v1';
 
 type Verdict = { valid: boolean; checkedAt: number; reason?: string };
@@ -28,8 +31,15 @@ export async function verifyLicense(force = false): Promise<Verdict> {
   if (!token) return { valid: false, checkedAt: Date.now(), reason: 'missing' };
   const cached = JSON.parse(localStorage.getItem(verdictKey) || '{}') as Partial<Verdict>;
   if (!force && cached.checkedAt && Date.now() - cached.checkedAt < 86_400_000) return cached as Verdict;
+  const retryAt = Number(localStorage.getItem(retryKey) || 0);
+  if (retryAt > Date.now()) return { valid: Boolean(cached.valid), checkedAt: cached.checkedAt || 0, reason: 'rate_limited' };
   try {
     const response = await fetch(`${api}/products/${slug}/verify?license=${encodeURIComponent(token)}`);
+    if (response.status === 429) {
+      const seconds = Number(response.headers.get('Retry-After') || 60);
+      localStorage.setItem(retryKey, String(Date.now() + Math.max(1, seconds) * 1_000));
+      return { valid: Boolean(cached.valid), checkedAt: cached.checkedAt || 0, reason: 'rate_limited' };
+    }
     if (!response.ok) throw new Error('Verification service unavailable');
     const body = await response.json() as { valid: boolean; reason: string };
     const verdict = { valid: body.valid, reason: body.reason, checkedAt: Date.now() };
@@ -42,10 +52,11 @@ export async function verifyLicense(force = false): Promise<Verdict> {
 
 export function storeLicense(token: string): void {
   localStorage.setItem(tokenKey, token.trim());
-  localStorage.setItem(verdictKey, JSON.stringify({ valid: true, checkedAt: 0 }));
+  localStorage.setItem(verdictKey, JSON.stringify({ valid: false, checkedAt: 0 }));
 }
 
 export function clearLicense(): void {
   localStorage.removeItem(tokenKey);
   localStorage.removeItem(verdictKey);
+  localStorage.removeItem(retryKey);
 }

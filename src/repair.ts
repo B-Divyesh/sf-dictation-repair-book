@@ -41,10 +41,10 @@ export function applyRules(input: string, rules: Correction[]): { text: string; 
   return { text, applied };
 }
 
-export function exportCsv(rules: Correction[]): string {
+export function exportCsv(rules: Correction[], appNames: Record<string, string> = {}): string {
   const quote = (value: string) => `"${value.replaceAll('"', '""')}"`;
   return ['heard,intended,application,approved_at,hits', ...rules.filter((r) => r.status === 'approved').map((r) =>
-    [r.heard, r.intended, r.appId, r.createdAt, String(r.hits)].map(quote).join(','))].join('\n');
+    [r.heard, r.intended, appNames[r.appId] || r.appId, r.createdAt, String(r.hits)].map(quote).join(','))].join('\n');
 }
 
 export function exportWhisper(rules: Correction[]): string {

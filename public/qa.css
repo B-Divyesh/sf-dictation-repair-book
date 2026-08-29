@@ -1,0 +1,2 @@
+/* Avoid keyboard-inaccessible horizontal scroll regions for installer commands. */
+.install-cards code { overflow-x: visible; overflow-wrap: anywhere; white-space: pre-wrap; }
