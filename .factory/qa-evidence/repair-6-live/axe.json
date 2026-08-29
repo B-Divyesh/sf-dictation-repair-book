@@ -1,0 +1,22 @@
+[
+  {
+    "path": "/",
+    "seriousOrCritical": []
+  },
+  {
+    "path": "/demo/",
+    "seriousOrCritical": []
+  },
+  {
+    "path": "/privacy/",
+    "seriousOrCritical": []
+  },
+  {
+    "path": "/terms/",
+    "seriousOrCritical": []
+  },
+  {
+    "path": "/404.html",
+    "seriousOrCritical": []
+  }
+]

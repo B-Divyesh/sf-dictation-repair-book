@@ -1,0 +1,290 @@
+[
+  {
+    "file": "404.html",
+    "urlPath": "/404.html",
+    "status": 200,
+    "localSha256": "f6b6aad99b260a7f1f93e8e9549902e81c33726f1d4e3ddcaa431742afbc0a1c",
+    "remoteSha256": "f6b6aad99b260a7f1f93e8e9549902e81c33726f1d4e3ddcaa431742afbc0a1c",
+    "matches": true
+  },
+  {
+    "file": "apple-touch-icon.png",
+    "urlPath": "/apple-touch-icon.png",
+    "status": 200,
+    "localSha256": "b12692a98e2b70e3987770db08720509ebd8746cc2b6832aa7049f825742204c",
+    "remoteSha256": "b12692a98e2b70e3987770db08720509ebd8746cc2b6832aa7049f825742204c",
+    "matches": true
+  },
+  {
+    "file": "assets/core-DlQNAQKj.js",
+    "urlPath": "/assets/core-DlQNAQKj.js",
+    "status": 200,
+    "localSha256": "4ee62df86811328a242666feb45cda054667e8b90e67afa95a0f9beccc15594d",
+    "remoteSha256": "4ee62df86811328a242666feb45cda054667e8b90e67afa95a0f9beccc15594d",
+    "matches": true
+  },
+  {
+    "file": "assets/core-DlQNAQKj.js.map",
+    "urlPath": "/assets/core-DlQNAQKj.js.map",
+    "status": 200,
+    "localSha256": "5f5d11e4b913b76497e1f7274731e905a2d00be60f08b65932b3dade8f5570ae",
+    "remoteSha256": "5f5d11e4b913b76497e1f7274731e905a2d00be60f08b65932b3dade8f5570ae",
+    "matches": true
+  },
+  {
+    "file": "assets/demo-DL9sr3BM.js",
+    "urlPath": "/assets/demo-DL9sr3BM.js",
+    "status": 200,
+    "localSha256": "ca49f69e7b42af605cce81dc760e97452b2f146f35cbd897109e822995e7efae",
+    "remoteSha256": "ca49f69e7b42af605cce81dc760e97452b2f146f35cbd897109e822995e7efae",
+    "matches": true
+  },
+  {
+    "file": "assets/demo-DL9sr3BM.js.map",
+    "urlPath": "/assets/demo-DL9sr3BM.js.map",
+    "status": 200,
+    "localSha256": "abc95f83dc4b256fa0830dc4c825af2dff3d61f797f0abd4bbf9c354d2832b4c",
+    "remoteSha256": "abc95f83dc4b256fa0830dc4c825af2dff3d61f797f0abd4bbf9c354d2832b4c",
+    "matches": true
+  },
+  {
+    "file": "assets/demo-DaLJYFU-.css",
+    "urlPath": "/assets/demo-DaLJYFU-.css",
+    "status": 200,
+    "localSha256": "4e0ae90f2c060f2bfbbcd718c1ab01be328b6c5306e213bb52f9e8885a6639f8",
+    "remoteSha256": "4e0ae90f2c060f2bfbbcd718c1ab01be328b6c5306e213bb52f9e8885a6639f8",
+    "matches": true
+  },
+  {
+    "file": "assets/hero-ledger-1536.webp",
+    "urlPath": "/assets/hero-ledger-1536.webp",
+    "status": 200,
+    "localSha256": "a814c405dcfca3e2da7ec9affb5cf356c0761c47ca093c6f62ee3fe6c405fa97",
+    "remoteSha256": "a814c405dcfca3e2da7ec9affb5cf356c0761c47ca093c6f62ee3fe6c405fa97",
+    "matches": true
+  },
+  {
+    "file": "assets/hero-ledger-768.webp",
+    "urlPath": "/assets/hero-ledger-768.webp",
+    "status": 200,
+    "localSha256": "637e614855f280c86adaaed493207d9435a955a21ee9b3bbafb4d90aad0abe51",
+    "remoteSha256": "637e614855f280c86adaaed493207d9435a955a21ee9b3bbafb4d90aad0abe51",
+    "matches": true
+  },
+  {
+    "file": "assets/hero-ledger.jpg",
+    "urlPath": "/assets/hero-ledger.jpg",
+    "status": 200,
+    "localSha256": "05fc04ca2e8300fa209d5f66a5014a2342d769d92b0ea82251f6f282138da767",
+    "remoteSha256": "05fc04ca2e8300fa209d5f66a5014a2342d769d92b0ea82251f6f282138da767",
+    "matches": true
+  },
+  {
+    "file": "assets/index-BmNGsg9Z.js",
+    "urlPath": "/assets/index-BmNGsg9Z.js",
+    "status": 200,
+    "localSha256": "a9c660009266bfd7fe35a880aa9f7dafd3210e3553e56e980496bf0c578c6afe",
+    "remoteSha256": "a9c660009266bfd7fe35a880aa9f7dafd3210e3553e56e980496bf0c578c6afe",
+    "matches": true
+  },
+  {
+    "file": "assets/index-BmNGsg9Z.js.map",
+    "urlPath": "/assets/index-BmNGsg9Z.js.map",
+    "status": 200,
+    "localSha256": "0ada679d9d126d60f963e1ef43ddd4ef14bff6b4eaf943bd084ba64afd88069f",
+    "remoteSha256": "0ada679d9d126d60f963e1ef43ddd4ef14bff6b4eaf943bd084ba64afd88069f",
+    "matches": true
+  },
+  {
+    "file": "assets/index-BrQt8BRm.js",
+    "urlPath": "/assets/index-BrQt8BRm.js",
+    "status": 200,
+    "localSha256": "6e2595f46f8b554cdd4ed6375641fd0927c2fb37ebe0040ce26ec8ada8118d07",
+    "remoteSha256": "6e2595f46f8b554cdd4ed6375641fd0927c2fb37ebe0040ce26ec8ada8118d07",
+    "matches": true
+  },
+  {
+    "file": "assets/index-BrQt8BRm.js.map",
+    "urlPath": "/assets/index-BrQt8BRm.js.map",
+    "status": 200,
+    "localSha256": "41ed0ffed9a2f7aaa3cb03f164cfb295cfe813f31825be9d4e9a849b4532bdab",
+    "remoteSha256": "41ed0ffed9a2f7aaa3cb03f164cfb295cfe813f31825be9d4e9a849b4532bdab",
+    "matches": true
+  },
+  {
+    "file": "assets/modulepreload-polyfill-B5Qt9EMX.js",
+    "urlPath": "/assets/modulepreload-polyfill-B5Qt9EMX.js",
+    "status": 200,
+    "localSha256": "607112fb81d7899ceedf89cdb1b3540a53eb96ad5e4202fb1e22f873281de839",
+    "remoteSha256": "607112fb81d7899ceedf89cdb1b3540a53eb96ad5e4202fb1e22f873281de839",
+    "matches": true
+  },
+  {
+    "file": "assets/modulepreload-polyfill-B5Qt9EMX.js.map",
+    "urlPath": "/assets/modulepreload-polyfill-B5Qt9EMX.js.map",
+    "status": 200,
+    "localSha256": "c9c3b703479907e6c487d5835bbbc82c9f623643700dfcc648ec158790947c76",
+    "remoteSha256": "c9c3b703479907e6c487d5835bbbc82c9f623643700dfcc648ec158790947c76",
+    "matches": true
+  },
+  {
+    "file": "assets/notFound-CWp1jae1.js.map",
+    "urlPath": "/assets/notFound-CWp1jae1.js.map",
+    "status": 200,
+    "localSha256": "ac741df575270be623a7456b0cf1e72627a6d1b54abdb9cebdc36951c267ef16",
+    "remoteSha256": "ac741df575270be623a7456b0cf1e72627a6d1b54abdb9cebdc36951c267ef16",
+    "matches": true
+  },
+  {
+    "file": "assets/privacy-CWp1jae1.js.map",
+    "urlPath": "/assets/privacy-CWp1jae1.js.map",
+    "status": 200,
+    "localSha256": "b25b5f8cdcbf0aa968286090c103bc62e51f9e2633cedae61eca7ae045a728aa",
+    "remoteSha256": "b25b5f8cdcbf0aa968286090c103bc62e51f9e2633cedae61eca7ae045a728aa",
+    "matches": true
+  },
+  {
+    "file": "assets/site-KuFmCg04.css",
+    "urlPath": "/assets/site-KuFmCg04.css",
+    "status": 200,
+    "localSha256": "b5d63f61eaaf8b0113642eda7a8fb80c68559795278d4fc043718d02ac79d530",
+    "remoteSha256": "b5d63f61eaaf8b0113642eda7a8fb80c68559795278d4fc043718d02ac79d530",
+    "matches": true
+  },
+  {
+    "file": "assets/social-card.jpg",
+    "urlPath": "/assets/social-card.jpg",
+    "status": 200,
+    "localSha256": "52441580571da56d86128ef41d312795fea4870a280860163129306c40320dfc",
+    "remoteSha256": "52441580571da56d86128ef41d312795fea4870a280860163129306c40320dfc",
+    "matches": true
+  },
+  {
+    "file": "assets/terms-CWp1jae1.js.map",
+    "urlPath": "/assets/terms-CWp1jae1.js.map",
+    "status": 200,
+    "localSha256": "ab75d1d62824e30fea3a04f3650ed68b8cac3e8c76632927bac8136ab3fb2c3f",
+    "remoteSha256": "ab75d1d62824e30fea3a04f3650ed68b8cac3e8c76632927bac8136ab3fb2c3f",
+    "matches": true
+  },
+  {
+    "file": "assets/walkthrough-capture.png",
+    "urlPath": "/assets/walkthrough-capture.png",
+    "status": 200,
+    "localSha256": "6267df1d714f33bcfc182aadf2c8d1b0cce6548556581ac00e1f1b8460a3449e",
+    "remoteSha256": "6267df1d714f33bcfc182aadf2c8d1b0cce6548556581ac00e1f1b8460a3449e",
+    "matches": true
+  },
+  {
+    "file": "assets/walkthrough-rules.png",
+    "urlPath": "/assets/walkthrough-rules.png",
+    "status": 200,
+    "localSha256": "1f7f69edbf9902803b2961299d83950416dca5000cb9a09123bea11eb1efa85a",
+    "remoteSha256": "1f7f69edbf9902803b2961299d83950416dca5000cb9a09123bea11eb1efa85a",
+    "matches": true
+  },
+  {
+    "file": "assets/walkthrough-settings.png",
+    "urlPath": "/assets/walkthrough-settings.png",
+    "status": 200,
+    "localSha256": "cd6045450a448d359764ebc7a8411bc247b7a874054fa3ffaf2a15e9050b4738",
+    "remoteSha256": "cd6045450a448d359764ebc7a8411bc247b7a874054fa3ffaf2a15e9050b4738",
+    "matches": true
+  },
+  {
+    "file": "assets/walkthrough-test.png",
+    "urlPath": "/assets/walkthrough-test.png",
+    "status": 200,
+    "localSha256": "7b5a1c2658e83e775ba29b8a12acc1237d19905f240c7369c8ccfb35130a05a7",
+    "remoteSha256": "7b5a1c2658e83e775ba29b8a12acc1237d19905f240c7369c8ccfb35130a05a7",
+    "matches": true
+  },
+  {
+    "file": "demo/index.html",
+    "urlPath": "/demo/",
+    "status": 200,
+    "localSha256": "78785c9f60389f13a56b8d33e379737dd28bfc2ce587dc836ff809d93388c92e",
+    "remoteSha256": "78785c9f60389f13a56b8d33e379737dd28bfc2ce587dc836ff809d93388c92e",
+    "matches": true
+  },
+  {
+    "file": "favicon.svg",
+    "urlPath": "/favicon.svg",
+    "status": 200,
+    "localSha256": "2cc746470ab4b27a004a8c6a7ea1b02637cd3a876ed673121798bf8cf0c86a2d",
+    "remoteSha256": "2cc746470ab4b27a004a8c6a7ea1b02637cd3a876ed673121798bf8cf0c86a2d",
+    "matches": true
+  },
+  {
+    "file": "index.html",
+    "urlPath": "/",
+    "status": 200,
+    "localSha256": "32c9e67f1995d317153c6b6f6575486b9313c3dbc0feb06d86e04a5426d4268a",
+    "remoteSha256": "32c9e67f1995d317153c6b6f6575486b9313c3dbc0feb06d86e04a5426d4268a",
+    "matches": true
+  },
+  {
+    "file": "install.ps1",
+    "urlPath": "/install.ps1",
+    "status": 200,
+    "localSha256": "33f9f89e2df4e7dbf777c01671391159d98583db81489ee7a0f3b48021accbb4",
+    "remoteSha256": "33f9f89e2df4e7dbf777c01671391159d98583db81489ee7a0f3b48021accbb4",
+    "matches": true
+  },
+  {
+    "file": "install.sh",
+    "urlPath": "/install.sh",
+    "status": 200,
+    "localSha256": "dfbf2c87b25eeac5981410d9b6a1af4f5daec26665639e429bb30f263113b96a",
+    "remoteSha256": "dfbf2c87b25eeac5981410d9b6a1af4f5daec26665639e429bb30f263113b96a",
+    "matches": true
+  },
+  {
+    "file": "privacy/index.html",
+    "urlPath": "/privacy/",
+    "status": 200,
+    "localSha256": "4e78364728ea87cadd13eb7e67b506ecc24cd498017a5a2bad324d5a8cee498e",
+    "remoteSha256": "4e78364728ea87cadd13eb7e67b506ecc24cd498017a5a2bad324d5a8cee498e",
+    "matches": true
+  },
+  {
+    "file": "qa.css",
+    "urlPath": "/qa.css",
+    "status": 200,
+    "localSha256": "68d000c4f08b03ec12008c291b7f40958855cf8b08b0d349855b151d972631da",
+    "remoteSha256": "68d000c4f08b03ec12008c291b7f40958855cf8b08b0d349855b151d972631da",
+    "matches": true
+  },
+  {
+    "file": "robots.txt",
+    "urlPath": "/robots.txt",
+    "status": 200,
+    "localSha256": "2cd3a3e9c8e409e5b1246f3140b7da6eee434205c99a933c613397dcb99f4e09",
+    "remoteSha256": "2cd3a3e9c8e409e5b1246f3140b7da6eee434205c99a933c613397dcb99f4e09",
+    "matches": true
+  },
+  {
+    "file": "sitemap.xml",
+    "urlPath": "/sitemap.xml",
+    "status": 200,
+    "localSha256": "f6590230cce273ccd47df24fe13e7f1b424aaeccae09a1e0cffdd8282d84abec",
+    "remoteSha256": "f6590230cce273ccd47df24fe13e7f1b424aaeccae09a1e0cffdd8282d84abec",
+    "matches": true
+  },
+  {
+    "file": "sw.js",
+    "urlPath": "/sw.js",
+    "status": 200,
+    "localSha256": "ee9a3baf0d8da50d46b5f43be8bd2bc1f8649f3434c0b18ac28d45fc5a93a1c9",
+    "remoteSha256": "ee9a3baf0d8da50d46b5f43be8bd2bc1f8649f3434c0b18ac28d45fc5a93a1c9",
+    "matches": true
+  },
+  {
+    "file": "terms/index.html",
+    "urlPath": "/terms/",
+    "status": 200,
+    "localSha256": "36baf499b4e5787f5ac42286e42865824cbb263ea3f6d99ff1ee31cf999eff16",
+    "remoteSha256": "36baf499b4e5787f5ac42286e42865824cbb263ea3f6d99ff1ee31cf999eff16",
+    "matches": true
+  }
+]

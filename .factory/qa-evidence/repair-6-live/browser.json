@@ -1,0 +1,53 @@
+{
+  "firstRead": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "heroActions": {
+        "x": 57.59375,
+        "y": 557.703125,
+        "width": 563.765625,
+        "height": 176.375
+      },
+      "fullyVisible": true
+    },
+    {
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "heroActions": {
+        "x": 54.625,
+        "y": 583.65625,
+        "width": 534.796875,
+        "height": 176.375
+      },
+      "fullyVisible": true
+    }
+  ],
+  "undersized": [
+    {
+      "path": "/",
+      "targets": []
+    },
+    {
+      "path": "/privacy/",
+      "targets": []
+    },
+    {
+      "path": "/terms/",
+      "targets": []
+    }
+  ],
+  "repaired": true,
+  "demoRequests": [
+    "https://dictation-repair-book.sociobot.in/demo/",
+    "https://dictation-repair-book.sociobot.in/assets/demo-DL9sr3BM.js",
+    "https://dictation-repair-book.sociobot.in/assets/modulepreload-polyfill-B5Qt9EMX.js",
+    "https://dictation-repair-book.sociobot.in/assets/core-DlQNAQKj.js",
+    "https://dictation-repair-book.sociobot.in/assets/demo-DaLJYFU-.css"
+  ],
+  "errors": []
+}

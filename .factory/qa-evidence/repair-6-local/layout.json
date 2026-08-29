@@ -1,0 +1,56 @@
+{
+  "desktop": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "heroActions": {
+        "x": 57.59375,
+        "y": 557.703125,
+        "width": 563.765625,
+        "height": 176.375
+      },
+      "trySample": {
+        "x": 57.59375,
+        "y": 557.703125,
+        "width": 253.671875,
+        "height": 52
+      },
+      "actionGroupFullyVisible": true
+    },
+    {
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "heroActions": {
+        "x": 54.625,
+        "y": 583.65625,
+        "width": 534.796875,
+        "height": 176.375
+      },
+      "trySample": {
+        "x": 54.625,
+        "y": 583.65625,
+        "width": 253.671875,
+        "height": 52
+      },
+      "actionGroupFullyVisible": true
+    }
+  ],
+  "undersized": [
+    {
+      "path": "/",
+      "targets": []
+    },
+    {
+      "path": "/privacy/",
+      "targets": []
+    },
+    {
+      "path": "/terms/",
+      "targets": []
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+[
+  {
+    "path": "/",
+    "violations": [],
+    "seriousOrCritical": []
+  },
+  {
+    "path": "/demo/",
+    "violations": [],
+    "seriousOrCritical": []
+  },
+  {
+    "path": "/privacy/",
+    "violations": [],
+    "seriousOrCritical": []
+  },
+  {
+    "path": "/terms/",
+    "violations": [],
+    "seriousOrCritical": []
+  },
+  {
+    "path": "/404.html",
+    "violations": [],
+    "seriousOrCritical": []
+  }
+]

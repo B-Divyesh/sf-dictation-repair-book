@@ -1,0 +1,22 @@
+{
+  "coldRequests": [
+    "https://dictation-repair-book.sociobot.in/",
+    "https://dictation-repair-book.sociobot.in/qa.css",
+    "https://dictation-repair-book.sociobot.in/assets/index-BmNGsg9Z.js",
+    "https://dictation-repair-book.sociobot.in/assets/modulepreload-polyfill-B5Qt9EMX.js",
+    "https://dictation-repair-book.sociobot.in/assets/site-KuFmCg04.css",
+    "https://dictation-repair-book.sociobot.in/assets/hero-ledger-1536.webp",
+    "https://dictation-repair-book.sociobot.in/assets/walkthrough-capture.png",
+    "https://dictation-repair-book.sociobot.in/assets/walkthrough-rules.png",
+    "https://dictation-repair-book.sociobot.in/assets/walkthrough-test.png",
+    "https://dictation-repair-book.sociobot.in/assets/walkthrough-settings.png"
+  ],
+  "afterIntent": [
+    "https://api.github.com/repos/B-Divyesh/sf-dictation-repair-book/releases/latest"
+  ],
+  "errors": [],
+  "actionText": [
+    "Download for Linux AppImage"
+  ],
+  "platformNote": "v0.1.4 · checksum published · unsigned build"
+}
