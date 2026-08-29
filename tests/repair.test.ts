@@ -132,6 +132,14 @@ describe('static deployment guards', () => {
     }
     rmSync(root, { recursive: true, force: true });
   });
+
+  it('allows only the GitHub API for release metadata requests in the site CSP', () => {
+    const config = readFileSync(new URL('../public/staticwebapp.config.json', import.meta.url), 'utf8');
+    const source = readFileSync(new URL('../site/main.ts', import.meta.url), 'utf8');
+    expect(config).toContain("connect-src 'self' https://api.github.com https://api.sociobot.in");
+    expect(source).toContain("const releaseApi = 'https://api.github.com/repos/B-Divyesh/sf-dictation-repair-book/releases/latest'");
+    expect(source).not.toContain('releases/latest/download/latest.json');
+  });
   it('refuses a release when source versions disagree or the tag does not name the checked-out source', () => {
     const root = mkdtempSync(join(tmpdir(), 'drb-release-identity-'));
     mkdirSync(join(root, 'src-tauri'), { recursive: true });

@@ -2,13 +2,77 @@ import { test, expect } from './fixtures';
 import AxeBuilder from '@axe-core/playwright';
 
 test('landing page is accessible and keeps a usable download fallback', async ({ page }) => {
-  await page.route('**/repos/B-Divyesh/sf-dictation-repair-book/releases/latest', (route) => route.abort());
   await page.goto('/');
   await expect(page).toHaveTitle(/Dictation Repair Book/);
   await expect(page.locator('h1')).toHaveCount(1);
-  await expect(page.getByRole('link', { name: /available downloads/i })).toHaveAttribute('href', /releases\/latest/);
+  await expect(page.getByRole('link', { name: /download for your computer/i })).toHaveAttribute('href', /releases\/latest$/);
   const results = await new AxeBuilder({ page: page as never }).analyze();
   expect(results.violations.filter((v) => ['serious', 'critical'].includes(v.impact || ''))).toEqual([]);
+});
+
+test('cold landing load has no failed requests or console errors before download intent', async ({ page }) => {
+  const failed: string[] = [];
+  const responses: string[] = [];
+  const errors: string[] = [];
+  const requests: string[] = [];
+  page.on('request', (request) => requests.push(request.url()));
+  page.on('requestfailed', (request) => failed.push(`${request.failure()?.errorText} ${request.url()}`));
+  page.on('response', (response) => { if (response.status() >= 400) responses.push(`${response.status()} ${response.url()}`); });
+  page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()); });
+  page.on('pageerror', (error) => errors.push(error.message));
+
+  await page.goto('/', { waitUntil: 'networkidle' });
+
+  expect(failed).toEqual([]);
+  expect(responses).toEqual([]);
+  expect(errors).toEqual([]);
+  expect(requests.some((url) => new URL(url).origin === 'https://api.github.com')).toBe(false);
+});
+
+test('download lookup uses the GitHub API only after intent and has a calm no-release state', async ({ page }) => {
+  let calls = 0;
+  await page.route('**/repos/B-Divyesh/sf-dictation-repair-book/releases/latest', async (route) => {
+    calls++;
+    await route.fulfill({ status: 403, contentType: 'application/json', body: '{"message":"rate limit"}' });
+  });
+  await page.goto('/');
+  expect(calls).toBe(0);
+
+  await page.getByRole('link', { name: /download for your computer/i }).click();
+
+  expect(calls).toBe(1);
+  await expect(page.getByRole('link', { name: 'Open the releases page' })).toHaveAttribute('href', /github\.com\/B-Divyesh\/sf-dictation-repair-book\/releases\/latest$/);
+  await expect(page.locator('#platform-note')).toHaveText('Downloads are being published.');
+  await expect(page.locator('#release-status')).toHaveText('No published installer was found. Check the releases page shortly.');
+});
+
+test('download lookup uses cached GitHub API metadata and exposes only a release asset link', async ({ page }) => {
+  let calls = 0;
+  const assetBase = 'https://github.com/B-Divyesh/sf-dictation-repair-book/releases/download/v9.9.9';
+  await page.route('**/repos/B-Divyesh/sf-dictation-repair-book/releases/latest', async (route) => {
+    calls++;
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ tag_name: 'v9.9.9', assets: [
+        { name: 'Dictation-Repair-Book-linux-x64.AppImage', browser_download_url: `${assetBase}/Dictation-Repair-Book-linux-x64.AppImage` },
+        { name: 'Dictation-Repair-Book-windows-x64.msi', browser_download_url: `${assetBase}/Dictation-Repair-Book-windows-x64.msi` },
+        { name: 'Dictation-Repair-Book-macos-arm64.dmg', browser_download_url: `${assetBase}/Dictation-Repair-Book-macos-arm64.dmg` },
+        { name: 'Dictation-Repair-Book-macos-x64.dmg', browser_download_url: `${assetBase}/Dictation-Repair-Book-macos-x64.dmg` },
+        { name: 'latest.json', browser_download_url: `${assetBase}/latest.json` }
+      ] })
+    });
+  });
+  await page.goto('/');
+  await page.getByRole('link', { name: /download for your computer/i }).click();
+  const assetLink = page.getByRole('link', { name: /^Download for (Linux AppImage|Windows|macOS \(Apple silicon\)|macOS \(Intel\))$/ });
+  await expect(assetLink).toHaveAttribute('href', new RegExp(`${assetBase}/Dictation-Repair-Book-(linux-x64\\.AppImage|windows-x64\\.msi|macos-(arm64|x64)\\.dmg)$`));
+  expect(calls).toBe(1);
+
+  await page.reload();
+  await page.getByRole('link', { name: /download for your computer/i }).click();
+  await expect(assetLink).toHaveAttribute('href', new RegExp(`${assetBase}/Dictation-Repair-Book-(linux-x64\\.AppImage|windows-x64\\.msi|macos-(arm64|x64)\\.dmg)$`));
+  expect(calls).toBe(1);
 });
 
 test('landing page fits a 390px phone', async ({ page }) => {

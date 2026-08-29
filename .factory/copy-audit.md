@@ -11,6 +11,9 @@ Audited 2026-08-29 for polish round 1. The first screen reads: “Turn dictation
 | Turn explicit corrections into rules you can inspect and reuse. | 10 | pass |
 | Opens a separate sample repair book. | 6 | pass |
 | Nothing enters your real book. | 5 | pass |
+| Checks the latest build when you choose a download. | 10 | pass |
+| Downloads are being published. | 4 | pass |
+| No published installer was found. Check the releases page shortly. | 10 | pass |
 | No audio or account. | 4 | pass |
 | No background monitoring of fields or keystrokes. | 7 | pass |
 | Demo works offline after one visit. | 7 | pass |
