@@ -2,11 +2,18 @@ import './style.css';
 import { applyRules, exportCsv, exportWhisper, inferProposal, type Proposal } from './repair';
 import { eraseVault, isDemo, isNative, loadState, readClipboard, sampleState, saveState, writeClipboard } from './storage';
 import { acceptReturnedLicense, cachedUnlock, checkoutUrl, clearLicense, storeLicense, verifyLicense } from './license';
-import { emptyState, type Correction, type RepairState } from './types';
+import { emptyState, parseRepairState, type Correction, type RepairState } from './types';
 
 type Page = 'capture' | 'rules' | 'test' | 'settings';
 let startupError = '';
-let state = await loadState().catch(() => { startupError = 'The encrypted vault could not be opened. Export recovery is unavailable, but you can erase the damaged local vault in Settings.'; return emptyState(); });
+let state = await loadState().catch(() => {
+  startupError = isNative()
+    ? 'The encrypted vault could not be opened. You can erase the damaged local vault in Settings.'
+    : isDemo()
+      ? 'The saved demo was invalid, so it was removed and reset to the shipped sample.'
+      : 'The saved browser preview was invalid and has been removed. Start again or import a valid backup.';
+  return isDemo() ? sampleState() : emptyState();
+});
 let page: Page = isDemo() ? 'rules' : 'capture';
 let proposal: Proposal | null = null;
 let testResult: { text: string; applied: string[] } | null = null;
@@ -34,9 +41,9 @@ function chrome(content: string, title: string, kicker: string) {
     <aside class="rail" aria-label="Product navigation">
       <a class="brand" href="#capture" data-nav="capture" aria-label="Dictation Repair Book, capture page"><span class="brand-mark" aria-hidden="true">DR<br>BK</span><h1>Dictation<br>Repair Book</h1></a>
       <nav aria-label="Repair book sections">${tabs.map((tab) => `<button class="nav-item ${page === tab.id ? 'active' : ''}" data-nav="${tab.id}" aria-current="${page === tab.id ? 'page' : 'false'}"><span aria-hidden="true">${tab.icon}</span>${tab.label}<kbd>${tab.key}</kbd></button>`).join('')}</nav>
-      <div class="privacy-stamp"><span>LOCAL ONLY</span><p>${isNative() ? 'Vault encrypted on this device.' : 'Browser preview uses local storage.'}</p></div>
+      <div class="privacy-stamp"><span>LOCAL ONLY</span><p>${isNative() ? 'Vault encrypted on this device.' : 'Browser preview uses local storage.'}</p><small>v0.1.2 · repair 2</small></div>
     </aside>
-    ${isDemo() ? `<aside class="demo-banner" aria-label="Demo controls"><span><b>Demo</b> — sample data stays separate from your repair book.</span><button class="button secondary" data-action="reset-demo">Reset demo</button><a class="button secondary" href="/">Start for real</a></aside>` : ''}
+    ${isDemo() ? `<aside class="demo-banner" aria-label="Demo controls"><span><b>Demo</b> — sample data, nothing is saved.</span><button class="button secondary" data-action="reset-demo">Reset demo</button><a class="button secondary" href="/" data-action="start-real">Start for real</a></aside>` : ''}
     <main id="main" tabindex="-1">
       <header class="work-header"><div><p class="eyebrow">${kicker}</p><h2>${title}</h2></div><span class="rule-count"><b>${approved().length}</b> approved</span></header>
       ${notice ? `<div class="notice" role="status">${esc(notice)}${lastRemoved ? ' <button data-action="undo-delete">Undo</button>' : ''}</div>` : ''}
@@ -65,7 +72,7 @@ function capturePage() {
 function rulesPage() {
   const rows = approved();
   return chrome(`<section class="rules-tools"><div><label for="rule-search">Find a rule</label><input id="rule-search" type="search" placeholder="Search spelling or heard phrase"></div><div class="export-shortcut"><span>Portable by default</span><button class="button secondary" data-action="export-csv">Export CSV</button></div></section>
-  ${rows.length ? `<div class="rule-table-wrap"><table class="rule-table"><thead><tr><th>When it hears</th><th>Write this</th><th>Source</th><th>Added</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody>${rows.map((r) => `<tr data-search="${esc(`${r.heard} ${r.intended}`.toLowerCase())}"><td><s>${esc(r.heard)}</s></td><td><strong>${esc(r.intended)}</strong></td><td>${esc(state.apps.find((a) => a.id === r.appId)?.name || 'Any approved app')}</td><td><time datetime="${r.createdAt}">${new Date(r.createdAt).toLocaleDateString()}</time></td><td><button class="icon-button danger" data-delete="${r.id}" aria-label="Delete rule ${esc(r.heard)} to ${esc(r.intended)}">×</button></td></tr>`).join('')}</tbody></table></div>` : `<section class="empty-state compact"><span class="empty-glyph" aria-hidden="true">Aa</span><h3>No approved rules yet.</h3><p>Capture one before/after correction. The book will infer only the words that changed.</p><button class="button primary" data-nav="capture">Capture first rule</button></section>`}`, 'Approved vocabulary', 'Inspectable and portable');
+  ${rows.length ? `<div class="rule-table-wrap"><table class="rule-table"><thead><tr><th>When it hears</th><th>Write this</th><th>Source</th><th>Added</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody>${rows.map((r) => `<tr data-search="${esc(`${r.heard} ${r.intended}`.toLowerCase())}"><td data-label="When it hears"><s>${esc(r.heard)}</s></td><td data-label="Write this"><strong>${esc(r.intended)}</strong></td><td data-label="Source">${esc(state.apps.find((a) => a.id === r.appId)?.name || r.sourceName || 'Removed source')}</td><td data-label="Added"><time datetime="${r.createdAt}">${new Date(r.createdAt).toLocaleDateString()}</time></td><td><button class="icon-button danger" data-delete="${r.id}" aria-label="Delete rule ${esc(r.heard)} to ${esc(r.intended)}">×</button></td></tr>`).join('')}</tbody></table></div>` : `<section class="empty-state compact"><span class="empty-glyph" aria-hidden="true">Aa</span><h3>No approved rules yet.</h3><p>Capture one before/after correction. The book will infer only the words that changed.</p><button class="button primary" data-nav="capture">Capture first rule</button></section>`}`, 'Approved vocabulary', 'Inspectable and portable');
 }
 
 function testPage() {
@@ -78,7 +85,7 @@ function settingsPage() {
     <section class="settings-section"><div><p class="eyebrow">Interoperability</p><h3>Take your words anywhere</h3><p>Exports are always available, even without a paid license.</p></div><div class="button-grid"><button class="button secondary" data-action="export-csv">Export CSV</button><button class="button secondary" data-action="export-json">Back up JSON</button><button class="button secondary" data-action="export-whisper">Copy Whisper prompt</button><label class="button secondary file-button">Import JSON<input id="import-json" type="file" accept="application/json,.json"></label></div></section>
     <section class="settings-section"><div><p class="eyebrow">Appearance</p><h3>Theme</h3></div><fieldset class="segmented"><legend class="sr-only">Color theme</legend>${['system','light','dark'].map((t) => `<label><input type="radio" name="theme" value="${t}" ${state.settings.theme === t ? 'checked' : ''}><span>${t[0].toUpperCase()+t.slice(1)}</span></label>`).join('')}</fieldset></section>
     <section class="settings-section license"><div><p class="eyebrow">One-time unlock</p><h3>${unlocked ? 'Unlimited book active' : 'Keep an unlimited repair book'}</h3><p>${unlocked ? 'This device has a valid license. Verification is cached for one day.' : 'Free includes 25 approved rules, testing, and every export. Pay $24 once for unlimited approved rules. Sociobot/Dodo is merchant of record.'}</p><p><a href="https://dictation-repair-book.sociobot.in/privacy">Privacy</a> · <a href="https://dictation-repair-book.sociobot.in/terms">Terms</a></p></div><div>${unlocked ? `<span class="stamp success">LICENSE ACTIVE</span><button class="button text-button" data-action="remove-license">Remove from device</button>` : `<a class="button primary" href="${checkoutUrl}">Buy once — $24</a><form id="license-form"><label for="license-token">Have a license? Paste it</label><div class="inline-form"><input id="license-token" name="token" required autocomplete="off"><button class="button secondary">Verify</button></div></form>`}</div></section>
-    <section class="settings-section danger-zone"><div><p class="eyebrow">Delete local data</p><h3>Erase this repair book</h3><p>Removes the encrypted vault and its local key. Export first if you want a copy.</p></div><button class="button danger-button" data-action="erase">Erase all local data</button></section>
+    <section class="settings-section danger-zone"><div><p class="eyebrow">Delete local data</p><h3>Erase this repair book</h3><p>${isNative() ? 'Removes the encrypted vault, its local key, and license data.' : 'Removes this browser repair book and its license data.'} Export first if you want a copy.</p></div><button class="button danger-button" data-action="erase">Erase all local data</button></section>
   </div>`, 'Settings & data', isNative() ? 'Encrypted native vault' : 'Web preview mode');
 }
 
@@ -107,20 +114,22 @@ app.addEventListener('click', async (event) => {
   if (action === 'approve' && proposal) {
     const form = document.querySelector<HTMLFormElement>('#capture-form')!;
     const data = new FormData(form);
-    state.corrections.unshift({ id: crypto.randomUUID(), before: String(data.get('before')), after: String(data.get('after')), heard: proposal.heard, intended: proposal.intended, appId: String(data.get('scope')), createdAt: new Date().toISOString(), status: 'approved', hits: 0 });
-    proposal = null; await persist('Rule approved and encrypted in your local book.');
+    const appId = String(data.get('scope'));
+    state.corrections.unshift({ id: crypto.randomUUID(), before: String(data.get('before')), after: String(data.get('after')), heard: proposal.heard, intended: proposal.intended, appId, sourceName: state.apps.find((app) => app.id === appId)?.name, createdAt: new Date().toISOString(), status: 'approved', hits: 0 });
+    proposal = null; await persist(isNative() ? 'Rule approved and encrypted in your local book.' : 'Rule approved in this local browser preview.');
   }
   if (action === 'discard') { proposal = null; notice = 'Proposal discarded. Nothing was saved.'; render(); }
   if (action === 'copy-result' && testResult) { await writeClipboard(testResult.text); notice = 'Repaired text copied.'; render(); }
   if (action?.startsWith('export-')) exportAction(action.slice(7));
   if (action === 'remove-license') { clearLicense(); unlocked = false; notice = 'License removed from this device.'; render(); }
-  if (action === 'erase' && confirm(`Erase all ${state.corrections.length} corrections and application labels from this device? This cannot be undone.`)) { await eraseVault(); state = { version: 1, apps: [], corrections: [], settings: { theme: 'system' } }; notice = 'Local repair book erased.'; page = 'capture'; render(); }
+  if (action === 'erase' && confirm(`Erase all ${state.corrections.length} corrections, application labels, and license data from this device? This cannot be undone.`)) { await eraseVault(); clearLicense(); state = emptyState(); unlocked = false; notice = 'All local repair-book and license data erased.'; page = 'capture'; render(); }
   if (action === 'reset-demo' && isDemo()) { state = sampleState(); proposal = null; testResult = null; page = 'rules'; await persist('Demo reset to the shipped sample rules.'); }
+  if (action === 'start-real' && isDemo()) { event.preventDefault(); await eraseVault(); clearLicense(); location.assign('/'); return; }
   if (action === 'undo-delete' && lastRemoved) { state.corrections.unshift(lastRemoved); lastRemoved = null; await persist('Rule restored.'); }
   const deleteId = target.closest<HTMLElement>('[data-delete]')?.dataset.delete;
   if (deleteId) { const found = state.corrections.find((r) => r.id === deleteId); if (found) { lastRemoved = found; state.corrections = state.corrections.filter((r) => r.id !== deleteId); await persist(`Deleted rule “${found.heard} → ${found.intended}”.`); } }
   const appDelete = target.closest<HTMLElement>('[data-app-delete]')?.dataset.appDelete;
-  if (appDelete) { const found = state.apps.find((a) => a.id === appDelete); if (found && confirm(`Remove ${found.name} from approved sources? Existing rules remain.`)) { state.apps = state.apps.filter((a) => a.id !== appDelete); await persist(`${found.name} removed from approved sources.`); } }
+  if (appDelete) { const found = state.apps.find((a) => a.id === appDelete); if (found && confirm(`Remove ${found.name} from approved sources? Existing rules remain.`)) { state.corrections = state.corrections.map((rule) => rule.appId === found.id ? { ...rule, sourceName: found.name } : rule); state.apps = state.apps.filter((a) => a.id !== appDelete); await persist(`${found.name} removed from approved sources.`); } }
 });
 
 app.addEventListener('submit', async (event) => {
@@ -135,7 +144,7 @@ app.addEventListener('change', async (event) => {
   const input = event.target as HTMLInputElement;
   if (input.dataset.appToggle) { const item = state.apps.find((a) => a.id === input.dataset.appToggle); if (item) { item.enabled = input.checked; await persist(`${item.name} ${item.enabled ? 'enabled' : 'paused'}.`); } }
   if (input.name === 'theme') { state.settings.theme = input.value as RepairState['settings']['theme']; await persist('Theme preference saved.'); }
-  if (input.id === 'import-json' && input.files?.[0]) { try { const incoming = JSON.parse(await input.files[0].text()) as RepairState; if (incoming.version !== 1 || !Array.isArray(incoming.corrections)) throw new Error(); state = incoming; await persist('Repair book imported and encrypted locally.'); } catch { notice = 'That file is not a valid Dictation Repair Book backup.'; render(); } }
+  if (input.id === 'import-json' && input.files?.[0]) { try { state = parseRepairState(JSON.parse(await input.files[0].text())); await persist(isNative() ? 'Repair book imported and encrypted locally.' : 'Repair book imported into this local browser preview.'); } catch { notice = 'That file is not a valid Dictation Repair Book backup. Your current book was not changed.'; render(); } }
 });
 
 app.addEventListener('input', (event) => {

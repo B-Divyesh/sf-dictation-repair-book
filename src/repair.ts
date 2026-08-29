@@ -34,7 +34,7 @@ export function applyRules(input: string, rules: Correction[]): { text: string; 
     const escaped = rule.heard.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const expression = new RegExp(`(?<![\\p{L}\\p{N}])${escaped}(?![\\p{L}\\p{N}])`, 'giu');
     if (expression.test(text)) {
-      text = text.replace(expression, rule.intended);
+      text = text.replace(expression, () => rule.intended);
       applied.push(rule.intended);
     }
   }
@@ -44,7 +44,7 @@ export function applyRules(input: string, rules: Correction[]): { text: string; 
 export function exportCsv(rules: Correction[], appNames: Record<string, string> = {}): string {
   const quote = (value: string) => `"${value.replaceAll('"', '""')}"`;
   return ['heard,intended,application,approved_at,hits', ...rules.filter((r) => r.status === 'approved').map((r) =>
-    [r.heard, r.intended, appNames[r.appId] || r.appId, r.createdAt, String(r.hits)].map(quote).join(','))].join('\n');
+    [r.heard, r.intended, appNames[r.appId] || r.sourceName || 'Removed source', r.createdAt, String(r.hits)].map(quote).join(','))].join('\n');
 }
 
 export function exportWhisper(rules: Correction[]): string {

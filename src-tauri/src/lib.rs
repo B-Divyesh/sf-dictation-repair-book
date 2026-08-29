@@ -4,8 +4,12 @@ use aes_gcm::{
 };
 use base64::{engine::general_purpose::STANDARD, Engine};
 use rand::{rngs::OsRng, RngCore};
+use serde::Deserialize;
 use serde_json::{json, Value};
-use std::{fs, path::PathBuf};
+use std::{
+    fs,
+    path::{Path, PathBuf},
+};
 use tauri::{
     menu::{Menu, MenuItem},
     path::BaseDirectory,
@@ -20,6 +24,80 @@ fn data_dir(app: &AppHandle) -> Result<PathBuf, String> {
         .map_err(|e| e.to_string())?;
     fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
     Ok(dir)
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct StoredApp {
+    id: String,
+    name: String,
+    enabled: bool,
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct StoredCorrection {
+    id: String,
+    before: String,
+    after: String,
+    heard: String,
+    intended: String,
+    app_id: String,
+    source_name: Option<String>,
+    created_at: String,
+    status: String,
+    hits: u64,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct StoredSettings {
+    theme: String,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct StoredState {
+    version: u8,
+    apps: Vec<StoredApp>,
+    corrections: Vec<StoredCorrection>,
+    settings: StoredSettings,
+}
+
+fn validate_state(state: &Value) -> Result<(), String> {
+    let parsed: StoredState = serde_json::from_value(state.clone())
+        .map_err(|_| "The repair book has invalid fields".to_string())?;
+    if parsed.version != 1 || !matches!(parsed.settings.theme.as_str(), "system" | "light" | "dark")
+    {
+        return Err("The repair book has an unsupported version or theme".into());
+    }
+    if parsed
+        .apps
+        .iter()
+        .any(|app| app.id.trim().is_empty() || app.name.trim().is_empty())
+        || parsed.corrections.iter().any(|rule| {
+            rule.id.trim().is_empty()
+                || rule.heard.trim().is_empty()
+                || rule.intended.trim().is_empty()
+                || rule.app_id.trim().is_empty()
+                || rule.created_at.trim().is_empty()
+                || !matches!(rule.status.as_str(), "draft" | "approved")
+                || rule
+                    .source_name
+                    .as_ref()
+                    .is_some_and(|name| name.trim().is_empty())
+        })
+    {
+        return Err("The repair book contains an incomplete record".into());
+    }
+    // Touch every persisted field so schema drift is caught by compiler warnings and review.
+    let _ = parsed.apps.iter().filter(|app| app.enabled).count();
+    let _ = parsed
+        .corrections
+        .iter()
+        .map(|rule| rule.before.len() + rule.after.len() + rule.hits as usize)
+        .sum::<usize>();
+    Ok(())
 }
 
 fn key_bytes(app: &AppHandle) -> Result<[u8; 32], String> {
@@ -62,6 +140,7 @@ fn load_state(app: AppHandle) -> Result<Value, String> {
 
 #[tauri::command]
 fn save_state(app: AppHandle, state: Value) -> Result<(), String> {
+    validate_state(&state)?;
     let clear = serde_json::to_vec(&state).map_err(|e| e.to_string())?;
     let mut nonce = [0_u8; 12];
     OsRng.fill_bytes(&mut nonce);
@@ -82,9 +161,7 @@ fn save_state(app: AppHandle, state: Value) -> Result<(), String> {
     fs::rename(temp, destination).map_err(|e| e.to_string())
 }
 
-#[tauri::command]
-fn erase_vault(app: AppHandle) -> Result<(), String> {
-    let dir = data_dir(&app)?;
+fn erase_local_files(dir: &Path) -> Result<(), String> {
     for name in ["repair-book.enc", "repair-book.tmp", "vault.key"] {
         let path = dir.join(name);
         if path.exists() {
@@ -92,6 +169,11 @@ fn erase_vault(app: AppHandle) -> Result<(), String> {
         }
     }
     Ok(())
+}
+
+#[tauri::command]
+fn erase_vault(app: AppHandle) -> Result<(), String> {
+    erase_local_files(&data_dir(&app)?)
 }
 
 #[tauri::command]
@@ -155,6 +237,7 @@ pub fn run() {
 #[cfg(test)]
 mod tests {
     use super::*;
+    // @claim:encrypted-vault
     #[test]
     fn claim_encrypted_vault_uses_aes_256_gcm() {
         let key = [7_u8; 32];
@@ -170,5 +253,23 @@ mod tests {
                 .unwrap(),
             b"private words"
         );
+    }
+
+    // @claim:native-erase
+    #[test]
+    fn claim_native_erase_removes_vault_and_key() {
+        let dir = std::env::temp_dir().join(format!("drb-erase-test-{}", std::process::id()));
+        fs::create_dir_all(&dir).unwrap();
+        for name in ["repair-book.enc", "repair-book.tmp", "vault.key"] {
+            fs::write(dir.join(name), b"private fixture").unwrap();
+        }
+        erase_local_files(&dir).unwrap();
+        assert!(fs::read_dir(&dir).unwrap().next().is_none());
+        fs::remove_dir(dir).unwrap();
+    }
+
+    #[test]
+    fn rejects_partially_shaped_state_before_encryption() {
+        assert!(validate_state(&json!({"version":1,"corrections":[]})).is_err());
     }
 }

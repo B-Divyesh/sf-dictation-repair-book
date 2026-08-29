@@ -1,5 +1,5 @@
 import { invoke } from '@tauri-apps/api/core';
-import { emptyState, type RepairState } from './types';
+import { emptyState, parseRepairState, type RepairState } from './types';
 
 const key = 'drb_web_preview_state';
 const demoKey = `demo:${key}`;
@@ -14,9 +14,9 @@ export const sampleState = (): RepairState => ({
     { id: 'sample-engineering-notes', name: 'Engineering notes', enabled: true }
   ],
   corrections: [
-    { id: 'sample-metoprolol', before: 'Continue met a pro lol at bedtime.', after: 'Continue metoprolol at bedtime.', heard: 'met a pro lol', intended: 'metoprolol', appId: 'sample-clinical-notes', createdAt: '2026-08-28T00:00:00.000Z', status: 'approved', hits: 4 },
-    { id: 'sample-kubernetes', before: 'Deploy the cube or net ease service.', after: 'Deploy the Kubernetes service.', heard: 'cube or net ease', intended: 'Kubernetes', appId: 'sample-engineering-notes', createdAt: '2026-08-27T00:00:00.000Z', status: 'approved', hits: 7 },
-    { id: 'sample-niamh', before: 'Ask Neem to review the handoff.', after: 'Ask Niamh to review the handoff.', heard: 'Neem', intended: 'Niamh', appId: 'sample-engineering-notes', createdAt: '2026-08-26T00:00:00.000Z', status: 'approved', hits: 2 }
+    { id: 'sample-metoprolol', before: 'Continue met a pro lol at bedtime.', after: 'Continue metoprolol at bedtime.', heard: 'met a pro lol', intended: 'metoprolol', appId: 'sample-clinical-notes', sourceName: 'Clinical notes', createdAt: '2026-08-28T00:00:00.000Z', status: 'approved', hits: 4 },
+    { id: 'sample-kubernetes', before: 'Deploy the cube or net ease service.', after: 'Deploy the Kubernetes service.', heard: 'cube or net ease', intended: 'Kubernetes', appId: 'sample-engineering-notes', sourceName: 'Engineering notes', createdAt: '2026-08-27T00:00:00.000Z', status: 'approved', hits: 7 },
+    { id: 'sample-niamh', before: 'Ask Neem to review the handoff.', after: 'Ask Niamh to review the handoff.', heard: 'Neem', intended: 'Niamh', appId: 'sample-engineering-notes', sourceName: 'Engineering notes', createdAt: '2026-08-26T00:00:00.000Z', status: 'approved', hits: 2 }
   ],
   settings: { theme: 'system' }
 });
@@ -24,13 +24,18 @@ export const sampleState = (): RepairState => ({
 const previewKey = () => isDemo() ? demoKey : key;
 
 export async function loadState(): Promise<RepairState> {
-  if (isNative()) return invoke<RepairState>('load_state');
+  if (isNative()) return parseRepairState(await invoke<unknown>('load_state'));
   const raw = localStorage.getItem(previewKey());
   if (!raw) return isDemo() ? sampleState() : emptyState();
-  try { return JSON.parse(raw) as RepairState; } catch { return emptyState(); }
+  try { return parseRepairState(JSON.parse(raw)); }
+  catch {
+    localStorage.removeItem(previewKey());
+    throw new Error('Invalid stored repair book');
+  }
 }
 
 export async function saveState(state: RepairState): Promise<void> {
+  state = parseRepairState(state);
   if (isNative()) return invoke('save_state', { state });
   localStorage.setItem(previewKey(), JSON.stringify(state));
 }
