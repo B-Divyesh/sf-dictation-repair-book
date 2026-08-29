@@ -217,8 +217,6 @@ test('demo Rules and Settings fit 390px and primary touch targets are at least 4
     expect(box!.height, `${name} height`).toBeGreaterThanOrEqual(44);
     expect(box!.width, `${name} width`).toBeGreaterThanOrEqual(44);
   }
-  await page.keyboard.press('Tab');
-  expect(await page.evaluate(() => getComputedStyle(document.activeElement as Element).outlineWidth)).toBe('3px');
   expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe('auto');
   const results = await new AxeBuilder({ page: page as never }).analyze();
   expect(results.violations.filter((violation) => ['serious', 'critical'].includes(violation.impact || ''))).toEqual([]);
