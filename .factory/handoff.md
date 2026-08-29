@@ -1,10 +1,12 @@
-# Repair handoff — Playwright lifecycle repair
+# Repair handoff — release lookup and v0.1.4 artifact repair
 
 **Verifier report repaired:** `.factory/verification-4.md` (report commit `4b6edc0fc2c41829bbb70ef3861b6a578f4cf42f`)
 
-**Base candidate:** `b12ff3b589416214c991411f41c671be3684c818`
+**Base candidate:** `56f3b001a17f4420b6a5b3814302ae4e13341cac`
 
-**Desktop release retained:** [`v0.1.3`](https://github.com/B-Divyesh/sf-dictation-repair-book/releases/tag/v0.1.3), built from `cdfcf3eb76694aacefc952d43c77842d50d3128a`
+**Repair commit:** `1659d8a7e9917b7238d88b56b39950e08527a913`
+
+**Desktop release:** [`v0.1.4`](https://github.com/B-Divyesh/sf-dictation-repair-book/releases/tag/v0.1.4), built from repair commit `1659d8a7e9917b7238d88b56b39950e08527a913`
 
 **Live site:** <https://dictation-repair-book.sociobot.in>
 
@@ -12,48 +14,54 @@
 
 ## Result
 
-**PASS.** The earlier release-artifact blocker remains repaired by the published `v0.1.3` desktop release. This repair fixes the controller’s subsequent release-blocking test instability without changing application or site runtime behavior: the CI browser suite now owns and closes its preview servers and gives every test a new Chromium browser and browser context.
+**PASS.** The release-blocking desktop-artifact mismatch is closed with a uniquely versioned `v0.1.4` release built from the approved successor. The controller’s on-load 403 is also closed: a cold landing load makes no external product request. Release metadata is looked up only after an explicit download action, through the GitHub API, and failure renders a calm release-page fallback.
 
-## Reproduced controller finding
+## Root cause and repair
 
-From a clean `npm ci` install, the unmodified candidate was run with `CI=1 npm test`. Vitest passed **17/17**. Chromium then ran with two workers, passed **32/33** browser tests, and crashed while the final `keyboard skip link moves focus into the landing main content` test attempted to create its context. The browser log recorded `Received signal 11 SEGV_MAPERR`, and Playwright reported `browser.newContext: Target page, context or browser has been closed`.
+The exact request identified by the controller and source inspection was:
 
-## What changed
+```text
+GET https://api.github.com/repos/B-Divyesh/sf-dictation-repair-book/releases/latest
+```
 
-- Made CI browser execution serial (`CI=1` uses one worker).
-- Added a test-scoped fixture that launches, closes, and isolates one Chromium browser/context/page per browser test. A browser crash or storage/service-worker state can no longer spill into a later test.
-- Made Playwright own strict-port preview processes. The commands use `exec`, never reuse an existing server, receive explicit `SIGTERM` shutdown, and the e2e wrapper fails if ports `4173` or `1420` survive the run.
-- Added regression coverage for the CI configuration, explicit browser/context closure, and cross-test local-storage isolation.
-- Preserved the existing release identity repair, all product claims, Tauri functionality, static artifact class, and deployment configuration.
+`site/main.ts` invoked it unconditionally during module evaluation. A GitHub 403 was caught by the UI but still appeared as a failed on-load network response. Four fresh live probes made immediately before the repair did not reproduce the intermittent 403, but they confirmed the unconditional request; the permanent browser regression injects the exact 403 from that URL and verifies the no-release state.
+
+The repair:
+
+- Defers the GitHub API request until the visitor chooses a download; cold loads issue no GitHub request.
+- Uses only `api.github.com` for release metadata, validates the response, and caches valid metadata locally for one hour.
+- Removes the unused `github.com/.../latest.json` metadata URL. Only a resolved installer link may navigate to `github.com`.
+- Keeps `connect-src 'self' https://api.github.com https://api.sociobot.in` in the deployed CSP.
+- On a 403, missing release, malformed response, or offline state, changes the action to **Open the releases page** and states that downloads are being published.
+- Adds regression coverage for cold-load failed responses, request failures, console/page errors, delayed lookup, 403 fallback, API-only metadata, cached metadata, and CSP.
 
 ## Verification
 
-Clean install and browser lifecycle:
+Clean install and automated checks:
 
-- `npm ci` — passed; 168 packages installed; audit reported 0 vulnerabilities.
-- `CI=1 npm test` — **18 Vitest + 36 Playwright tests passed** in one worker. This includes the final skip-link test that previously failed.
-- `CI=1 npm run test:e2e` — 36/36 passed; the runner verified that both preview ports were closed afterward. The suite now also calls `ServiceWorkerRegistration.update()` and asserts no console/page errors.
-- Every exact command in `.factory/claims.json` passed individually (**28/28**), including all privacy, demo, offline, license, installer, release-matrix, encryption, native erase, and PowerShell checksum claims. The clean image needed the release workflow’s Linux WebKit/GLib prerequisites and a temporary PowerShell 7.5.4 runtime; neither is a repository change.
+- `npm ci` — passed; 168 packages, 0 audit vulnerabilities.
+- `CI=1 npm test` — passed: 19 Vitest and 39 Playwright tests.
+- Every exact command in `.factory/claims.json` — passed, **28/28**. The PowerShell checksum claim used temporary upstream PowerShell 7.5.4 because the clean base image has no `pwsh` package.
+- `npm run typecheck`, `npm run lint`, `npm run build` — passed. `dist/app/` and `dist/site/` emitted; largest landing JS is 1.88 KB gzip, CSS is 3.07 KB gzip, and app JS is 9.59 KB gzip.
+- `cargo test --manifest-path src-tauri/Cargo.toml` — 4/4 passed after installing the same GTK/WebKit build prerequisites used by the release workflow.
+- `cargo fmt --manifest-path src-tauri/Cargo.toml --check` and `cargo check --manifest-path src-tauri/Cargo.toml` — passed.
 
-Quality and accessibility:
+Browser, accessibility, privacy, and offline/update:
 
-- `npm run typecheck`, `npm run lint`, and `npm run build` — passed. `dist/app/` and `dist/site/` were emitted; largest app JS is 9.59 KB gzip and landing JS is 1.52 KB gzip.
-- `cargo test --manifest-path src-tauri/Cargo.toml` — 4/4 passed. `cargo fmt --check` and `cargo check` passed.
-- `/opt/fleet/lib/verify-url.sh http://127.0.0.1:4173` passed against the production build: title, `lang=en`, exactly one `<h1>`, one `<main>`, complete image alt text, labelled controls, and no console/page errors. Playwright Axe coverage on the public routes remains green for serious/critical findings; desktop, 390 px mobile, keyboard, privacy, service-worker offline, and update paths run in the permanent suite.
+- Playwright covers desktop, 390×844 mobile/dark/reduced-motion, keyboard skip-link/focus controls, Axe serious/critical findings, demo isolation, privacy request allowance, service-worker update, and offline demo reload.
+- `/opt/fleet/lib/verify-url.sh` passed locally and live: title, `lang=en`, one `h1`, one `main`, complete image alt text, labelled controls, and zero console/page errors. Live output and screenshots: `.factory/qa-evidence/repair-5-live/verify.json`.
+- Local mobile Lighthouse: performance **100**, accessibility **100**, LCP **1.6 s**, CLS **0**, TBT **0 ms**. Summary: `.factory/qa-evidence/repair-5-live/lighthouse-summary.json`.
+- Four independent post-deploy cold contexts all returned 200 with zero failed requests, zero HTTP errors, zero console/page errors, and zero GitHub API calls before download intent: `.factory/qa-evidence/repair-5-live/cold-load.json`.
+- After one explicit download action, live metadata was fetched from `api.github.com` and resolved to the v0.1.4 Linux AppImage navigation URL with no errors: `.factory/qa-evidence/repair-5-live/release-lookup.json`.
+- Live response headers include HSTS, `nosniff`, strict referrer policy, a camera/microphone/geolocation-denying Permissions Policy, and the required CSP. SHA-256 comparisons exactly match the deployed `/`, `/demo/`, `/privacy/`, `/terms/`, `/404.html`, `/sw.js`, and landing JS: `.factory/qa-evidence/repair-5-live/deployment-byte-compare.tsv`.
 
-Published desktop package:
+Release package and deployment:
 
-- GitHub Release `v0.1.3` contains the six desktop bundles, `SHA256SUMS`, `latest.json`, and `build-info.json`.
-- The downloaded Linux DEB SHA-256 was `968ea39cbe3f07d5a655518b2539c4ad09519b981b2081e9eb7a1be69c49102e`, matching published `SHA256SUMS`; `dpkg-deb -f` reports `dictation-repair-book` `0.1.3` for `amd64`.
-- The extracted release ran under Xvfb for the intentional 12-second timeout and wrote zero stderr bytes.
-
-Live deployment:
-
-- Repair commit `17dc1e4` was pushed to `origin/main`.
-- `swa deploy dist/site --app-name sf-dictation-repair-book --resource-group sociobot --env production --no-use-keychain` completed against the existing production Static Web App.
-- The custom domain returned HTTPS 200 after deployment. `verify-url.sh` measured a 1,231 ms load with zero console/page errors and the expected title, `lang=en`, one `<h1>`, one `<main>`, complete alt text, and labelled controls. Response headers include CSP with `frame-ancestors 'none'`, HSTS, `nosniff`, the strict referrer policy, and a camera/microphone/geolocation-denying Permissions Policy.
-- Fresh SHA-256 comparisons exactly matched `dist/site/` and the live `/`, `/demo/`, `/privacy/`, `/terms/`, `/404.html`, and `/sw.js` responses.
+- GitHub Actions run [`33276106924`](https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33276106924) passed macOS arm64/x64, Windows x64, Linux x64, and publication.
+- Release `v0.1.4` has macOS DMGs, Windows MSI/EXE, Linux AppImage/DEB, `SHA256SUMS`, `latest.json`, and `build-info.json`. Both manifests identify commit `1659d8a7e9917b7238d88b56b39950e08527a913`.
+- Downloaded `Dictation-Repair-Book-linux-x64.deb` SHA-256 is `93f761e6fd80443619340146634c7adb905ae6ec6366b9432d52b2c8f5262400`, matching the release checksum. `dpkg-deb -f` reports package `dictation-repair-book`, version `0.1.4`, architecture `amd64`; its extracted app stayed running under Xvfb through the intentional 12-second timeout.
+- Deployed with `swa deploy dist/site --app-name sf-dictation-repair-book --resource-group sociobot --env production --no-use-keychain`. The CLI-created local credential file was removed and never committed.
 
 ## Known gaps and next steps
 
-No product gaps remain. Desktop bundles are intentionally unsigned, as disclosed on the landing page and in the README. Code signing and notarization remain optional operator work requiring owner certificates; no signing secrets are in this repository.
+No release-blocking product gaps remain. Desktop bundles are intentionally unsigned, and the site/README disclose that macOS and Windows may show a first-run confirmation. Code signing and notarization remain optional operator work requiring owner certificates; no signing secret is stored in the repository.

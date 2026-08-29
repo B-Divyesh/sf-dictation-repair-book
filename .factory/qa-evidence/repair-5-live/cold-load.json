@@ -1,0 +1,34 @@
+[
+  {
+    "cold": 1,
+    "status": 200,
+    "failed": [],
+    "rejected": [],
+    "errors": [],
+    "githubApiRequests": []
+  },
+  {
+    "cold": 2,
+    "status": 200,
+    "failed": [],
+    "rejected": [],
+    "errors": [],
+    "githubApiRequests": []
+  },
+  {
+    "cold": 3,
+    "status": 200,
+    "failed": [],
+    "rejected": [],
+    "errors": [],
+    "githubApiRequests": []
+  },
+  {
+    "cold": 4,
+    "status": 200,
+    "failed": [],
+    "rejected": [],
+    "errors": [],
+    "githubApiRequests": []
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "metadata_request": "https://api.github.com/repos/B-Divyesh/sf-dictation-repair-book/releases/latest",
+  "metadata_requests_before_download_intent": 0,
+  "metadata_response_status": 200,
+  "platform_link_text": "Download for Linux AppImage",
+  "platform_asset_navigation": "https://github.com/B-Divyesh/sf-dictation-repair-book/releases/download/v0.1.4/Dictation-Repair-Book-linux-x64.AppImage",
+  "failed_requests": [],
+  "console_or_page_errors": []
+}

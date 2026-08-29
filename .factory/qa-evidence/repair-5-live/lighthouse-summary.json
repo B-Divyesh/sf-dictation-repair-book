@@ -1,0 +1,9 @@
+{
+  "url": "http://127.0.0.1:4173/",
+  "form_factor": "mobile",
+  "performance": 100,
+  "accessibility": 100,
+  "largest_contentful_paint": "1.6 s",
+  "cumulative_layout_shift": "0",
+  "total_blocking_time": "0 ms"
+}
