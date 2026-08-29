@@ -4,6 +4,8 @@ import { createHash } from 'node:crypto';
 
 const version = process.argv[2]?.replace(/^v/, '');
 if (!version) throw new Error('version argument required');
+const commit = process.env.RELEASE_COMMIT?.toLowerCase();
+if (!commit || !/^[a-f0-9]{40}$/.test(commit)) throw new Error('RELEASE_COMMIT must be a 40-character git commit');
 const input = process.env.RELEASE_INPUT_DIR || 'downloaded-artifacts';
 const output = process.env.RELEASE_OUTPUT_DIR || 'release-assets';
 mkdirSync(output, { recursive: true });
@@ -28,11 +30,13 @@ const hashes = Object.fromEntries(published.map((name) => [name, createHash('sha
 writeFileSync(join(output, 'SHA256SUMS'), published.map((name) => `${hashes[name]}  ${name}`).join('\n') + '\n');
 const base = 'https://github.com/B-Divyesh/sf-dictation-repair-book/releases/latest/download';
 const asset = (filename) => ({ filename, url: `${base}/${filename}`, sha256: hashes[filename] });
-const manifest = { version: `v${version}`, published_at: new Date().toISOString(), platforms: {
+const manifest = { version: `v${version}`, commit, published_at: new Date().toISOString(), platforms: {
   'macos-arm64': asset('Dictation-Repair-Book-macos-arm64.dmg'),
   'macos-x64': asset('Dictation-Repair-Book-macos-x64.dmg'),
   'windows-x64': asset('Dictation-Repair-Book-windows-x64.msi'),
   'linux-x64': asset('Dictation-Repair-Book-linux-x64.AppImage')
 } };
 writeFileSync(join(output, 'latest.json'), JSON.stringify(manifest, null, 2) + '\n');
-console.log(`Prepared ${published.length} bundles plus SHA256SUMS and latest.json`);
+const buildInfo = { version: `v${version}`, commit, artifacts: published };
+writeFileSync(join(output, 'build-info.json'), JSON.stringify(buildInfo, null, 2) + '\n');
+console.log(`Prepared ${published.length} bundles plus SHA256SUMS, latest.json, and build-info.json`);

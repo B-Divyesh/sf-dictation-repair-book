@@ -2,6 +2,7 @@ import './style.css';
 import { applyRules, exportCsv, exportWhisper, inferProposal, type Proposal } from './repair';
 import { eraseVault, isDemo, isNative, loadState, readClipboard, sampleState, saveState, writeClipboard } from './storage';
 import { acceptReturnedLicense, cachedUnlock, checkoutUrl, clearLicense, storeLicense, verifyLicense } from './license';
+import { buildIdentity } from './release';
 import { emptyState, parseRepairState, type Correction, type RepairState } from './types';
 
 type Page = 'capture' | 'rules' | 'test' | 'settings';
@@ -44,7 +45,7 @@ function chrome(content: string, title: string, kicker: string) {
     <aside class="rail" aria-label="Product navigation">
       <a class="brand" href="#capture" data-nav="capture" aria-label="Dictation Repair Book, capture page"><span class="brand-mark" aria-hidden="true">DR<br>BK</span><span class="brand-name">Dictation<br>Repair Book</span></a>
       <nav aria-label="Repair book sections">${tabs.map((tab) => `<button class="nav-item ${page === tab.id ? 'active' : ''}" data-nav="${tab.id}" aria-current="${page === tab.id ? 'page' : 'false'}"><span aria-hidden="true">${tab.icon}</span>${tab.label}<kbd>${tab.key}</kbd></button>`).join('')}</nav>
-      <div class="privacy-stamp"><span>LOCAL ONLY</span><p>${isNative() ? 'Vault encrypted on this device.' : 'Browser preview uses local storage.'}</p><small>v0.1.2 · polish 1</small></div>
+      <div class="privacy-stamp"><span>LOCAL ONLY</span><p>${isNative() ? 'Vault encrypted on this device.' : 'Browser preview uses local storage.'}</p><small>${buildIdentity}</small></div>
     </aside>
     ${isDemo() || nativeSampleMode ? `<aside class="demo-banner" aria-label="Demo controls"><span><b>Demo</b> — sample data, nothing is saved.</span><button class="button secondary" data-action="reset-demo">Reset demo</button>${nativeSampleMode ? '<button class="button secondary" data-action="keep-sample">Keep this repair book</button><button class="button secondary" data-action="start-real">Start for real</button>' : '<a class="button secondary" href="/" data-action="start-real">Start for real</a>'}</aside>` : ''}
     <main id="main" tabindex="-1">

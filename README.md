@@ -63,7 +63,7 @@ irm https://dictation-repair-book.sociobot.in/install.ps1 | iex
 
 The install commands compare the downloaded package with `SHA256SUMS`. Direct downloads include that published checksum. Current builds are unsigned, so macOS and Windows may ask you to confirm the first launch.
 
-Push a `v*` tag or dispatch `.github/workflows/release.yml` to build macOS DMGs, Windows MSI/EXE, and Linux AppImage/DEB files. The workflow creates `SHA256SUMS` and `latest.json` before attaching all files to the GitHub Release.
+Push a version-synchronised `v*` tag, or dispatch `.github/workflows/release.yml` with an existing tag, to build macOS DMGs, Windows MSI/EXE, and Linux AppImage/DEB files. The workflow refuses a tag that does not point at the checked-out source or whose app, Tauri, and Cargo versions disagree. It publishes `SHA256SUMS`, `latest.json`, and `build-info.json` with the exact source commit before attaching all files to the GitHub Release.
 
 ## License
 

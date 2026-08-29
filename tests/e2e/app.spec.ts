@@ -41,6 +41,10 @@ test('app fits a 390px window and keeps navigation reachable', async ({ page }) 
   expect(width.scroll).toBe(width.client);
 });
 
+test('web preview identifies its release version without exposing book data', async ({ page }) => {
+  await expect(page.getByText('v0.1.3 · local preview', { exact: true })).toBeVisible();
+});
+
 test('invalid stored and imported data recovers without replacing the current book', async ({ page }) => {
   await page.evaluate(() => localStorage.setItem('drb_web_preview_state', '{"version":1,"corrections":[]}'));
   await page.reload();

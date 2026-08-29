@@ -99,21 +99,48 @@ describe('static deployment guards', () => {
       mkdirSync(target.slice(0, target.lastIndexOf('/')), { recursive: true });
       writeFileSync(target, body);
     }
-    const run = spawnSync(process.execPath, [new URL('../scripts/prepare-release.mjs', import.meta.url).pathname, 'v9.9.9'], { encoding: 'utf8', env: { ...process.env, RELEASE_INPUT_DIR: input, RELEASE_OUTPUT_DIR: output } });
+    const commit = 'a'.repeat(40);
+    const run = spawnSync(process.execPath, [new URL('../scripts/prepare-release.mjs', import.meta.url).pathname, 'v9.9.9'], { encoding: 'utf8', env: { ...process.env, RELEASE_INPUT_DIR: input, RELEASE_OUTPUT_DIR: output, RELEASE_COMMIT: commit } });
     expect(run.status).toBe(0);
     const outputFiles = readdirSync(output).sort();
     expect(outputFiles).toEqual([
       'Dictation-Repair-Book-linux-x64.AppImage', 'Dictation-Repair-Book-linux-x64.deb',
       'Dictation-Repair-Book-macos-arm64.dmg', 'Dictation-Repair-Book-macos-x64.dmg',
       'Dictation-Repair-Book-windows-x64.exe', 'Dictation-Repair-Book-windows-x64.msi',
-      'SHA256SUMS', 'latest.json'
+      'SHA256SUMS', 'build-info.json', 'latest.json'
     ]);
-    const manifest = JSON.parse(readFileSync(join(output, 'latest.json'), 'utf8')) as { version: string; platforms: Record<string, { filename: string; sha256: string }> };
+    const manifest = JSON.parse(readFileSync(join(output, 'latest.json'), 'utf8')) as { version: string; commit: string; platforms: Record<string, { filename: string; sha256: string }> };
     expect(manifest.version).toBe('v9.9.9');
+    expect(manifest.commit).toBe(commit);
+    expect(JSON.parse(readFileSync(join(output, 'build-info.json'), 'utf8'))).toMatchObject({ version: 'v9.9.9', commit });
     for (const asset of Object.values(manifest.platforms)) {
       expect(asset.sha256).toMatch(/^[a-f0-9]{64}$/);
       expect(readFileSync(join(output, 'SHA256SUMS'), 'utf8')).toContain(`${asset.sha256}  ${asset.filename}`);
     }
+    rmSync(root, { recursive: true, force: true });
+  });
+  it('refuses a release when source versions disagree or the tag does not name the checked-out source', () => {
+    const root = mkdtempSync(join(tmpdir(), 'drb-release-identity-'));
+    mkdirSync(join(root, 'src-tauri'), { recursive: true });
+    writeFileSync(join(root, 'package.json'), '{"version":"9.9.9"}\n');
+    writeFileSync(join(root, 'src-tauri', 'tauri.conf.json'), '{"version":"9.9.9"}\n');
+    writeFileSync(join(root, 'src-tauri', 'Cargo.toml'), '[package]\nname = "fixture"\nversion = "9.9.9"\n');
+    for (const args of [['init'], ['add', '.'], ['-c', 'user.name=Test', '-c', 'user.email=test@example.invalid', 'commit', '-m', 'release fixture'], ['tag', 'v9.9.9']]) {
+      expect(spawnSync('git', args, { cwd: root, encoding: 'utf8' }).status).toBe(0);
+    }
+    const verify = new URL('../scripts/verify-release.mjs', import.meta.url).pathname;
+    expect(spawnSync(process.execPath, [verify, 'v9.9.9'], { cwd: root, encoding: 'utf8' }).status).toBe(0);
+    writeFileSync(join(root, 'package.json'), '{"version":"9.9.10"}\n');
+    const versionMismatch = spawnSync(process.execPath, [verify, 'v9.9.9'], { cwd: root, encoding: 'utf8' });
+    expect(versionMismatch.status).not.toBe(0);
+    expect(versionMismatch.stderr).toContain('package.json is 9.9.10');
+    writeFileSync(join(root, 'package.json'), '{"version":"9.9.9"}\n');
+    writeFileSync(join(root, 'post-tag-change.txt'), 'runtime change\n');
+    expect(spawnSync('git', ['add', '.'], { cwd: root, encoding: 'utf8' }).status).toBe(0);
+    expect(spawnSync('git', ['-c', 'user.name=Test', '-c', 'user.email=test@example.invalid', 'commit', '-m', 'post-tag change'], { cwd: root, encoding: 'utf8' }).status).toBe(0);
+    const sourceMismatch = spawnSync(process.execPath, [verify, 'v9.9.9'], { cwd: root, encoding: 'utf8' });
+    expect(sourceMismatch.status).not.toBe(0);
+    expect(sourceMismatch.stderr).toContain('Refusing to publish v9.9.9');
     rmSync(root, { recursive: true, force: true });
   });
   it('@claim:unsigned-build documents the current unsigned release configuration', () => {
