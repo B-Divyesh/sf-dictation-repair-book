@@ -1,0 +1,95 @@
+{
+  "base": "https://dictation-repair-book.sociobot.in",
+  "desktop": {
+    "repaired": true,
+    "invalidImportRecovery": true,
+    "ruleSurvived": true,
+    "focusOutline": "0px",
+    "demoRequests": [
+      "https://dictation-repair-book.sociobot.in/assets/demo-Bwym84H8.js",
+      "https://dictation-repair-book.sociobot.in/assets/modulepreload-polyfill-B5Qt9EMX.js",
+      "https://dictation-repair-book.sociobot.in/assets/core-DlQNAQKj.js",
+      "https://dictation-repair-book.sociobot.in/assets/demo-DaLJYFU-.css",
+      "https://dictation-repair-book.sociobot.in/",
+      "https://dictation-repair-book.sociobot.in/assets/demo-Bwym84H8.js",
+      "https://dictation-repair-book.sociobot.in/assets/modulepreload-polyfill-B5Qt9EMX.js",
+      "https://dictation-repair-book.sociobot.in/assets/core-DlQNAQKj.js",
+      "https://dictation-repair-book.sociobot.in/assets/demo-DaLJYFU-.css",
+      "https://dictation-repair-book.sociobot.in/privacy/"
+    ],
+    "demoExternalRequests": [],
+    "skipLinkFocused": true,
+    "mainFocused": true
+  },
+  "mobile": {
+    "width": {
+      "scroll": 390,
+      "client": 390,
+      "scrollBehavior": "auto"
+    },
+    "Reset demo": {
+      "x": 111.765625,
+      "y": 48,
+      "width": 117.40625,
+      "height": 44
+    },
+    "Start for real": {
+      "x": 239.171875,
+      "y": 48,
+      "width": 126.828125,
+      "height": 44
+    },
+    "heading": true,
+    "errors": []
+  },
+  "axe": {
+    "/": {
+      "seriousCritical": [],
+      "status": 200,
+      "title": "Dictation Repair Book — reusable dictation rules",
+      "h1": 1,
+      "main": 1,
+      "lang": "en"
+    },
+    "/demo/": {
+      "seriousCritical": [],
+      "status": 200,
+      "title": "Approved vocabulary — Demo — Dictation Repair Book",
+      "h1": 1,
+      "main": 1,
+      "lang": "en"
+    },
+    "/privacy/": {
+      "seriousCritical": [],
+      "status": 200,
+      "title": "Privacy — Dictation Repair Book",
+      "h1": 1,
+      "main": 1,
+      "lang": "en"
+    },
+    "/terms/": {
+      "seriousCritical": [],
+      "status": 200,
+      "title": "Terms — Dictation Repair Book",
+      "h1": 1,
+      "main": 1,
+      "lang": "en"
+    },
+    "/404.html": {
+      "seriousCritical": [],
+      "status": 200,
+      "title": "Page not found — Dictation Repair Book",
+      "h1": 1,
+      "main": 1,
+      "lang": "en"
+    }
+  },
+  "offline": {
+    "controlled": true,
+    "status": 200,
+    "sampleVisible": true,
+    "errors": []
+  },
+  "routes": {},
+  "errors": []
+}

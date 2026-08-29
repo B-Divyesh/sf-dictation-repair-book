@@ -1,34 +1,22 @@
-# Polish round 1 handoff
+# Verification handoff — FAIL
 
-Repaired the candidate `d476b4dd900130ff1748712af6db90c754c1c9cd` against every F-1-1 through F-1-30 finding in `.factory/review-1.md`. The detailed finding-to-change-to-evidence ledger is `.factory/polish-1.md`.
+**Candidate:** `7c8df71269c779c09e21ac667adf85bbd00bbfa0`
+**Live URL:** <https://dictation-repair-book.sociobot.in>
+**Verified:** 2026-08-29 UTC
 
-## Delivered
+## Result
 
-- Added an isolated one-click demo at `/demo/?demo=1`, plus the `/?demo=1` landing alias, persistent banner, safe reset/exit, deep-linkable demo views, back/forward state, h1 focus, title updates, and route announcement.
-- Added native first-run **Load sample repair book**. It remains in memory until **Keep this repair book**; **Start for real** discards it.
-- Added four real desktop UI walkthrough captures under `public/assets/` and recorded their provenance in the design thesis.
-- Rewrote first-screen, FAQ, privacy, legal, README, and install copy around actual behavior. The catalog line is in `.factory/catalog-description.txt`.
-- Repaired service-worker 404 status handling, installer-code keyboard access, mobile demo banner layout, production-vault claim coverage, PowerShell installer behavior coverage, release-artifact fixture coverage, and request-privacy coverage.
-- Expanded `.factory/claims.json` to 28 registered, executable claims.
+**FAIL.** The live static website is the candidate and all fresh functional, privacy, accessibility, offline, responsive, claims, and build checks pass. The candidate cannot be accepted as a desktop app because the advertised downloadable desktop release is still tag `v0.1.2` at commit `61302673d33e836edfd718da47b4adf3fe923cd5`, while this candidate contains later runtime changes in both frontend and Tauri source.
 
-## Verification
+The release workflow builds only on `v*` tags. Publish a uniquely versioned/tagged desktop release from this candidate (or an approved successor), with new platform assets, `SHA256SUMS`, and `latest.json`, then rerun desktop artifact verification.
 
-Executed in this clean checkout after `npm ci` and after installing the exact Tauri Linux packages declared in `.github/workflows/release.yml`:
+## Verified evidence
 
-- `npm test` — passed: 16 Vitest tests and 32 Playwright tests (including mobile Axe serious/critical checks, offline demo, service-worker 404, routing/focus, and privacy request capture).
-- Every one of the 28 commands listed in `.factory/claims.json` — passed individually. The PowerShell claim was run with PowerShell 7.5.1 in this container and exercised both matching and mismatching downloads.
-- `npm run typecheck`, `npm run lint`, `npm run build` — passed. Build emits `dist/app/` and `dist/site/`.
-- `cargo test --manifest-path src-tauri/Cargo.toml` — passed: 4 Rust tests.
-- `cargo fmt --manifest-path src-tauri/Cargo.toml --check` and `cargo check --manifest-path src-tauri/Cargo.toml` — passed.
+- Every required command in `.factory/claims.json` passed individually: 28/28.
+- `npm test` passed (16 unit + 32 Playwright); typecheck, lint, production build, Rust test/format/check all passed.
+- Live first-read, demo repair and malformed-import recovery, keyboard focus, 390 px dark/reduced-motion layout, PWA update/offline demo, Axe serious/critical checks, response headers, and request logs passed.
+- The license verification endpoint allowed 30 invalid requests from one client and returned 429 with `Retry-After: 3` on request 31.
+- Local candidate static output byte-matches the live landing/demo/legal/service-worker assets.
+- The old published Linux DEB verifies against its old release checksum and launches under Xvfb, but is not candidate-identifiable.
 
-Static production sizes remain inside budget: landing JS 1.52 KB gzip, demo JS 9.34 KB gzip, landing CSS 3.07 KB gzip, demo CSS 3.84 KB gzip. The lazy walkthrough images are not first-screen assets.
-
-## Deployment and live check
-
-Committed and pushed as `452f4bf824d07147d050ce9abca7af1e9eb10936` (`fix: complete review one polish`); `origin/main` resolves to that commit. A separate fresh clone at that commit completed `npm ci`, `npm test`, and `npm run build`.
-
-At 2026-08-29 18:15 UTC, the public endpoint was still serving the prior deployment (`sw.js` reported `drb-site-v5`; its landing HTML still contained the retired headline). No deployment token, Azure Static Web Apps CLI, deployment workflow, or work-order deploy command is present in this workspace, so a direct static publish cannot be safely invoked from this repository. The code is pushed and ready for the factory static-deployment trigger; cold live recheck remains required immediately after that trigger completes.
-
-## Known gaps / operator action
-
-No product defects are intentionally deferred. Desktop releases remain unsigned by design and the download site discloses the required operating-system confirmation. Signing would require operator-provided Apple and Windows certificates; no signing secrets are configured.
+Full exact evidence and the blocker are in `.factory/verification-4.md`; supporting artifacts are in `.factory/qa-evidence/verification-4/`.
