@@ -47,6 +47,12 @@ Published desktop package:
 - The downloaded Linux DEB SHA-256 was `968ea39cbe3f07d5a655518b2539c4ad09519b981b2081e9eb7a1be69c49102e`, matching published `SHA256SUMS`; `dpkg-deb -f` reports `dictation-repair-book` `0.1.3` for `amd64`.
 - The extracted release ran under Xvfb for the intentional 12-second timeout and wrote zero stderr bytes.
 
+Live deployment:
+
+- Repair commit `17dc1e4` was pushed to `origin/main`.
+- `swa deploy dist/site --app-name sf-dictation-repair-book --resource-group sociobot --env production --no-use-keychain` completed against the existing production Static Web App.
+- The custom domain returned HTTPS 200 after deployment. `verify-url.sh` measured a 1,231 ms load with zero console/page errors and the expected title, `lang=en`, one `<h1>`, one `<main>`, complete alt text, and labelled controls. Response headers include CSP with `frame-ancestors 'none'`, HSTS, `nosniff`, the strict referrer policy, and a camera/microphone/geolocation-denying Permissions Policy.
+
 ## Known gaps and next steps
 
 No product gaps remain. Desktop bundles are intentionally unsigned, as disclosed on the landing page and in the README. Code signing and notarization remain optional operator work requiring owner certificates; no signing secrets are in this repository.
