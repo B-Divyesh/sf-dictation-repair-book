@@ -1,4 +1,5 @@
 const repo = 'https://github.com/B-Divyesh/sf-dictation-repair-book';
+if (new URLSearchParams(location.search).get('demo') === '1') location.replace('/demo/?demo=1');
 const releaseApi = 'https://api.github.com/repos/B-Divyesh/sf-dictation-repair-book/releases/latest';
 const canonicalManifest = `${repo}/releases/latest/download/latest.json`;
 type Release = { tag_name: string; assets: { name: string; browser_download_url: string }[] };

@@ -39,7 +39,7 @@ a { color:var(--ink); text-decoration-thickness:2px; text-underline-offset:3px; 
 .rail { position:sticky; top:0; height:100vh; display:flex; flex-direction:column; padding:24px 16px 20px; border-right:3px solid var(--ink); background:var(--paper-deep); }
 .brand { display:flex; gap:12px; align-items:center; text-decoration:none; margin:0 8px 40px; }
 .brand-mark { width:46px;height:52px; display:grid;place-items:center; background:var(--acid); color:#171714; border:2px solid #171714; box-shadow:3px 3px 0 #171714; font:800 14px/1 ui-monospace,monospace; letter-spacing:.08em; }
-.brand h1 { margin:0; font-size:17px; line-height:1.05; letter-spacing:-.02em; }
+.brand-name { font-weight:800; font-size:17px; line-height:1.05; letter-spacing:-.02em; }
 .rail nav { display:grid; gap:8px; }
 .nav-item { position:relative; min-height:52px; width:100%; display:grid; grid-template-columns:38px 1fr auto; align-items:center; border:2px solid transparent; background:transparent; text-align:left; font-weight:750; cursor:pointer; }
 .nav-item>span { font:800 15px ui-monospace,monospace; }
@@ -52,7 +52,7 @@ a { color:var(--ink); text-decoration-thickness:2px; text-underline-offset:3px; 
 main { min-width:0; padding:40px clamp(24px,4vw,64px) 72px; }
 .work-header { display:flex; justify-content:space-between; align-items:flex-end; gap:24px; padding-bottom:24px; border-bottom:3px solid var(--ink); margin-bottom:32px; }
 .eyebrow { margin:0 0 7px; color:var(--muted); font:800 12px/1.2 ui-monospace,monospace; letter-spacing:.1em; text-transform:uppercase; }
-.work-header h2 { margin:0; font-size:clamp(28px,4vw,44px); line-height:1; letter-spacing:-.045em; }
+.work-header h1 { margin:0; font-size:clamp(28px,4vw,44px); line-height:1; letter-spacing:-.045em; }
 .rule-count { flex:0 0 auto; display:flex; align-items:baseline; gap:6px; font:700 13px ui-monospace,monospace; }
 .rule-count b { font-size:26px; }
 .notice { display:flex; align-items:center; justify-content:space-between; gap:16px; margin:-12px 0 24px; padding:12px 16px; border:2px solid var(--ink); background:var(--acid); color:#171714; font-weight:700; }
@@ -97,6 +97,7 @@ textarea { resize:vertical; font:600 16px/1.6 ui-monospace,"SFMono-Regular",Cons
 .empty-glyph { display:grid;place-items:center;width:76px;height:76px;margin-bottom:20px;border:3px solid var(--ink);background:var(--acid);color:#171714;box-shadow:6px 6px 0 var(--ink);font:800 36px ui-monospace,monospace; }
 .empty-state h3,.test-sheet h3,.settings-section h3 { margin:12px 0 8px; font-size:clamp(24px,3vw,34px); line-height:1.05; letter-spacing:-.035em; }
 .empty-state p { max-width:55ch; color:var(--muted); line-height:1.6; }
+.load-sample { margin-top:16px; }
 .inline-form { width:100%; display:flex; gap:10px; }
 .inline-form input { flex:1; }
 .rules-tools { display:flex; justify-content:space-between; gap:24px; align-items:end; margin-bottom:24px; }
@@ -147,7 +148,7 @@ textarea { resize:vertical; font:600 16px/1.6 ui-monospace,"SFMono-Regular",Cons
   .app-shell { grid-template-columns:88px 1fr; }
   .rail { padding-inline:10px; }
   .brand { margin-inline:auto; }
-  .brand h1,.nav-item:not(.active) kbd,.nav-item kbd,.nav-item { font-size:0; }
+  .brand-name,.nav-item:not(.active) kbd,.nav-item kbd,.nav-item { font-size:0; }
   .nav-item { display:grid;grid-template-columns:1fr;place-items:center; }
   .nav-item>span { font-size:16px; }
   .privacy-stamp { display:none; }
@@ -165,7 +166,7 @@ textarea { resize:vertical; font:600 16px/1.6 ui-monospace,"SFMono-Regular",Cons
   .nav-item>span { line-height:1; }
   main { padding:24px 16px 40px; }
   .work-header { align-items:start;margin-bottom:24px; }
-  .work-header h2 { font-size:30px; }
+  .work-header h1 { font-size:30px; }
   .rule-count { flex-direction:column;align-items:end; }
   .scope-row,.step { grid-template-columns:44px 1fr; }
   .scope-row label { grid-column:1/-1; }
@@ -188,7 +189,7 @@ textarea { resize:vertical; font:600 16px/1.6 ui-monospace,"SFMono-Regular",Cons
   .settings-section { min-width:0;grid-template-columns:minmax(0,1fr);gap:16px; }
   .button-grid { grid-template-columns:1fr; }
   .inline-form { flex-direction:column; }
-  .demo-banner { top:8px; right:8px; left:8px; max-width:none; flex-wrap:wrap; justify-content:flex-end; }
+  .demo-banner { position:static; max-width:none; flex-wrap:wrap; justify-content:flex-end; margin:12px 12px 0; }
   .demo-banner span { flex:1 1 100%; }
   .license { margin-inline:0;padding-inline:16px; }
 }

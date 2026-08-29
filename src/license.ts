@@ -1,5 +1,5 @@
 const slug = 'dictation-repair-book';
-const isDemo = () => location.pathname.replace(/\/$/, '') === '/demo';
+const isDemo = () => location.pathname.replace(/\/$/, '') === '/demo' || new URLSearchParams(location.search).get('demo') === '1';
 const namespace = isDemo() ? 'demo:' : '';
 const tokenKey = `${namespace}sb_license:${slug}`;
 const verdictKey = `${namespace}sb_license_verdict:${slug}`;

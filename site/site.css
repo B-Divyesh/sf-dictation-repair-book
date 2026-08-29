@@ -171,6 +171,13 @@ h1 mark {
   background: var(--acid);
   box-shadow: 5px 5px 0;
 }
+.secondary-download {
+  background: var(--paper);
+  box-shadow: none;
+}
+.secondary-download:hover {
+  background: var(--deep);
+}
 .button:active {
   transform: translate(5px, 5px);
   box-shadow: none;
@@ -339,6 +346,26 @@ h1 mark {
   color: var(--muted);
   line-height: 1.55;
 }
+.walkthrough .section-heading h2 { max-width:13ch; }
+.walkthrough-frames {
+  list-style:none;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:28px;
+  margin:0;
+  padding:0;
+}
+.walkthrough-frames li { min-width:0; }
+.walkthrough-frames img {
+  display:block;
+  width:100%;
+  height:auto;
+  border:3px solid var(--ink);
+  background:var(--deep);
+  box-shadow:7px 7px 0 var(--ink);
+}
+.walkthrough-frames p { max-width:48ch; color:var(--muted); line-height:1.5; }
+.walkthrough-frames b { color:var(--ink); }
 .step-sketch {
   height: 124px;
   display: grid;
@@ -459,6 +486,10 @@ h1 mark {
   color: var(--acid);
   font-size: 13px;
   white-space: nowrap;
+}
+.install-cards code:focus-visible {
+  outline: 3px solid var(--cobalt);
+  outline-offset: 4px;
 }
 .copy-button,
 .restore-button {
@@ -662,6 +693,7 @@ footer small {
   .steps {
     grid-template-columns: 1fr;
   }
+  .walkthrough-frames { grid-template-columns:1fr; }
   .steps li + li {
     border-left: 0;
     border-top: 3px solid;

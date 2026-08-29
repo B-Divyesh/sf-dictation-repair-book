@@ -5,7 +5,7 @@ const key = 'drb_web_preview_state';
 const demoKey = `demo:${key}`;
 
 export const isNative = () => '__TAURI_INTERNALS__' in window;
-export const isDemo = () => !isNative() && location.pathname.replace(/\/$/, '') === '/demo';
+export const isDemo = () => !isNative() && (location.pathname.replace(/\/$/, '') === '/demo' || new URLSearchParams(location.search).get('demo') === '1');
 
 export const sampleState = (): RepairState => ({
   version: 1,

@@ -1,4 +1,4 @@
-const CACHE = 'drb-site-v5';
+const CACHE = 'drb-site-v6';
 const PAGES = ['/', '/demo/', '/privacy/', '/terms/', '/404.html'];
 const STATIC = ['/favicon.svg', '/apple-touch-icon.png', '/assets/hero-ledger-768.webp'];
 
@@ -30,7 +30,13 @@ self.addEventListener('activate', (event) => event.waitUntil((async () => {
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET' || new URL(event.request.url).origin !== self.location.origin) return;
   event.respondWith((async () => {
-    const cached = await caches.match(new URL(event.request.url).pathname);
+    const path = new URL(event.request.url).pathname;
+    if (event.request.mode === 'navigate' && !PAGES.includes(path)) {
+      const missing = await caches.match('/404.html');
+      if (!missing) return Response.error();
+      return new Response(await missing.blob(), { status: 404, statusText: 'Not Found', headers: missing.headers });
+    }
+    const cached = await caches.match(path);
     if (cached) return cached;
     try {
       const response = await fetch(event.request);
@@ -38,7 +44,15 @@ self.addEventListener('fetch', (event) => {
       void caches.open(CACHE).then((cache) => cache.put(event.request, response.clone()));
       return response;
     } catch {
-      if (event.request.mode === 'navigate') return (await caches.match('/404.html')) || Response.error();
+      if (event.request.mode === 'navigate') {
+        const missing = await caches.match('/404.html');
+        if (!missing) return Response.error();
+        return new Response(await missing.blob(), {
+          status: 404,
+          statusText: 'Not Found',
+          headers: missing.headers
+        });
+      }
       return Response.error();
     }
   })());

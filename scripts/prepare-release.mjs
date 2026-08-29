@@ -4,8 +4,8 @@ import { createHash } from 'node:crypto';
 
 const version = process.argv[2]?.replace(/^v/, '');
 if (!version) throw new Error('version argument required');
-const input = 'downloaded-artifacts';
-const output = 'release-assets';
+const input = process.env.RELEASE_INPUT_DIR || 'downloaded-artifacts';
+const output = process.env.RELEASE_OUTPUT_DIR || 'release-assets';
 mkdirSync(output, { recursive: true });
 const allFiles = (dir) => readdirSync(dir).flatMap((name) => { const path = join(dir, name); return statSync(path).isDirectory() ? allFiles(path) : [path]; });
 const files = allFiles(input);

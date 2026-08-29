@@ -7,6 +7,13 @@
     "sandbox": "fresh browser context; seed real-preview data; reset demo; mutate demo state; start for real; assert separate demo keys are deleted"
   },
   {
+    "id": "no-account",
+    "claim": "The sample repair book opens and runs without an account.",
+    "where": "landing first-screen facts",
+    "test": "npm run test:e2e -- --grep @claim:no-account",
+    "sandbox": "fresh browser context; open /demo/; repair a shipped phrase without sign-in or credentials"
+  },
+  {
     "id": "rule-management",
     "claim": "A user can approve, search, delete, undo, and apply a reusable correction rule.",
     "where": "landing workflow, desktop app, README",
@@ -19,6 +26,13 @@
     "where": "brief support for code terms and desktop Test screen",
     "test": "npm run test:unit -- --testNamePattern @claim:literal-code-replacement",
     "sandbox": "unit fixture applies ampersand token to a sentence and asserts literal $& output and accurate applied-rule feedback"
+  },
+  {
+    "id": "longest-rule-first",
+    "claim": "Overlapping approved rules run longest first.",
+    "where": "README",
+    "test": "npm run test:unit -- --testNamePattern @claim:longest-rule-first",
+    "sandbox": "unit fixture applies cube and cube or net ease to the same transcript"
   },
   {
     "id": "local-repair",
@@ -112,6 +126,13 @@
     "sandbox": "seed a valid verdict checked now; reload twice; assert no verification request"
   },
   {
+    "id": "license-request-privacy",
+    "claim": "License verification sends the license token to api.sociobot.in without repair-book text.",
+    "where": "README and privacy policy",
+    "test": "npm run test:e2e -- --grep @claim:license-request-privacy",
+    "sandbox": "browser preview with a saved repair rule and mock verification; record URL, body, and headers"
+  },
+  {
     "id": "license-return",
     "claim": "A returned purchase license is stored locally and stripped from the address bar.",
     "where": "checkout return and license restore flow",
@@ -123,7 +144,14 @@
     "claim": "Native repair books use AES-256-GCM encryption at rest.",
     "where": "landing privacy section, privacy page, README",
     "test": "cargo test --manifest-path src-tauri/Cargo.toml claim_encrypted_vault_uses_aes_256_gcm",
-    "sandbox": "native Rust crypto test encrypts and decrypts a fixture with Aes256Gcm"
+    "sandbox": "native Rust test saves a full fixture through the production vault, rejects plaintext on disk, and loads the identical state"
+  },
+  {
+    "id": "per-device-key",
+    "claim": "The native repair book uses a random 32-byte local key with mode 0600 on Unix.",
+    "where": "README privacy section",
+    "test": "cargo test --manifest-path src-tauri/Cargo.toml claim_per_device_key_is_random_and_private_on_unix",
+    "sandbox": "native Rust test creates two fresh vault directories and compares keys and Unix permissions"
   },
   {
     "id": "revoked-license-locks",
@@ -134,17 +162,31 @@
   },
   {
     "id": "checksum-installers",
-    "claim": "The one-line installers verify the downloaded package against the published SHA-256 checksum and refuse a mismatch.",
+    "claim": "The Unix install command verifies the downloaded package against the published SHA-256 checksum and refuses a mismatch.",
     "where": "landing install section and README",
     "test": "npm run test:unit -- --testNamePattern @claim:checksum-installers",
-    "sandbox": "inspect both shipped installers for platform SHA-256 calculation, comparison, and mismatch refusal"
+    "sandbox": "run the shipped shell installer with isolated fake downloads and assert a mismatch never reaches installation"
+  },
+  {
+    "id": "powershell-checksum-installer",
+    "claim": "The PowerShell install command verifies SHA-256 and refuses a mismatch before launching MSI installation.",
+    "where": "landing install command and README",
+    "test": "pwsh -NoLogo -NoProfile -File tests/installers.ps1",
+    "sandbox": "PowerShell fixture mocks downloads and MSI launch for matching and mismatching package paths"
   },
   {
     "id": "release-matrix",
     "claim": "The release workflow publishes macOS DMGs, Windows MSI/EXE, Linux AppImage/DEB, SHA256SUMS, and latest.json.",
     "where": "landing downloads and README",
     "test": "npm run test:unit -- --testNamePattern @claim:release-matrix",
-    "sandbox": "inspect the release matrix and release preparation script for every documented platform artifact and manifest"
+    "sandbox": "run the release preparation script on fixture bundles and assert six stable bundles, SHA256SUMS, and manifest hashes"
+  },
+  {
+    "id": "unsigned-build",
+    "claim": "Current desktop builds are unsigned and the download page says that confirmation may be required.",
+    "where": "landing install section and README",
+    "test": "npm run test:unit -- --testNamePattern @claim:unsigned-build",
+    "sandbox": "inspect the Tauri configuration and release workflow for absent signing configuration and assert the landing warning"
   },
   {
     "id": "offline-demo",

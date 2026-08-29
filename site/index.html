@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Turn explicit dictation corrections into a private, encrypted, reusable vocabulary book for clipboard dictation and Whisper."
+      content="Turn dictation corrections into private reusable rules for people with names, medication spellings, code terms, and workplace jargon."
     />
     <meta name="theme-color" content="#f3efdf" />
     <link rel="canonical" href="https://dictation-repair-book.sociobot.in/" />
@@ -14,7 +14,7 @@
     <meta property="og:type" content="website" />
     <meta
       property="og:title"
-      content="Dictation Repair Book — teach dictation your words"
+      content="Dictation Repair Book — reusable dictation rules"
     />
     <meta
       property="og:description"
@@ -31,7 +31,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
-      content="Dictation Repair Book — teach dictation your words"
+      content="Dictation Repair Book — reusable dictation rules"
     />
     <meta
       name="twitter:description"
@@ -41,7 +41,7 @@
       name="twitter:image"
       content="https://dictation-repair-book.sociobot.in/assets/social-card.jpg"
     />
-    <title>Dictation Repair Book — teach dictation your words</title>
+    <title>Dictation Repair Book — reusable dictation rules</title>
     <link rel="stylesheet" href="/site.css" />
     <link rel="stylesheet" href="/qa.css" />
   </head>
@@ -56,29 +56,29 @@
         ><b>Dictation Repair Book</b></a
       >
       <nav aria-label="Primary">
-        <a href="#how">How it works</a><a href="#privacy-first">Privacy</a
-        ><a href="#price">Price</a>
+        <a href="/demo/">Demo</a><a href="#how">How it works</a
+        ><a href="/privacy/">Privacy</a><a href="#price">Price</a>
       </nav>
-      <a class="mini-download" href="#download">Get the app</a>
+      <a class="mini-download" href="#download">Choose a download</a>
     </header>
     <main id="main" tabindex="-1">
       <section class="hero">
         <div class="hero-copy">
           <p class="stamp">PRIVATE DESKTOP APP / v0.1.2</p>
-          <h1>Teach dictation<br /><mark>your words.</mark></h1>
+          <h1>Turn dictation corrections<br /><mark>into reusable rules.</mark></h1>
           <p class="lede">
             For dictation users with names, medications, code terms, or
             workplace jargon. Turn explicit corrections into rules you can
             inspect and reuse.
           </p>
           <div class="hero-actions" id="download">
-            <a class="button primary" href="/demo/">Try it with sample data</a>
+            <a class="button primary" href="/demo/?demo=1">Try it with sample data</a>
             <span
               >Opens a separate sample repair book. Nothing enters your real
               book.</span
             >
             <a
-              class="button primary"
+              class="button secondary-download"
               id="platform-download"
               href="https://github.com/B-Divyesh/sf-dictation-repair-book/releases/latest"
               >Download for your computer</a
@@ -86,7 +86,9 @@
             <span id="platform-note">Detecting your system…</span>
           </div>
           <p class="trust-line">
-            <b>No audio.</b> No account. No background field watching.
+            <b>No audio or account.</b> No background monitoring of fields or
+            keystrokes. Demo works offline after one visit. 25 approved rules
+            are free; pay $24 once for unlimited rules.
           </p>
           <div
             class="release-status"
@@ -126,14 +128,8 @@
       <section class="problem section" aria-labelledby="problem-title">
         <p class="section-number">WHY CORRECTIONS REPEAT</p>
         <div>
-          <h2 id="problem-title">
-            Dictation forgets the word<br />you fixed yesterday.
-          </h2>
-          <p>
-            General speech recognition knows common language. It does not know
-            your colleague Niamh, your <code>kubectl</code> command, or a
-            medication spelling. Repeating yourself is not learning.
-          </p>
+          <h2 id="problem-title">Save corrections for later clipboard text.</h2>
+          <p>Save a correction once, then apply the approved rule to later clipboard text.</p>
         </div>
         <blockquote><s>met a pro lol</s><br />→ metoprolol</blockquote>
       </section>
@@ -184,6 +180,19 @@
         </ol>
       </section>
 
+      <section class="walkthrough section" aria-labelledby="walkthrough-title">
+        <div class="section-heading">
+          <p class="section-number">DESKTOP APP WALKTHROUGH</p>
+          <h2 id="walkthrough-title">See the installed repair book at work.</h2>
+        </div>
+        <ol class="walkthrough-frames">
+          <li><img src="/assets/walkthrough-capture.png" width="720" height="480" loading="lazy" decoding="async" alt="Desktop Capture screen with original and corrected dictation fields" /><p><b>1. Capture</b> — paste the original and corrected sentence.</p></li>
+          <li><img src="/assets/walkthrough-rules.png" width="720" height="480" loading="lazy" decoding="async" alt="Desktop Rules screen showing approved metoprolol, Kubernetes, and Niamh rules" /><p><b>2. Review</b> — inspect approved rules and their sources.</p></li>
+          <li><img src="/assets/walkthrough-test.png" width="720" height="480" loading="lazy" decoding="async" alt="Desktop Test screen showing Kubernetes applied to a fresh transcript" /><p><b>3. Test</b> — run approved rules on later clipboard text.</p></li>
+          <li><img src="/assets/walkthrough-settings.png" width="720" height="480" loading="lazy" decoding="async" alt="Desktop Settings screen with exports, theme controls, license, and erase action" /><p><b>4. Export or erase</b> — keep a portable copy or remove local data.</p></li>
+        </ol>
+      </section>
+
       <section
         class="privacy-section"
         id="privacy-first"
@@ -194,9 +203,8 @@
         </div>
         <div>
           <p class="stamp inverse">PRIVACY</p>
-          <h2 id="privacy-title">
-            Your vocabulary can be sensitive.<br />It stays yours.
-          </h2>
+          <h2 id="privacy-title">How the app stores your vocabulary</h2>
+          <p>The desktop app encrypts the repair book on your device.</p>
           <ul>
             <li>
               <b>Encrypted at rest</b
@@ -228,15 +236,15 @@
           <p class="section-number">INSTALL</p>
           <h2 id="install-title">Install the desktop app.</h2>
           <p>
-            Release downloads are checksum-verified. Builds are currently
-            unsigned; your operating system may ask you to confirm the first
-            launch.
+            The install commands verify SHA-256 checksums. Direct downloads
+            include a published checksum. Builds are unsigned, so your
+            operating system may ask you to confirm the first launch.
           </p>
         </div>
         <div class="install-cards">
           <article>
             <span>macOS + Linux</span
-            ><code
+            ><code tabindex="0" aria-label="macOS and Linux install command"
               >curl -fsSL https://dictation-repair-book.sociobot.in/install.sh |
               sh</code
             ><button
@@ -248,7 +256,7 @@
           </article>
           <article>
             <span>Windows PowerShell</span
-            ><code
+            ><code tabindex="0" aria-label="Windows PowerShell install command"
               >irm https://dictation-repair-book.sociobot.in/install.ps1 |
               iex</code
             ><button
@@ -281,21 +289,18 @@
             href="https://api.sociobot.in/api/v1/products/dictation-repair-book/checkout"
             >Buy once — $24</a
           ><button class="restore-button" id="show-restore">
-            Have a license? Restore it
+            Enter license token
           </button>
           <form id="restore-form" hidden>
             <label for="license">License token</label>
             <div>
               <input id="license" required autocomplete="off" /><button>
-                Save & verify
+                Verify license
               </button>
             </div>
             <p id="license-status" role="status"></p>
           </form>
-          <small
-            >Sociobot/Dodo is merchant of record. Refunds revoke the license
-            automatically.</small
-          >
+          <small>One-time purchase. A refunded license no longer permits paid approvals.</small>
         </div>
       </section>
 
@@ -323,13 +328,13 @@
           <details>
             <summary>Which engines does it support?</summary>
             <p>
-              The clipboard repair works with any tool that produces text.
+              Paste text from your dictation tool, then run approved replacements locally.
               Exports include CSV, JSON backup, and a vocabulary prompt for
               Whisper-compatible workflows.
             </p>
           </details>
           <details>
-            <summary>Can I leave?</summary>
+            <summary>Can I export and delete my data?</summary>
             <p>
               Yes. Exports are never paywalled. You can erase the encrypted
               vault and its local key at any time.
@@ -342,7 +347,7 @@
       <div class="wordmark">
         <span aria-hidden="true">DR<br />BK</span><b>Dictation Repair Book</b>
       </div>
-      <p>Private vocabulary repair. Built by Param Factory.</p>
+      <p>Private rules for repaired dictation text. Built by Param Factory.</p>
       <nav aria-label="Legal">
         <a href="/privacy/">Privacy</a><a href="/terms/">Terms</a
         ><a href="https://github.com/B-Divyesh/sf-dictation-repair-book"

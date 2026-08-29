@@ -26,9 +26,10 @@ test('landing page fits a 390px phone', async ({ page }) => {
 
 test('@claim:demo-sandbox demo uses sample data in a separate namespace and can reset', async ({ page }) => {
   await page.goto('/');
-  await page.evaluate(() => localStorage.setItem('drb_web_preview_state', JSON.stringify({ apps: [], corrections: [{ heard: 'private rule' }] })));
+  const realState = JSON.stringify({ version: 1, apps: [], corrections: [{ heard: 'private rule' }], settings: { theme: 'system' } });
+  await page.evaluate((value) => localStorage.setItem('drb_web_preview_state', value), realState);
   await page.getByRole('link', { name: 'Try it with sample data' }).click();
-  await expect(page).toHaveTitle('Demo — Dictation Repair Book');
+  await expect(page).toHaveTitle('Approved vocabulary — Demo — Dictation Repair Book');
   await expect(page.getByText('Demo', { exact: true })).toBeVisible();
   await expect(page.getByText('Kubernetes', { exact: true })).toBeVisible();
   await expect(page.getByText('private rule', { exact: true })).toHaveCount(0);
@@ -39,6 +40,7 @@ test('@claim:demo-sandbox demo uses sample data in a separate namespace and can 
   await expect(page.getByText('No approved rules yet.')).toBeVisible();
   await page.getByRole('button', { name: 'Reset demo' }).click();
   await expect(page.getByText('Kubernetes', { exact: true })).toBeVisible();
+  expect(await page.evaluate(() => localStorage.getItem('drb_web_preview_state'))).toBe(realState);
   await page.evaluate(() => {
     const current = JSON.parse(localStorage.getItem('demo:drb_web_preview_state')!);
     current.corrections.push({ ...current.corrections[0], id: 'demo-change', heard: 'post grass', intended: 'Postgres' });
@@ -47,6 +49,51 @@ test('@claim:demo-sandbox demo uses sample data in a separate namespace and can 
   await page.getByRole('link', { name: 'Start for real' }).click();
   await expect(page).toHaveURL('http://127.0.0.1:4173/');
   await expect.poll(() => page.evaluate(() => localStorage.getItem('demo:drb_web_preview_state'))).toBeNull();
+  await expect.poll(() => page.evaluate(() => localStorage.getItem('demo:sb_license:dictation-repair-book'))).toBeNull();
+  await expect.poll(() => page.evaluate(() => localStorage.getItem('demo:sb_license_verdict:dictation-repair-book'))).toBeNull();
+  expect(await page.evaluate(() => localStorage.getItem('drb_web_preview_state'))).toBe(realState);
+});
+
+test('@claim:no-account opens and uses the sample repair book without sign-in', async ({ page }) => {
+  await page.goto('/demo/');
+  await expect(page.getByText('Kubernetes', { exact: true })).toBeVisible();
+  await expect(page.locator('input[type="password"], [name*="email" i], [name*="user" i]')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Test' }).click();
+  await page.getByLabel('Unrepaired transcript').fill('met a pro lol');
+  await page.getByRole('button', { name: 'Run repair' }).click();
+  await expect(page.getByText('metoprolol', { exact: true })).toBeVisible();
+});
+
+test('the landing ?demo=1 alias opens the isolated sample path in one navigation', async ({ page }) => {
+  await page.goto('/?demo=1');
+  await expect(page).toHaveURL(/\/demo\/\?demo=1$/);
+  await expect(page.getByText('Demo', { exact: true })).toBeVisible();
+  await expect(page.getByText('Kubernetes', { exact: true })).toBeVisible();
+});
+
+test('demo sections deep-link, restore with history, announce, and focus their h1', async ({ page }) => {
+  await page.goto('/demo/#test');
+  await expect(page.getByRole('heading', { name: 'Test your repair book' })).toBeFocused();
+  await expect(page.locator('#route-announcement')).toHaveText('Test your repair book');
+  await page.getByRole('button', { name: 'Settings' }).click();
+  await expect(page).toHaveURL(/\/demo\/#settings$/);
+  await expect(page.getByRole('heading', { name: 'Settings & data' })).toBeFocused();
+  await page.goBack();
+  await expect(page).toHaveURL(/\/demo\/#test$/);
+  await expect(page.getByRole('heading', { name: 'Test your repair book' })).toBeFocused();
+  await page.goForward();
+  await expect(page.getByRole('heading', { name: 'Settings & data' })).toBeFocused();
+});
+
+test('demo banner does not cover the active heading on a 390px phone', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/demo/');
+  const rectangles = await page.evaluate(() => {
+    const banner = document.querySelector('.demo-banner')!.getBoundingClientRect();
+    const heading = document.querySelector('.work-header')!.getBoundingClientRect();
+    return { overlap: banner.top < heading.bottom && heading.top < banner.bottom };
+  });
+  expect(rectangles.overlap).toBe(false);
 });
 
 test('@claim:portable-exports CSV uses the visible source name and exports remain available in demo', async ({ page }) => {
@@ -190,6 +237,29 @@ test('@claim:license-daily-cache verifies a cached valid license at most once pe
   expect(calls).toBe(0);
 });
 
+test('@claim:license-request-privacy sends only the license token for verification', async ({ page }) => {
+  const requests: { url: string; body: string | null; headers: Record<string, string> }[] = [];
+  await page.route('**/api/v1/products/dictation-repair-book/verify?license=*', async (route) => {
+    requests.push({ url: route.request().url(), body: route.request().postData(), headers: route.request().headers() });
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '{"valid":false,"reason":"invalid"}' });
+  });
+  await page.goto('http://127.0.0.1:1420');
+  await page.evaluate(() => {
+    localStorage.setItem('drb_web_preview_state', JSON.stringify({ version: 1, apps: [{ id: 'notes', name: 'Notes', enabled: true }], corrections: [{ id: 'private', before: 'met a pro lol', after: 'metoprolol', heard: 'met a pro lol', intended: 'metoprolol', appId: 'notes', createdAt: '2026-08-28T00:00:00.000Z', status: 'approved', hits: 0 }], settings: { theme: 'system' } }));
+    localStorage.setItem('sb_license:dictation-repair-book', 'only-this-token');
+    localStorage.setItem('sb_license_verdict:dictation-repair-book', JSON.stringify({ valid: false, checkedAt: 0 }));
+  });
+  await page.reload();
+  await expect.poll(() => requests.length).toBe(1);
+  const request = requests[0];
+  const url = new URL(request.url);
+  expect(url.origin).toBe('https://api.sociobot.in');
+  expect([...url.searchParams.keys()]).toEqual(['license']);
+  expect(url.searchParams.get('license')).toBe('only-this-token');
+  expect(request.body).toBeNull();
+  expect(JSON.stringify(request.headers)).not.toContain('metoprolol');
+});
+
 test('@claim:offline-demo opens the complete sample repair book offline after one visit', async ({ page, context }) => {
   const errors: string[] = [];
   page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()); });
@@ -201,6 +271,19 @@ test('@claim:offline-demo opens the complete sample repair book offline after on
   await page.goto('/demo/');
   await expect(page.getByText('Kubernetes', { exact: true })).toBeVisible();
   expect(errors).toEqual([]);
+});
+
+test('service-worker controlled unknown routes keep their 404 status online and offline', async ({ page, context }) => {
+  await page.goto('/');
+  await page.evaluate(async () => { await navigator.serviceWorker.ready; });
+  await expect.poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true);
+  const online = await page.goto('/missing-after-service-worker');
+  expect(online?.status()).toBe(404);
+  await expect(page.getByRole('heading', { name: 'Page not found' })).toBeVisible();
+  await context.setOffline(true);
+  const offline = await page.goto('/missing-after-service-worker-offline');
+  expect(offline?.status()).toBe(404);
+  await expect(page.getByRole('heading', { name: 'Page not found' })).toBeVisible();
 });
 
 test('demo Rules and Settings fit 390px and primary touch targets are at least 44px', async ({ page }) => {

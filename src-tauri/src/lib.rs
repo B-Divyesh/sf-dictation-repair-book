@@ -100,8 +100,9 @@ fn validate_state(state: &Value) -> Result<(), String> {
     Ok(())
 }
 
-fn key_bytes(app: &AppHandle) -> Result<[u8; 32], String> {
-    let path = data_dir(app)?.join("vault.key");
+fn key_bytes_in_dir(dir: &Path) -> Result<[u8; 32], String> {
+    fs::create_dir_all(dir).map_err(|e| e.to_string())?;
+    let path = dir.join("vault.key");
     if path.exists() {
         let value = fs::read(path).map_err(|e| e.to_string())?;
         return value
@@ -119,9 +120,8 @@ fn key_bytes(app: &AppHandle) -> Result<[u8; 32], String> {
     Ok(key)
 }
 
-#[tauri::command]
-fn load_state(app: AppHandle) -> Result<Value, String> {
-    let path = data_dir(&app)?.join("repair-book.enc");
+fn load_state_from_dir(dir: &Path) -> Result<Value, String> {
+    let path = dir.join("repair-book.enc");
     if !path.exists() {
         return Ok(json!({"version":1,"apps":[],"corrections":[],"settings":{"theme":"system"}}));
     }
@@ -131,26 +131,25 @@ fn load_state(app: AppHandle) -> Result<Value, String> {
     if packet.len() < 13 {
         return Err("The encrypted vault is incomplete".into());
     }
-    let cipher = Aes256Gcm::new_from_slice(&key_bytes(&app)?).map_err(|e| e.to_string())?;
+    let cipher = Aes256Gcm::new_from_slice(&key_bytes_in_dir(dir)?).map_err(|e| e.to_string())?;
     let clear = cipher
         .decrypt(Nonce::from_slice(&packet[..12]), &packet[12..])
         .map_err(|_| "The encrypted vault could not be unlocked".to_string())?;
     serde_json::from_slice(&clear).map_err(|e| e.to_string())
 }
 
-#[tauri::command]
-fn save_state(app: AppHandle, state: Value) -> Result<(), String> {
-    validate_state(&state)?;
-    let clear = serde_json::to_vec(&state).map_err(|e| e.to_string())?;
+fn save_state_to_dir(dir: &Path, state: &Value) -> Result<(), String> {
+    validate_state(state)?;
+    let clear = serde_json::to_vec(state).map_err(|e| e.to_string())?;
     let mut nonce = [0_u8; 12];
     OsRng.fill_bytes(&mut nonce);
-    let cipher = Aes256Gcm::new_from_slice(&key_bytes(&app)?).map_err(|e| e.to_string())?;
+    let cipher = Aes256Gcm::new_from_slice(&key_bytes_in_dir(dir)?).map_err(|e| e.to_string())?;
     let encrypted = cipher
         .encrypt(Nonce::from_slice(&nonce), clear.as_ref())
         .map_err(|e| e.to_string())?;
     let mut packet = nonce.to_vec();
     packet.extend(encrypted);
-    let dir = data_dir(&app)?;
+    fs::create_dir_all(dir).map_err(|e| e.to_string())?;
     let temp = dir.join("repair-book.tmp");
     fs::write(&temp, STANDARD.encode(packet)).map_err(|e| e.to_string())?;
     let destination = dir.join("repair-book.enc");
@@ -159,6 +158,16 @@ fn save_state(app: AppHandle, state: Value) -> Result<(), String> {
         fs::remove_file(&destination).map_err(|e| e.to_string())?;
     }
     fs::rename(temp, destination).map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+fn load_state(app: AppHandle) -> Result<Value, String> {
+    load_state_from_dir(&data_dir(&app)?)
+}
+
+#[tauri::command]
+fn save_state(app: AppHandle, state: Value) -> Result<(), String> {
+    save_state_to_dir(&data_dir(&app)?, &state)
 }
 
 fn erase_local_files(dir: &Path) -> Result<(), String> {
@@ -240,19 +249,44 @@ mod tests {
     // @claim:encrypted-vault
     #[test]
     fn claim_encrypted_vault_uses_aes_256_gcm() {
-        let key = [7_u8; 32];
-        let nonce = [3_u8; 12];
-        let cipher = Aes256Gcm::new_from_slice(&key).unwrap();
-        let encrypted = cipher
-            .encrypt(Nonce::from_slice(&nonce), b"private words".as_ref())
-            .unwrap();
-        assert_ne!(encrypted, b"private words");
-        assert_eq!(
-            cipher
-                .decrypt(Nonce::from_slice(&nonce), encrypted.as_ref())
-                .unwrap(),
-            b"private words"
-        );
+        let root = std::env::temp_dir().join(format!("drb-vault-test-{}", std::process::id()));
+        let state = json!({
+            "version": 1,
+            "apps": [{"id":"clinical","name":"Clinical notes","enabled":true}],
+            "corrections": [{"id":"metoprolol","before":"met a pro lol","after":"metoprolol","heard":"met a pro lol","intended":"metoprolol","appId":"clinical","sourceName":"Clinical notes","createdAt":"2026-08-29T00:00:00.000Z","status":"approved","hits":4}],
+            "settings": {"theme":"dark"}
+        });
+        save_state_to_dir(&root, &state).unwrap();
+        let encrypted = fs::read(root.join("repair-book.enc")).unwrap();
+        assert!(!String::from_utf8_lossy(&encrypted).contains("metoprolol"));
+        assert_eq!(load_state_from_dir(&root).unwrap(), state);
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    // @claim:per-device-key
+    #[test]
+    fn claim_per_device_key_is_random_and_private_on_unix() {
+        let base = std::env::temp_dir().join(format!("drb-key-test-{}", std::process::id()));
+        let one = base.join("one");
+        let two = base.join("two");
+        let first = key_bytes_in_dir(&one).unwrap();
+        let second = key_bytes_in_dir(&two).unwrap();
+        assert_eq!(first.len(), 32);
+        assert_eq!(second.len(), 32);
+        assert_ne!(first, second);
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::PermissionsExt;
+            assert_eq!(
+                fs::metadata(one.join("vault.key"))
+                    .unwrap()
+                    .permissions()
+                    .mode()
+                    & 0o777,
+                0o600
+            );
+        }
+        fs::remove_dir_all(base).unwrap();
     }
 
     // @claim:native-erase

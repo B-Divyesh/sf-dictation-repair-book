@@ -5,6 +5,8 @@ import { acceptReturnedLicense, cachedUnlock, checkoutUrl, clearLicense, storeLi
 import { emptyState, parseRepairState, type Correction, type RepairState } from './types';
 
 type Page = 'capture' | 'rules' | 'test' | 'settings';
+const pages: Page[] = ['capture', 'rules', 'test', 'settings'];
+const pageFromHash = (): Page | null => pages.includes(location.hash.slice(1) as Page) ? location.hash.slice(1) as Page : null;
 let startupError = '';
 let state = await loadState().catch(() => {
   startupError = isNative()
@@ -14,7 +16,8 @@ let state = await loadState().catch(() => {
       : 'The saved browser preview was invalid and has been removed. Start again or import a valid backup.';
   return isDemo() ? sampleState() : emptyState();
 });
-let page: Page = isDemo() ? 'rules' : 'capture';
+let nativeSampleMode = false;
+let page: Page = pageFromHash() || (isDemo() ? 'rules' : 'capture');
 let proposal: Proposal | null = null;
 let testResult: { text: string; applied: string[] } | null = null;
 let notice = startupError;
@@ -39,13 +42,14 @@ function chrome(content: string, title: string, kicker: string) {
   ];
   return `<div class="app-shell" data-theme="${state.settings.theme}">
     <aside class="rail" aria-label="Product navigation">
-      <a class="brand" href="#capture" data-nav="capture" aria-label="Dictation Repair Book, capture page"><span class="brand-mark" aria-hidden="true">DR<br>BK</span><h1>Dictation<br>Repair Book</h1></a>
+      <a class="brand" href="#capture" data-nav="capture" aria-label="Dictation Repair Book, capture page"><span class="brand-mark" aria-hidden="true">DR<br>BK</span><span class="brand-name">Dictation<br>Repair Book</span></a>
       <nav aria-label="Repair book sections">${tabs.map((tab) => `<button class="nav-item ${page === tab.id ? 'active' : ''}" data-nav="${tab.id}" aria-current="${page === tab.id ? 'page' : 'false'}"><span aria-hidden="true">${tab.icon}</span>${tab.label}<kbd>${tab.key}</kbd></button>`).join('')}</nav>
-      <div class="privacy-stamp"><span>LOCAL ONLY</span><p>${isNative() ? 'Vault encrypted on this device.' : 'Browser preview uses local storage.'}</p><small>v0.1.2 · repair 2</small></div>
+      <div class="privacy-stamp"><span>LOCAL ONLY</span><p>${isNative() ? 'Vault encrypted on this device.' : 'Browser preview uses local storage.'}</p><small>v0.1.2 · polish 1</small></div>
     </aside>
-    ${isDemo() ? `<aside class="demo-banner" aria-label="Demo controls"><span><b>Demo</b> — sample data, nothing is saved.</span><button class="button secondary" data-action="reset-demo">Reset demo</button><a class="button secondary" href="/" data-action="start-real">Start for real</a></aside>` : ''}
+    ${isDemo() || nativeSampleMode ? `<aside class="demo-banner" aria-label="Demo controls"><span><b>Demo</b> — sample data, nothing is saved.</span><button class="button secondary" data-action="reset-demo">Reset demo</button>${nativeSampleMode ? '<button class="button secondary" data-action="keep-sample">Keep this repair book</button><button class="button secondary" data-action="start-real">Start for real</button>' : '<a class="button secondary" href="/" data-action="start-real">Start for real</a>'}</aside>` : ''}
     <main id="main" tabindex="-1">
-      <header class="work-header"><div><p class="eyebrow">${kicker}</p><h2>${title}</h2></div><span class="rule-count"><b>${approved().length}</b> approved</span></header>
+      <header class="work-header"><div><p class="eyebrow">${kicker}</p><h1 tabindex="-1">${title}</h1></div><span class="rule-count"><b>${approved().length}</b> approved</span></header>
+      <p class="sr-only" aria-live="polite" id="route-announcement">${title}</p>
       ${notice ? `<div class="notice" role="status">${esc(notice)}${lastRemoved ? ' <button data-action="undo-delete">Undo</button>' : ''}</div>` : ''}
       ${content}
     </main>
@@ -53,7 +57,7 @@ function chrome(content: string, title: string, kicker: string) {
 }
 
 function capturePage() {
-  if (!activeApps().length) return chrome(`<section class="empty-state"><span class="empty-glyph" aria-hidden="true">＋</span><p class="stamp">FIRST STEP</p><h3>Choose where corrections come from.</h3><p>The repair book never watches every field. Add a named application, then capture clipboard text only when you click.</p><form id="add-app-form"><label for="first-app">Application name</label><div class="inline-form"><input id="first-app" name="name" required maxlength="50" autocomplete="off" placeholder="e.g. VS Code"><button class="button primary" type="submit">Allow this app</button></div></form></section>`, 'Capture a correction', 'Approved sources only');
+  if (!activeApps().length) return chrome(`<section class="empty-state"><span class="empty-glyph" aria-hidden="true">＋</span><p class="stamp">FIRST STEP</p><h2>Choose where corrections come from.</h2><p>The repair book never watches every field. Add a named application, then capture clipboard text only when you click.</p><form id="add-app-form"><label for="first-app">Application name</label><div class="inline-form"><input id="first-app" name="name" required maxlength="50" autocomplete="off" placeholder="e.g. VS Code"><button class="button primary" type="submit">Allow this app</button></div></form>${isNative() ? '<button class="button secondary load-sample" data-action="load-sample">Load sample repair book</button>' : ''}</section>`, 'Capture a correction', 'Approved sources only');
   const freeFull = !unlocked && approved().length >= 25;
   return chrome(`<section class="capture-grid">
     <form id="capture-form" class="repair-sheet">
@@ -76,7 +80,7 @@ function rulesPage() {
 }
 
 function testPage() {
-  return chrome(`<section class="test-layout"><div class="test-sheet"><p class="stamp">BLIND RETEST</p><h3>Try a fresh transcript.</h3><p>Paste dictation you have not edited. The repair runs locally using approved whole-term rules.</p><form id="test-form"><label for="test-input">Unrepaired transcript</label><textarea id="test-input" name="input" rows="7" required placeholder="Paste a new transcript…"></textarea><div class="sheet-actions"><button class="button secondary" type="button" data-clip="test-input">Paste clipboard</button><button class="button primary" type="submit">Run repair</button></div></form></div><div class="result-sheet" aria-live="polite"><p class="eyebrow">Repaired clipboard</p>${testResult ? `<div class="result-text">${esc(testResult.text)}</div><p>${testResult.applied.length ? `<b>${testResult.applied.length}</b> rule${testResult.applied.length === 1 ? '' : 's'} applied: ${esc(testResult.applied.join(', '))}` : 'No matching approved terms.'}</p><button class="button approve" data-action="copy-result">Copy repaired text</button>` : `<div class="proposal-empty"><span aria-hidden="true">✓</span><p>The repaired result and applied-rule count will appear here.</p></div>`}</div></section>`, 'Test your repair book', `${approved().length} rules ready`);
+  return chrome(`<section class="test-layout"><div class="test-sheet"><p class="stamp">BLIND RETEST</p><h2>Try a fresh transcript.</h2><p>Paste dictation you have not edited. The repair runs locally using approved whole-term rules.</p><form id="test-form"><label for="test-input">Unrepaired transcript</label><textarea id="test-input" name="input" rows="7" required placeholder="Paste a new transcript…"></textarea><div class="sheet-actions"><button class="button secondary" type="button" data-clip="test-input">Paste clipboard</button><button class="button primary" type="submit">Run repair</button></div></form></div><div class="result-sheet" aria-live="polite"><p class="eyebrow">Repaired clipboard</p>${testResult ? `<div class="result-text">${esc(testResult.text)}</div><p>${testResult.applied.length ? `<b>${testResult.applied.length}</b> rule${testResult.applied.length === 1 ? '' : 's'} applied: ${esc(testResult.applied.join(', '))}` : 'No matching approved terms.'}</p><button class="button approve" data-action="copy-result">Copy repaired text</button>` : `<div class="proposal-empty"><span aria-hidden="true">✓</span><p>The repaired result and applied-rule count will appear here.</p></div>`}</div></section>`, 'Test your repair book', `${approved().length} rules ready`);
 }
 
 function settingsPage() {
@@ -89,12 +93,29 @@ function settingsPage() {
   </div>`, 'Settings & data', isNative() ? 'Encrypted native vault' : 'Web preview mode');
 }
 
-function render() {
+function render(moveFocus = false) {
   proposal = page === 'capture' ? proposal : null;
   app.innerHTML = page === 'capture' ? capturePage() : page === 'rules' ? rulesPage() : page === 'test' ? testPage() : settingsPage();
+  const heading = document.querySelector<HTMLElement>('.work-header h1')?.textContent || 'Repair book';
+  document.title = isDemo() ? `${heading} — Demo — Dictation Repair Book` : `${heading} — Dictation Repair Book`;
+  if (moveFocus) requestAnimationFrame(() => document.querySelector<HTMLElement>('.work-header h1')?.focus());
 }
 
-async function persist(message = '') { try { await saveState(state); notice = message; } catch { notice = 'The local vault could not be saved. Your latest change may not persist; check disk access and try again.'; } render(); }
+function navigate(next: Page, addHistory = true) {
+  if (page === next && pageFromHash() === next) return;
+  page = next;
+  notice = '';
+  if (addHistory && location.hash !== `#${next}`) history.pushState({}, '', `#${next}`);
+  render(true);
+}
+
+async function persist(message = '') {
+  try {
+    if (!nativeSampleMode) await saveState(state);
+    notice = nativeSampleMode ? (message ? `${message} This sample is still separate.` : '') : message;
+  } catch { notice = 'The local vault could not be saved. Your latest change may not persist; check disk access and try again.'; }
+  render();
+}
 function download(name: string, data: string, type: string) { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([data], { type })); a.download = name; a.click(); URL.revokeObjectURL(a.href); }
 function exportAction(kind: string) {
   if (kind === 'csv') download('dictation-rules.csv', exportCsv(approved(), Object.fromEntries(state.apps.map((app) => [app.id, app.name]))), 'text/csv');
@@ -107,7 +128,7 @@ app.addEventListener('click', async (event) => {
   const external = target.closest<HTMLAnchorElement>('a[href^="https://"]');
   if (external && isNative()) { event.preventDefault(); const { openUrl } = await import('@tauri-apps/plugin-opener'); await openUrl(external.href); return; }
   const nav = target.closest<HTMLElement>('[data-nav]')?.dataset.nav as Page | undefined;
-  if (nav) { page = nav; notice = ''; render(); return; }
+  if (nav) { navigate(nav); return; }
   const clip = target.closest<HTMLElement>('[data-clip]')?.dataset.clip;
   if (clip) { try { (document.getElementById(clip) as HTMLTextAreaElement).value = await readClipboard(); notice = ''; } catch { notice = 'Clipboard access was blocked. Paste with Ctrl/Command+V instead.'; render(); } return; }
   const action = target.closest<HTMLElement>('[data-action]')?.dataset.action;
@@ -123,8 +144,10 @@ app.addEventListener('click', async (event) => {
   if (action?.startsWith('export-')) exportAction(action.slice(7));
   if (action === 'remove-license') { clearLicense(); unlocked = false; notice = 'License removed from this device.'; render(); }
   if (action === 'erase' && confirm(`Erase all ${state.corrections.length} corrections, application labels, and license data from this device? This cannot be undone.`)) { await eraseVault(); clearLicense(); state = emptyState(); unlocked = false; notice = 'All local repair-book and license data erased.'; page = 'capture'; render(); }
-  if (action === 'reset-demo' && isDemo()) { state = sampleState(); proposal = null; testResult = null; page = 'rules'; await persist('Demo reset to the shipped sample rules.'); }
-  if (action === 'start-real' && isDemo()) { event.preventDefault(); await eraseVault(); clearLicense(); location.assign('/'); return; }
+  if (action === 'reset-demo' && (isDemo() || nativeSampleMode)) { state = sampleState(); proposal = null; testResult = null; page = 'rules'; await persist('Demo reset to the shipped sample rules.'); }
+  if (action === 'load-sample' && isNative()) { nativeSampleMode = true; state = sampleState(); proposal = null; testResult = null; page = 'rules'; notice = 'Sample repair book loaded. It is separate until you keep it.'; render(true); }
+  if (action === 'keep-sample' && nativeSampleMode) { nativeSampleMode = false; await persist('Sample repair book saved as your local repair book.'); }
+  if (action === 'start-real' && (isDemo() || nativeSampleMode)) { event.preventDefault(); if (isDemo()) { await eraseVault(); clearLicense(); location.assign('/'); } else { nativeSampleMode = false; state = emptyState(); proposal = null; testResult = null; page = 'capture'; notice = 'Sample repair book discarded. Start with a named application.'; render(true); } return; }
   if (action === 'undo-delete' && lastRemoved) { state.corrections.unshift(lastRemoved); lastRemoved = null; await persist('Rule restored.'); }
   const deleteId = target.closest<HTMLElement>('[data-delete]')?.dataset.delete;
   if (deleteId) { const found = state.corrections.find((r) => r.id === deleteId); if (found) { lastRemoved = found; state.corrections = state.corrections.filter((r) => r.id !== deleteId); await persist(`Deleted rule “${found.heard} → ${found.intended}”.`); } }
@@ -136,9 +159,16 @@ app.addEventListener('submit', async (event) => {
   event.preventDefault(); const form = event.target as HTMLFormElement; const data = new FormData(form);
   if (form.id === 'add-app-form') { const name = String(data.get('name')).trim(); if (name) { state.apps.push({ id: crypto.randomUUID(), name, enabled: true }); await persist(`${name} added as an approved source.`); } }
   if (form.id === 'capture-form') { proposal = inferProposal(String(data.get('before')), String(data.get('after'))); notice = proposal ? '' : 'I could not isolate a changed term. Include one complete before and after phrase.'; render(); }
-  if (form.id === 'test-form') { testResult = applyRules(String(data.get('input')), approved()); for (const rule of state.corrections) if (testResult.applied.includes(rule.intended)) rule.hits++; await saveState(state); render(); }
+  if (form.id === 'test-form') { testResult = applyRules(String(data.get('input')), approved()); for (const rule of state.corrections) if (testResult.applied.includes(rule.intended)) rule.hits++; if (!nativeSampleMode) await saveState(state); render(); }
   if (form.id === 'license-form') { storeLicense(String(data.get('token'))); const verdict = await verifyLicense(true); unlocked = verdict.valid; notice = verdict.valid ? 'License verified. Unlimited rules are active.' : verdict.reason === 'offline' ? 'Could not reach verification. Your last valid status is unchanged.' : verdict.reason === 'rate_limited' ? 'Verification is busy. Wait a moment before trying again; your last valid status is unchanged.' : 'That license is not active for this product.'; render(); }
 });
+
+function restoreRouteFromLocation() {
+  const target = pageFromHash();
+  if (target && target !== page) { page = target; notice = ''; render(true); }
+}
+window.addEventListener('hashchange', restoreRouteFromLocation);
+window.addEventListener('popstate', restoreRouteFromLocation);
 
 app.addEventListener('change', async (event) => {
   const input = event.target as HTMLInputElement;
@@ -152,5 +182,5 @@ app.addEventListener('input', (event) => {
   if (input.id === 'rule-search') document.querySelectorAll<HTMLTableRowElement>('[data-search]').forEach((row) => { row.hidden = !row.dataset.search!.includes(input.value.toLowerCase()); });
 });
 
-window.addEventListener('keydown', (event) => { if (event.altKey && ['1','2','3','4'].includes(event.key)) { page = (['capture','rules','test','settings'] as Page[])[Number(event.key)-1]; render(); } });
-render();
+window.addEventListener('keydown', (event) => { if (event.altKey && ['1','2','3','4'].includes(event.key)) navigate((['capture','rules','test','settings'] as Page[])[Number(event.key)-1]); });
+render(Boolean(pageFromHash()));
