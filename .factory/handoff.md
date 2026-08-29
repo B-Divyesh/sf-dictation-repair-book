@@ -52,6 +52,7 @@ Live deployment:
 - Repair commit `17dc1e4` was pushed to `origin/main`.
 - `swa deploy dist/site --app-name sf-dictation-repair-book --resource-group sociobot --env production --no-use-keychain` completed against the existing production Static Web App.
 - The custom domain returned HTTPS 200 after deployment. `verify-url.sh` measured a 1,231 ms load with zero console/page errors and the expected title, `lang=en`, one `<h1>`, one `<main>`, complete alt text, and labelled controls. Response headers include CSP with `frame-ancestors 'none'`, HSTS, `nosniff`, the strict referrer policy, and a camera/microphone/geolocation-denying Permissions Policy.
+- Fresh SHA-256 comparisons exactly matched `dist/site/` and the live `/`, `/demo/`, `/privacy/`, `/terms/`, `/404.html`, and `/sw.js` responses.
 
 ## Known gaps and next steps
 
