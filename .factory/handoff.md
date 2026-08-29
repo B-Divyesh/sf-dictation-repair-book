@@ -1,50 +1,51 @@
-# Repair handoff — Dictation Repair Book v0.1.1
+# Independent QA handoff — FAIL
 
 ## Result
 
-This repair resolves every repository-controlled finding in independent verification report `0385ce8b7279b01ad49daaf85298c128fb0e89ab` for candidate `e3540ff869c27b2cb40e917347346a9a7b7519f7`.
+**FAIL — do not release candidate `7d1fce55e5210354e57352d7b5b99aaa2f109f1b`.**
 
-- Added a real one-click `/demo/` with three shipped correction rules, a persistent Demo banner, Reset demo, Start for real, and a separate `demo:drb_web_preview_state` namespace. It never reads or writes the normal browser preview key or native vault.
-- Added `.factory/claims.json`, eight exact claim tests, `.factory/demo.md`, and `.factory/copy-audit.md`.
-- Removed the two keyboard-inaccessible horizontal installer-code scroll regions by wrapping commands instead. Landing and demo Axe checks now have no serious or critical violations.
-- Added deployment CSP, real `404.html`, and Static Web Apps 404 response override; removed the landing-page navigation fallback that returned arbitrary paths with `200`.
-- CSV now exports the user-visible source application name instead of an internal UUID.
-- License verification honors `429 Retry-After`, prevents a retry during the wait, and no longer optimistically activates a manually pasted, unverified token.
-- Bumped desktop/package metadata to `0.1.1` so the release tag can identify this repair commit.
+Fresh verification on 2026-08-29 covered the live deployment at https://dictation-repair-book.sociobot.in and the tagged `v0.1.1` desktop release. The live static files and release tag match the candidate. All declared claim commands and repository quality gates pass, but independent product paths expose release-blocking claim-integrity, data-recovery, correctness, privacy/deletion, demo-lifecycle, and mobile defects.
 
-The verifier's external billing-gateway burst was reproduced on 2026-08-29: 30 requests returned `200`, request 31 returned `429` with `Retry-After: 3` and `X-RateLimit-After: 3`. The upstream endpoint is now rate limited; the client regression test covers compliant handling.
+The authoritative evidence and severity list are in [`.factory/verification-2.md`](verification-2.md).
 
-## How verified
+## Highest-priority defects
 
-Executed from a clean dependency install on 2026-08-29:
+1. Malformed-but-partially-shaped JSON is persisted, throws page errors, and leaves the app blank after reload.
+2. A code-term rule whose intended text is `$&` reports success but leaves the original phrase unchanged.
+3. `Erase all local data` leaves the stored license token and cached verdict.
+4. Demo changes survive `Start for real`; the sandbox does not discard them as required.
+5. Removing a source makes visible rules say `Any approved app`, but CSV exposes the internal source ID, contradicting the portable-export claim.
+6. The demo Rules screen is 474 px wide at a 390 px viewport; Settings is 398 px wide, and several touch targets are under 44 px.
+7. Visitor claims remain outside `.factory/claims.json`, including native deletion, Whisper import/export, checksum installer behavior, and several privacy promises.
+
+## Verification summary
+
+- `npm ci`: pass, 0 vulnerabilities.
+- Every `.factory/claims.json` command: pass after installing the Linux prerequisites used by the release workflow.
+- `npm test`: pass, 6 unit + 14 Playwright tests.
+- `npm run typecheck`: pass. No lint script exists.
+- `npm run build`: pass; both `dist/app/` and `dist/site/` emitted.
+- Full native `cargo test`, `cargo fmt --check`, and `cargo check`: pass.
+- Lighthouse mobile: 100/100/100/100; LCP 1.1 s, TBT 30 ms, CLS 0.
+- Live Axe: zero serious/critical issues across landing, demo, privacy, terms, and 404; dark/reduced-motion demo also clean.
+- Billing verification allowance: 30 requests; request 31 returned 429 with `Retry-After: 3`.
+- Fresh Linux DEB checksum matched; the extracted released app stayed running for a 10-second headless smoke.
+
+## Reproduce
 
 ```sh
 npm ci
 npm test
 npm run typecheck
 npm run build
+sudo apt-get install -y libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev patchelf
 cargo test --manifest-path src-tauri/Cargo.toml
 cargo fmt --manifest-path src-tauri/Cargo.toml --check
 cargo check --manifest-path src-tauri/Cargo.toml
 ```
 
-Results:
+Screenshots, Lighthouse JSON, and the URL verifier output are under `.factory/qa-evidence/`.
 
-- `npm test`: 6 Vitest tests and 14 Chromium Playwright tests passed. The browser suite covers desktop, 390 px, keyboard skip-link focus, landing/demo Axe, isolated demo reset, local repair, CSV/JSON exports, CSV source names, privacy request boundary, 25-rule free limit, erase confirmation, and retry-after backoff.
-- `npm run typecheck`: passed.
-- `npm run build`: passed. `dist/app/` and `dist/site/` are emitted. Initial landing JavaScript is 1.43 KB gzip, landing CSS is 2.96 KB gzip, demo JavaScript is 8.19 KB gzip, and demo CSS is 3.63 KB gzip.
-- Native: the AES-256-GCM regression test passed; `cargo fmt --check` and `cargo check` passed after installing the same Linux WebKit/GTK prerequisites declared in the release workflow.
-- `/opt/fleet/lib/verify-url.sh http://127.0.0.1:4174/ <evidence-dir>` passed: HTTP 200, title, `lang=en`, one h1, main landmark, image alt coverage, and zero page/console errors (592 ms local load).
-- The standalone `@axe-core/cli` could not start Chrome in this container. The supported Playwright Axe integration ran instead and passed with zero serious/critical violations on landing and demo.
+## Scope and known limits
 
-## Release and deployment
-
-- Static deployment root remains `dist/site/`; deployment class remains `static`.
-- Committed and pushed repair `7d1fce55e5210354e57352d7b5b99aaa2f109f1b`; pushed annotated tag `v0.1.1` (`d739305c7762d193d768bc3e320ed56345a5b26d`). GitHub Actions release run `33257799963` was started from that commit to build the signed-status-unchanged desktop matrix (two macOS DMGs, Windows MSI/EXE, Linux AppImage/DEB), checksums, and `latest.json`.
-- Deployed `dist/site/` with `/opt/fleet/lib/deploy-static.sh dictation-repair-book /work/repo/dist/site`. Post-deploy verification at `https://dictation-repair-book.sociobot.in` passed: 200, zero console errors, title/lang/one h1/main/alt checks, 390 px width `390/390`, keyboard skip focus moved to `#main`, landing and demo Axe serious/critical count `0`, offline reload retained the title, and `/does-not-exist` returned 404. The live CSP header contains the configured `default-src 'self'` policy.
-
-## Known boundaries / operator action
-
-- Desktop binaries are intentionally unsigned until signing credentials are supplied. Expected future secrets remain `APPLE_CERTIFICATE`, `APPLE_CERTIFICATE_PASSWORD`, `APPLE_SIGNING_IDENTITY`, `APPLE_ID`, `APPLE_PASSWORD`, `APPLE_TEAM_ID`, `WINDOWS_CERT_PFX`, and `WINDOWS_CERT_PASSWORD`.
-- This app has no automatic updater. `v0.1.1` provides the repaired traceable artifact release, not an updater manifest.
-- Billing registration and the gateway rate limiter are operated by Sociobot. The product does not embed a payment-provider secret or any Azure key.
+No product code was modified. Native UI automation was limited by the headless Linux environment; the published binary/package smoke, Rust crypto test, and shared browser UI were exercised. Signing still requires the operator credentials documented by the builder. No infrastructure, DNS, billing configuration, or payment-provider state was changed.
