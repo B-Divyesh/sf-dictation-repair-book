@@ -10,6 +10,19 @@ test('landing page is accessible and keeps a usable download fallback', async ({
   expect(results.violations.filter((v) => ['serious', 'critical'].includes(v.impact || ''))).toEqual([]);
 });
 
+test('the sample action and its result stay inside the first desktop viewport', async ({ page }) => {
+  for (const viewport of [{ width: 1440, height: 900 }, { width: 1366, height: 768 }]) {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    await expect(page.getByRole('link', { name: 'Try it with sample data' })).toBeVisible();
+    await expect(page.getByText('Opens a separate sample repair book. Nothing enters your real book.')).toBeVisible();
+    const box = await page.locator('.hero-actions').boundingBox();
+    expect(box, `${viewport.width}×${viewport.height} hero actions`).not.toBeNull();
+    expect(box!.y, `${viewport.width}×${viewport.height} action top`).toBeGreaterThanOrEqual(0);
+    expect(box!.y + box!.height, `${viewport.width}×${viewport.height} action bottom`).toBeLessThanOrEqual(viewport.height);
+  }
+});
+
 test('cold landing load has no failed requests or console errors before download intent', async ({ page }) => {
   const failed: string[] = [];
   const responses: string[] = [];
@@ -86,6 +99,27 @@ test('landing page fits a 390px phone', async ({ page }) => {
     expect(box!.height).toBeGreaterThanOrEqual(44);
     expect(box!.width).toBeGreaterThanOrEqual(44);
   }
+});
+
+test('every visible landing and legal control has a 44px target at 390px', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const failures: string[] = [];
+  for (const path of ['/', '/privacy/', '/terms/']) {
+    await page.goto(path);
+    const undersized = await page.locator('a[href], button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])').evaluateAll((elements) => elements
+      .filter((element) => {
+        const style = getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
+        return style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 0 && rect.height > 0;
+      })
+      .map((element) => {
+        const rect = element.getBoundingClientRect();
+        return { label: (element.getAttribute('aria-label') || element.textContent || element.tagName).trim().replace(/\s+/g, ' '), width: rect.width, height: rect.height };
+      })
+      .filter((target) => target.width < 44 || target.height < 44));
+    failures.push(...undersized.map((target) => `${path} ${target.label}: ${target.width}×${target.height}`));
+  }
+  expect(failures).toEqual([]);
 });
 
 test('@claim:demo-sandbox demo uses sample data in a separate namespace and can reset', async ({ page }) => {

@@ -1,5 +1,7 @@
 $ErrorActionPreference = "Stop"
 
+# @claim:powershell-checksum-installer
+
 $root = Split-Path -Parent $PSScriptRoot
 $installer = Join-Path $root "public/install.ps1"
 $file = "Dictation-Repair-Book-windows-x64.msi"

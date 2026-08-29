@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync, type Dirent } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -42,6 +42,21 @@ describe('untrusted state validation', () => {
 });
 
 describe('static deployment guards', () => {
+  it('maps every manifest claim to exactly one owned regression tag', () => {
+    const readSources = (directory: string): string[] => readdirSync(directory, { withFileTypes: true }).flatMap((entry: Dirent) => {
+      const path = join(directory, entry.name);
+      return entry.isDirectory() ? readSources(path) : [readFileSync(path, 'utf8')];
+    });
+    const claims = JSON.parse(readFileSync(new URL('../.factory/claims.json', import.meta.url), 'utf8')) as { id: string }[];
+    const sources = [
+      ...readSources(new URL('.', import.meta.url).pathname),
+      ...readSources(new URL('../src-tauri/src/', import.meta.url).pathname)
+    ].join('\n');
+    for (const claim of claims) {
+      const tag = `@${'claim:'}${claim.id}`;
+      expect(sources.split(tag).length - 1, claim.id).toBe(1);
+    }
+  });
   it('ships a CSP and real 404 rewrite instead of falling back to the landing page', () => {
     const config = JSON.parse(readFileSync(new URL('../public/staticwebapp.config.json', import.meta.url), 'utf8')) as { globalHeaders: Record<string, string>; responseOverrides: Record<string, { rewrite: string; statusCode: number }> };
     expect(config.globalHeaders['Content-Security-Policy']).toContain("default-src 'self'");
