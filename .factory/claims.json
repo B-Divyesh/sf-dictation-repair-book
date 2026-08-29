@@ -8,10 +8,10 @@
   },
   {
     "id": "rule-management",
-    "claim": "A user can turn an explicit before/after correction into an approved reusable rule.",
+    "claim": "A user can approve, search, delete, undo, and apply a reusable correction rule.",
     "where": "landing workflow, desktop app, README",
     "test": "npm run test:e2e -- --grep @claim:rule-management",
-    "sandbox": "fresh browser preview; add a source; propose and approve a Kubernetes correction; apply it to fresh text"
+    "sandbox": "fresh browser preview; add a source; propose and approve a Kubernetes correction; search, delete, undo, and apply it to fresh text"
   },
   {
     "id": "literal-code-replacement",
@@ -124,6 +124,13 @@
     "where": "landing privacy section, privacy page, README",
     "test": "cargo test --manifest-path src-tauri/Cargo.toml claim_encrypted_vault_uses_aes_256_gcm",
     "sandbox": "native Rust crypto test encrypts and decrypts a fixture with Aes256Gcm"
+  },
+  {
+    "id": "revoked-license-locks",
+    "claim": "A revoked license locks further paid approvals on the next verification.",
+    "where": "landing pricing, terms, and desktop license flow",
+    "test": "npm run test:e2e -- --grep @claim:revoked-license-locks",
+    "sandbox": "seed an expired cached verdict and 25 rules; return a revoked fixture verdict; assert the next approval remains at the free limit"
   },
   {
     "id": "checksum-installers",

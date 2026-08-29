@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { readFileSync } from 'node:fs';
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { applyRules, exportCsv, inferProposal } from '../src/repair';
 import { parseRepairState, type Correction } from '../src/types';
 
@@ -50,10 +53,21 @@ describe('static deployment guards', () => {
     expect(worker).not.toContain("cached || caches.match('/')");
   });
   it('@claim:checksum-installers refuses files that do not match SHA-256', () => {
-    const shell = readFileSync(new URL('../public/install.sh', import.meta.url), 'utf8');
     const powershell = readFileSync(new URL('../public/install.ps1', import.meta.url), 'utf8');
-    expect(shell).toContain('Checksum mismatch; refusing to install.');
-    expect(shell).toContain('sha256sum');
+    const root = mkdtempSync(join(tmpdir(), 'drb-installer-'));
+    const bin = join(root, 'bin');
+    const installMarker = join(root, 'installer-called-mv');
+    mkdirSync(bin);
+    writeFileSync(join(bin, 'uname'), '#!/bin/sh\n[ "$1" = "-s" ] && echo Linux || echo x86_64\n');
+    writeFileSync(join(bin, 'curl'), '#!/bin/sh\nurl=""\nout=""\nwhile [ "$#" -gt 0 ]; do\n  case "$1" in\n    http*) url="$1" ;;\n    -o) shift; out="$1" ;;\n  esac\n  shift\ndone\ncase "$url" in\n  *SHA256SUMS) printf "0000  Dictation-Repair-Book-linux-x64.AppImage\\n" > "$out" ;;\n  *) printf "fixture package" > "$out" ;;\nesac\n');
+    writeFileSync(join(bin, 'mkdir'), '#!/bin/sh\nexit 0\n');
+    writeFileSync(join(bin, 'mv'), `#!/bin/sh\nprintf called > "${installMarker}"\n`);
+    for (const command of ['uname', 'curl', 'mkdir', 'mv']) chmodSync(join(bin, command), 0o755);
+    const run = spawnSync('/bin/sh', [new URL('../public/install.sh', import.meta.url).pathname], { encoding: 'utf8', env: { ...process.env, PATH: `${bin}:${process.env.PATH}` } });
+    expect(run.status).not.toBe(0);
+    expect(run.stderr).toContain('Checksum mismatch; refusing to install.');
+    expect(existsSync(installMarker)).toBe(false);
+    rmSync(root, { recursive: true, force: true });
     expect(powershell).toContain('Get-FileHash -Algorithm SHA256');
     expect(powershell).toContain('Checksum mismatch; refusing to install.');
   });

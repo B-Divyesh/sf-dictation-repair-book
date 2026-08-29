@@ -46,6 +46,7 @@ Open [the demo](https://dictation-repair-book.sociobot.in/demo/) or choose **Try
 ```sh
 npm test             # unit + Playwright end-to-end + axe checks
 npm run typecheck
+npm run lint
 npm run build
 ```
 
@@ -54,7 +55,7 @@ npm run build
 - `dist/app/` — the Tauri webview bundle.
 - `dist/site/` — the exact static deployment root, with `index.html`, `/privacy`, `/terms`, and installer scripts.
 
-The initial site bundle is about 3.5 KB JavaScript and 10.7 KB CSS before gzip. No native platform bundle is built in the factory workspace; `.github/workflows/release.yml` builds each target on GitHub's matching public runner.
+No native platform bundle is built in the factory workspace; `.github/workflows/release.yml` builds each target on GitHub's matching public runner.
 
 ## Install
 
@@ -78,7 +79,7 @@ Push a `v*` tag (for example `v0.1.0`) or dispatch the release workflow. GitHub 
 - Windows MSI and NSIS EXE
 - Linux AppImage and DEB
 
-The publish job assigns stable filenames, generates `SHA256SUMS` and `latest.json`, and attaches everything to a GitHub Release. The landing page resolves its primary button from that manifest.
+The publish job assigns stable filenames, generates `SHA256SUMS` and `latest.json`, and attaches everything to a GitHub Release. The landing page resolves its primary button from GitHub's CORS-enabled release API.
 
 ## Repository map
 

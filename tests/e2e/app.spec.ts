@@ -17,6 +17,12 @@ test('@claim:rule-management captures, approves, and tests a correction', async 
   await page.getByRole('button', { name: 'Approve rule' }).click();
   await page.getByRole('button', { name: 'Rules' }).click();
   await expect(page.getByText('Kubernetes', { exact: true })).toBeVisible();
+  await page.getByLabel('Find a rule').fill('Kuber');
+  await expect(page.getByText('Kubernetes', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Delete rule cube or net ease to Kubernetes' }).click();
+  await expect(page.getByText('Kubernetes', { exact: true })).toHaveCount(0);
+  await page.getByRole('button', { name: 'Undo' }).click();
+  await expect(page.getByText('Kubernetes', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Test' }).click();
   await page.getByLabel('Unrepaired transcript').fill('ship cube or net ease today');
   await page.getByRole('button', { name: 'Run repair' }).click();
@@ -72,4 +78,26 @@ test('@claim:license-return stores a returned license and removes it from the ad
   await page.goto('http://127.0.0.1:1420/?license=returned-token');
   await expect(page).toHaveURL('http://127.0.0.1:1420/');
   expect(await page.evaluate(() => localStorage.getItem('sb_license:dictation-repair-book'))).toBe('returned-token');
+});
+
+test('@claim:revoked-license-locks paid approvals after verification', async ({ page }) => {
+  await page.route('**/api/v1/products/dictation-repair-book/verify?license=*', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: '{"valid":false,"reason":"revoked"}' }));
+  await page.evaluate(() => {
+    localStorage.setItem('sb_license:dictation-repair-book', 'revoked-token');
+    localStorage.setItem('sb_license_verdict:dictation-repair-book', JSON.stringify({ valid: true, checkedAt: 0 }));
+    localStorage.setItem('drb_web_preview_state', JSON.stringify({
+      version: 1,
+      apps: [{ id: 'notes', name: 'Notes', enabled: true }],
+      corrections: Array.from({ length: 25 }, (_, index) => ({ id: String(index), before: `heard ${index}`, after: `written ${index}`, heard: `heard ${index}`, intended: `written ${index}`, appId: 'notes', createdAt: '2026-08-28T00:00:00.000Z', status: 'approved', hits: 0 })),
+      settings: { theme: 'system' }
+    }));
+  });
+  const response = page.waitForResponse((candidate) => candidate.url().includes('/verify?license=') && candidate.status() === 200);
+  await page.reload();
+  await response;
+  await page.getByLabel('What dictation wrote').fill('deploy cube');
+  await page.getByLabel('What you meant').fill('deploy kube');
+  await page.getByRole('button', { name: /Propose a rule/ }).click();
+  await expect(page.getByText('Free book full.')).toBeVisible();
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('sb_license_verdict:dictation-repair-book')!).reason)).toBe('revoked');
 });
