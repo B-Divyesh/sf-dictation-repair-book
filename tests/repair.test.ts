@@ -56,6 +56,19 @@ describe('static deployment guards', () => {
     expect(worker).toContain("event.request.mode === 'navigate'");
     expect(worker).not.toContain("cached || caches.match('/')");
   });
+  it('runs CI browser QA serially with owned servers and a fresh browser context per test', () => {
+    const config = readFileSync(new URL('../playwright.config.ts', import.meta.url), 'utf8');
+    const fixtures = readFileSync(new URL('./e2e/fixtures.ts', import.meta.url), 'utf8');
+    const runner = readFileSync(new URL('../scripts/run-e2e.mjs', import.meta.url), 'utf8');
+    expect(config).toContain('workers: process.env.CI ? 1 : undefined');
+    expect(config).toContain('reuseExistingServer: false');
+    expect(config).toContain('gracefulShutdown');
+    expect(fixtures).toContain('await playwright[browserName].launch()');
+    expect(fixtures).toContain('await context.close()');
+    expect(fixtures).toContain('await browser.close()');
+    expect(runner).toContain('portOpen(4173)');
+    expect(runner).toContain('portOpen(1420)');
+  });
   it('@claim:checksum-installers refuses files that do not match SHA-256', () => {
     const powershell = readFileSync(new URL('../public/install.ps1', import.meta.url), 'utf8');
     const root = mkdtempSync(join(tmpdir(), 'drb-installer-'));
