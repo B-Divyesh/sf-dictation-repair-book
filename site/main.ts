@@ -33,7 +33,7 @@ async function resolveDownload() {
     button.textContent = 'See available downloads';
     note.textContent = 'We could not detect the latest build.';
     status.hidden = false;
-    status.textContent = navigator.onLine ? 'Release lookup is unavailable. Open the releases page to choose an installer.' : 'You appear offline. Reconnect to download; the product itself works offline.';
+    status.textContent = navigator.onLine ? 'Release lookup is unavailable. Open the releases page to choose an installer.' : 'You appear offline. The sample repair book remains available after its first visit.';
   }
 }
 
@@ -58,6 +58,6 @@ restore.addEventListener('submit', async (event) => {
   } catch { status.textContent = 'Could not verify while offline. The token is saved for the app to check later.'; }
 });
 
-window.addEventListener('offline', () => { const status = document.querySelector<HTMLElement>('#release-status')!; status.hidden = false; status.textContent = 'You are offline. Reconnect to download; the desktop repair book works offline.'; });
+window.addEventListener('offline', () => { const status = document.querySelector<HTMLElement>('#release-status')!; status.hidden = false; status.textContent = 'You are offline. The sample repair book remains available after its first visit.'; });
 void resolveDownload();
-if ('serviceWorker' in navigator && location.protocol === 'https:') void navigator.serviceWorker.register('/sw.js');
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || ['localhost', '127.0.0.1'].includes(location.hostname))) void navigator.serviceWorker.register('/sw.js');

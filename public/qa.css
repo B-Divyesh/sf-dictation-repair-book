@@ -1,2 +1,14 @@
 /* Avoid keyboard-inaccessible horizontal scroll regions for installer commands. */
 .install-cards code { overflow-x: visible; overflow-wrap: anywhere; white-space: pre-wrap; }
+
+/* Every visible navigation target keeps a full touch area. */
+.site-header nav a,
+.site-header > a,
+footer nav a,
+footer > a {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px;
+}

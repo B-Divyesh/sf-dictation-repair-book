@@ -3,9 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Turn explicit dictation corrections into a private, encrypted, reusable vocabulary book for clipboard dictation and Whisper." />
+    <meta
+      name="description"
+      content="Turn explicit dictation corrections into a private, encrypted, reusable vocabulary book for clipboard dictation and Whisper."
+    />
     <meta name="theme-color" content="#f3efdf" />
+    <link rel="canonical" href="https://dictation-repair-book.sociobot.in/" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Dictation Repair Book — teach dictation your words"
+    />
+    <meta
+      property="og:description"
+      content="Turn explicit dictation corrections into a private, reusable vocabulary book."
+    />
+    <meta
+      property="og:url"
+      content="https://dictation-repair-book.sociobot.in/"
+    />
+    <meta
+      property="og:image"
+      content="https://dictation-repair-book.sociobot.in/assets/social-card.jpg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Dictation Repair Book — teach dictation your words"
+    />
+    <meta
+      name="twitter:description"
+      content="Turn explicit dictation corrections into a private, reusable vocabulary book."
+    />
+    <meta
+      name="twitter:image"
+      content="https://dictation-repair-book.sociobot.in/assets/social-card.jpg"
+    />
     <title>Dictation Repair Book — teach dictation your words</title>
     <link rel="stylesheet" href="/site.css" />
     <link rel="stylesheet" href="/qa.css" />
@@ -13,69 +48,312 @@
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
-      <a class="wordmark" href="/" aria-label="Dictation Repair Book home"><span aria-hidden="true">DR<br>BK</span><b>Dictation Repair Book</b></a>
-      <nav aria-label="Primary"><a href="#how">How it works</a><a href="#privacy-first">Privacy</a><a href="#price">Price</a></nav>
+      <a
+        class="wordmark"
+        href="/"
+        aria-label="DR BK, Dictation Repair Book home"
+        ><span aria-hidden="true">DR<br />BK</span
+        ><b>Dictation Repair Book</b></a
+      >
+      <nav aria-label="Primary">
+        <a href="#how">How it works</a><a href="#privacy-first">Privacy</a
+        ><a href="#price">Price</a>
+      </nav>
       <a class="mini-download" href="#download">Get the app</a>
     </header>
     <main id="main" tabindex="-1">
       <section class="hero">
         <div class="hero-copy">
-          <p class="stamp">PRIVATE DICTATION UTILITY / v0.1</p>
-          <h1>Teach dictation<br><mark>your words.</mark></h1>
-          <p class="lede">For dictation users with names, medications, code terms, or workplace jargon. Turn explicit corrections into rules you can inspect and reuse.</p>
+          <p class="stamp">PRIVATE DESKTOP APP / v0.1.2</p>
+          <h1>Teach dictation<br /><mark>your words.</mark></h1>
+          <p class="lede">
+            For dictation users with names, medications, code terms, or
+            workplace jargon. Turn explicit corrections into rules you can
+            inspect and reuse.
+          </p>
           <div class="hero-actions" id="download">
             <a class="button primary" href="/demo/">Try it with sample data</a>
-            <span>Opens a separate sample repair book. Nothing enters your real book.</span>
-            <a class="button primary" id="platform-download" href="https://github.com/B-Divyesh/sf-dictation-repair-book/releases/latest">Download for your computer</a>
+            <span
+              >Opens a separate sample repair book. Nothing enters your real
+              book.</span
+            >
+            <a
+              class="button primary"
+              id="platform-download"
+              href="https://github.com/B-Divyesh/sf-dictation-repair-book/releases/latest"
+              >Download for your computer</a
+            >
             <span id="platform-note">Detecting your system…</span>
           </div>
-          <p class="trust-line"><b>No audio.</b> No account. No background field watching.</p>
-          <div class="release-status" id="release-status" role="status" hidden></div>
+          <p class="trust-line">
+            <b>No audio.</b> No account. No background field watching.
+          </p>
+          <div
+            class="release-status"
+            id="release-status"
+            role="status"
+            hidden
+          ></div>
         </div>
         <figure class="hero-art">
-          <picture><source media="(max-width: 700px)" srcset="/assets/hero-ledger-768.webp" type="image/webp"><source srcset="/assets/hero-ledger-1536.webp" type="image/webp"><img src="/assets/hero-ledger.jpg" width="1536" height="1024" alt="Paper correction ledger with abstract waveforms, a before-to-after arrow, clipboard, and padlock" fetchpriority="high" decoding="async"></picture>
-          <figcaption><span>01</span> Explicit edit <i>→</i> inspectable rule</figcaption>
+          <picture
+            ><source
+              media="(max-width: 700px)"
+              srcset="/assets/hero-ledger-768.webp"
+              type="image/webp" />
+            <source srcset="/assets/hero-ledger-1536.webp" type="image/webp" />
+            <img
+              src="/assets/hero-ledger.jpg"
+              width="1536"
+              height="1024"
+              alt="Paper correction ledger with abstract waveforms, a before-to-after arrow, clipboard, and padlock"
+              fetchpriority="high"
+              decoding="async"
+          /></picture>
+          <figcaption>
+            <span>01</span> Explicit edit <i>→</i> inspectable rule
+          </figcaption>
         </figure>
       </section>
 
-      <section class="tape" aria-label="Product principles"><div>BEFORE → AFTER → APPROVE → REUSE</div><div aria-hidden="true">LOCAL ONLY / EXPORT ANYTIME / DELETE COMPLETELY</div></section>
-
-      <section class="problem section" aria-labelledby="problem-title">
-        <p class="section-number">THE REPEAT OFFENDER</p>
-        <div><h2 id="problem-title">Dictation forgets the word<br>you fixed yesterday.</h2><p>General speech recognition knows common language. It does not know your colleague Niamh, your <code>kubectl</code> command, or a medication spelling. Repeating yourself is not learning.</p></div>
-        <blockquote>“A single wrong proper noun can make dictation slower than typing.”</blockquote>
+      <section class="tape" aria-label="Product principles">
+        <div>BEFORE → AFTER → APPROVE → REUSE</div>
+        <div aria-hidden="true">
+          LOCAL ONLY / EXPORT ANYTIME / DELETE COMPLETELY
+        </div>
       </section>
 
-      <section class="workflow section" id="how" aria-labelledby="workflow-title">
-        <div class="section-heading"><p class="section-number">THE REPAIR LOOP</p><h2 id="workflow-title">Three deliberate moves.<br>No opaque learning.</h2></div>
+      <section class="problem section" aria-labelledby="problem-title">
+        <p class="section-number">WHY CORRECTIONS REPEAT</p>
+        <div>
+          <h2 id="problem-title">
+            Dictation forgets the word<br />you fixed yesterday.
+          </h2>
+          <p>
+            General speech recognition knows common language. It does not know
+            your colleague Niamh, your <code>kubectl</code> command, or a
+            medication spelling. Repeating yourself is not learning.
+          </p>
+        </div>
+        <blockquote><s>met a pro lol</s><br />→ metoprolol</blockquote>
+      </section>
+
+      <section
+        class="workflow section"
+        id="how"
+        aria-labelledby="workflow-title"
+      >
+        <div class="section-heading">
+          <p class="section-number">HOW IT WORKS</p>
+          <h2 id="workflow-title">Create a reusable rule<br />in three steps.</h2>
+        </div>
         <ol class="steps">
-          <li><span>01</span><div class="step-sketch before" aria-hidden="true">cube or net ease</div><h3>Capture your edit</h3><p>Copy the original dictation and your corrected sentence. Capture happens only when you click.</p></li>
-          <li><span>02</span><div class="step-sketch proposal" aria-hidden="true"><s>cube or net ease</s><b>→ Kubernetes</b></div><h3>Inspect the proposal</h3><p>The app isolates the changed span. Approve it, or discard it without saving anything.</p></li>
-          <li><span>03</span><div class="step-sketch export" aria-hidden="true">CSV · JSON · WHISPER</div><h3>Reuse your book</h3><p>Repair clipboard text, export portable CSV/JSON, or copy a Whisper vocabulary prompt.</p></li>
+          <li>
+            <span>01</span>
+            <div class="step-sketch before" aria-hidden="true">
+              cube or net ease
+            </div>
+            <h3>Capture your edit</h3>
+            <p>
+              Copy the original dictation and your corrected sentence. Capture
+              happens only when you click.
+            </p>
+          </li>
+          <li>
+            <span>02</span>
+            <div class="step-sketch proposal" aria-hidden="true">
+              <s>cube or net ease</s><b>→ Kubernetes</b>
+            </div>
+            <h3>Inspect the proposal</h3>
+            <p>
+              The app isolates the changed span. Approve it, or discard it
+              without saving anything.
+            </p>
+          </li>
+          <li>
+            <span>03</span>
+            <div class="step-sketch export" aria-hidden="true">
+              CSV · JSON · WHISPER
+            </div>
+            <h3>Reuse your book</h3>
+            <p>
+              Repair clipboard text, export portable CSV/JSON, or copy a Whisper
+              vocabulary prompt.
+            </p>
+          </li>
         </ol>
       </section>
 
-      <section class="privacy-section" id="privacy-first" aria-labelledby="privacy-title">
-        <div class="lock-figure" aria-hidden="true"><span class="shackle"></span><span class="lock-body">•••</span></div>
-        <div><p class="stamp inverse">LOCAL BY DESIGN</p><h2 id="privacy-title">Your vocabulary can be sensitive.<br>It stays yours.</h2><ul><li><b>Encrypted at rest</b><span>AES-256-GCM vault stored on your device.</span></li><li><b>Explicit sources</b><span>Name and enable each application yourself.</span></li><li><b>Clipboard on command</b><span>No keylogging, no arbitrary field access, no audio retention.</span></li><li><b>Portable and erasable</b><span>Export anytime. Erase the vault and key in one action.</span></li></ul></div>
+      <section
+        class="privacy-section"
+        id="privacy-first"
+        aria-labelledby="privacy-title"
+      >
+        <div class="lock-figure" aria-hidden="true">
+          <span class="shackle"></span><span class="lock-body">•••</span>
+        </div>
+        <div>
+          <p class="stamp inverse">PRIVACY</p>
+          <h2 id="privacy-title">
+            Your vocabulary can be sensitive.<br />It stays yours.
+          </h2>
+          <ul>
+            <li>
+              <b>Encrypted at rest</b
+              ><span>AES-256-GCM vault stored on your device.</span>
+            </li>
+            <li>
+              <b>Explicit sources</b
+              ><span>Name and enable each application yourself.</span>
+            </li>
+            <li>
+              <b>Clipboard on command</b
+              ><span
+                >No keylogging, no arbitrary field access, no audio
+                retention.</span
+              >
+            </li>
+            <li>
+              <b>Portable and erasable</b
+              ><span
+                >Export anytime. Erase the vault and key in one action.</span
+              >
+            </li>
+          </ul>
+        </div>
       </section>
 
       <section class="install-section section" aria-labelledby="install-title">
-        <div class="section-heading"><p class="section-number">ONE-STEP INSTALL</p><h2 id="install-title">Put the repair book<br>on your desk.</h2><p>Release downloads are checksum-verified. Builds are currently unsigned; your operating system may ask you to confirm the first launch.</p></div>
+        <div class="section-heading">
+          <p class="section-number">INSTALL</p>
+          <h2 id="install-title">Install the desktop app.</h2>
+          <p>
+            Release downloads are checksum-verified. Builds are currently
+            unsigned; your operating system may ask you to confirm the first
+            launch.
+          </p>
+        </div>
         <div class="install-cards">
-          <article><span>macOS + Linux</span><code>curl -fsSL https://dictation-repair-book.sociobot.in/install.sh | sh</code><button class="copy-button" data-copy="curl -fsSL https://dictation-repair-book.sociobot.in/install.sh | sh">Copy command</button></article>
-          <article><span>Windows PowerShell</span><code>irm https://dictation-repair-book.sociobot.in/install.ps1 | iex</code><button class="copy-button" data-copy="irm https://dictation-repair-book.sociobot.in/install.ps1 | iex">Copy command</button></article>
+          <article>
+            <span>macOS + Linux</span
+            ><code
+              >curl -fsSL https://dictation-repair-book.sociobot.in/install.sh |
+              sh</code
+            ><button
+              class="copy-button"
+              data-copy="curl -fsSL https://dictation-repair-book.sociobot.in/install.sh | sh"
+            >
+              Copy command
+            </button>
+          </article>
+          <article>
+            <span>Windows PowerShell</span
+            ><code
+              >irm https://dictation-repair-book.sociobot.in/install.ps1 |
+              iex</code
+            ><button
+              class="copy-button"
+              data-copy="irm https://dictation-repair-book.sociobot.in/install.ps1 | iex"
+            >
+              Copy command
+            </button>
+          </article>
         </div>
       </section>
 
       <section class="price-section" id="price" aria-labelledby="price-title">
-        <div><p class="stamp">ONE-TIME PURCHASE</p><h2 id="price-title">A durable tool for<br>durable personal data.</h2><p>Start with 25 approved rules, testing, and every export for free. Unlock an unlimited rule book once—no subscription.</p></div>
-        <div class="price-card"><span>Lifetime license</span><strong><sup>$</sup>24</strong><ul><li>Unlimited approved rules</li><li>Unlimited local retests</li><li>Use on your personal computers</li><li>Free updates through v1.x</li></ul><a class="button primary" href="https://api.sociobot.in/api/v1/products/dictation-repair-book/checkout">Buy once — $24</a><button class="restore-button" id="show-restore">Have a license? Restore it</button><form id="restore-form" hidden><label for="license">License token</label><div><input id="license" required autocomplete="off"><button>Save & verify</button></div><p id="license-status" role="status"></p></form><small>Sociobot/Dodo is merchant of record. Refunds revoke the license automatically.</small></div>
+        <div>
+          <p class="stamp">PRICE</p>
+          <h2 id="price-title">Pay once for more approved rules.</h2>
+          <p>
+            Start with 25 approved rules, testing, and every export for free.
+            Unlock an unlimited rule book once—no subscription.
+          </p>
+        </div>
+        <div class="price-card">
+          <span>One-time license</span><strong><sup>$</sup>24</strong>
+          <ul>
+            <li>Unlimited approved rules</li>
+              <li>Local retests and every export</li>
+          </ul>
+          <a
+            class="button primary"
+            href="https://api.sociobot.in/api/v1/products/dictation-repair-book/checkout"
+            >Buy once — $24</a
+          ><button class="restore-button" id="show-restore">
+            Have a license? Restore it
+          </button>
+          <form id="restore-form" hidden>
+            <label for="license">License token</label>
+            <div>
+              <input id="license" required autocomplete="off" /><button>
+                Save & verify
+              </button>
+            </div>
+            <p id="license-status" role="status"></p>
+          </form>
+          <small
+            >Sociobot/Dodo is merchant of record. Refunds revoke the license
+            automatically.</small
+          >
+        </div>
       </section>
 
-      <section class="faq section" aria-labelledby="faq-title"><div><p class="section-number">PLAIN ANSWERS</p><h2 id="faq-title">Before you install</h2></div><div><details><summary>Does it record or transcribe audio?</summary><p>No. It repairs transcript text from dictation tools you already use. Audio never enters the app.</p></details><details><summary>Does it watch everything I type?</summary><p>No. You opt in to named source applications and click “Paste clipboard” for each capture. v0.1 does not monitor fields or keystrokes.</p></details><details><summary>Which engines does it support?</summary><p>The clipboard repair works with any tool that produces text. Exports include CSV, JSON backup, and a vocabulary prompt for Whisper-compatible workflows.</p></details><details><summary>Can I leave?</summary><p>Yes. Exports are never paywalled. You can erase the encrypted vault and its local key at any time.</p></details></div></section>
+      <section class="faq section" aria-labelledby="faq-title">
+        <div>
+          <p class="section-number">PRODUCT LIMITS</p>
+          <h2 id="faq-title">Before you install</h2>
+        </div>
+        <div>
+          <details>
+            <summary>Does it record or transcribe audio?</summary>
+            <p>
+              No. It repairs transcript text from dictation tools you already
+              use. Audio never enters the app.
+            </p>
+          </details>
+          <details>
+            <summary>Does it watch everything I type?</summary>
+            <p>
+              No. You opt in to named source applications and click “Paste
+              clipboard” for each capture. v0.1 does not monitor fields or
+              keystrokes.
+            </p>
+          </details>
+          <details>
+            <summary>Which engines does it support?</summary>
+            <p>
+              The clipboard repair works with any tool that produces text.
+              Exports include CSV, JSON backup, and a vocabulary prompt for
+              Whisper-compatible workflows.
+            </p>
+          </details>
+          <details>
+            <summary>Can I leave?</summary>
+            <p>
+              Yes. Exports are never paywalled. You can erase the encrypted
+              vault and its local key at any time.
+            </p>
+          </details>
+        </div>
+      </section>
     </main>
-    <footer><div class="wordmark"><span aria-hidden="true">DR<br>BK</span><b>Dictation Repair Book</b></div><p>Private vocabulary repair, made by Param Factory.</p><nav aria-label="Legal"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="https://github.com/B-Divyesh/sf-dictation-repair-book">Source</a></nav><small>Hero artwork is original AI-generated imagery; provenance is documented in the source repository.</small></footer>
+    <footer>
+      <div class="wordmark">
+        <span aria-hidden="true">DR<br />BK</span><b>Dictation Repair Book</b>
+      </div>
+      <p>Private vocabulary repair. Built by Param Factory.</p>
+      <nav aria-label="Legal">
+        <a href="/privacy/">Privacy</a><a href="/terms/">Terms</a
+        ><a href="https://github.com/B-Divyesh/sf-dictation-repair-book"
+          >Source</a
+        >
+      </nav>
+      <small
+        >v0.1.2 · repair 2. Hero artwork is original AI-generated imagery;
+        provenance is documented in the source repository.</small
+      >
+    </footer>
     <script type="module" src="/main.ts"></script>
   </body>
 </html>
