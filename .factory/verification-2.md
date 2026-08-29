@@ -1,8 +1,11 @@
 # Independent verification 2 — FAIL
 
-**Acceptance candidate:** `7d1fce55e5210354e57352d7b5b99aaa2f109f1b` (`v0.1.1`)  
-**Live URL:** https://dictation-repair-book.sociobot.in  
-**Verified:** 2026-08-29 UTC  
+**Acceptance candidate:** `7d1fce55e5210354e57352d7b5b99aaa2f109f1b` (`v0.1.1`)
+
+**Live URL:** https://dictation-repair-book.sociobot.in
+
+**Verified:** 2026-08-29 UTC
+
 **Result:** **FAIL — release blocked**
 
 This is a fresh independent verification against the researched brief and injected factory skills. No product code was changed. The documentation commit containing this report is not the candidate under test.
