@@ -273,6 +273,18 @@ test('@claim:offline-demo opens the complete sample repair book offline after on
   expect(errors).toEqual([]);
 });
 
+test('service worker checks for an update without page or console errors', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()); });
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.goto('/');
+  await page.evaluate(async () => {
+    const registration = await navigator.serviceWorker.ready;
+    await registration.update();
+  });
+  expect(errors).toEqual([]);
+});
+
 test('service-worker controlled unknown routes keep their 404 status online and offline', async ({ page, context }) => {
   await page.goto('/');
   await page.evaluate(async () => { await navigator.serviceWorker.ready; });

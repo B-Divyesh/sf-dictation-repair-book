@@ -31,8 +31,8 @@ From a clean `npm ci` install, the unmodified candidate was run with `CI=1 npm t
 Clean install and browser lifecycle:
 
 - `npm ci` — passed; 168 packages installed; audit reported 0 vulnerabilities.
-- `CI=1 npm test` — **18 Vitest + 35 Playwright tests passed** in one worker. This includes the final skip-link test that previously failed.
-- `CI=1 npm run test:e2e` — 35/35 passed; the runner verified that both preview ports were closed afterward.
+- `CI=1 npm test` — **18 Vitest + 36 Playwright tests passed** in one worker. This includes the final skip-link test that previously failed.
+- `CI=1 npm run test:e2e` — 36/36 passed; the runner verified that both preview ports were closed afterward. The suite now also calls `ServiceWorkerRegistration.update()` and asserts no console/page errors.
 - Every exact command in `.factory/claims.json` passed individually (**28/28**), including all privacy, demo, offline, license, installer, release-matrix, encryption, native erase, and PowerShell checksum claims. The clean image needed the release workflow’s Linux WebKit/GLib prerequisites and a temporary PowerShell 7.5.4 runtime; neither is a repository change.
 
 Quality and accessibility:
