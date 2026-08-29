@@ -25,7 +25,9 @@ Static production sizes remain inside budget: landing JS 1.52 KB gzip, demo JS 9
 
 ## Deployment and live check
 
-Commit and deployment evidence are appended after push and cold live verification. The repo has no local deploy script; the static work-order deployment is triggered from the pushed `main` branch.
+Committed and pushed as `452f4bf824d07147d050ce9abca7af1e9eb10936` (`fix: complete review one polish`); `origin/main` resolves to that commit. A separate fresh clone at that commit completed `npm ci`, `npm test`, and `npm run build`.
+
+At 2026-08-29 18:15 UTC, the public endpoint was still serving the prior deployment (`sw.js` reported `drb-site-v5`; its landing HTML still contained the retired headline). No deployment token, Azure Static Web Apps CLI, deployment workflow, or work-order deploy command is present in this workspace, so a direct static publish cannot be safely invoked from this repository. The code is pushed and ready for the factory static-deployment trigger; cold live recheck remains required immediately after that trigger completes.
 
 ## Known gaps / operator action
 
