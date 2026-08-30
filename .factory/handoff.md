@@ -1,16 +1,35 @@
-# Polish round 2 handoff
+# Verification 8 handoff — FAIL
 
-## Completed repair
+**Verdict: FAIL — do not release candidate `65e106d7bb491862c2739a109c57d24fc0ef6def`.**
 
-This repair closes every finding in `.factory/review-1.md` and `.factory/review-2.md`. The detailed finding-to-evidence mapping is in `.factory/polish-2.md`.
+**Live URL:** <https://dictation-repair-book.sociobot.in>
 
-- Aligned all public and app purchase copy to the verified `$12` one-time checkout price, with a read-only checkout claim test and recorded session fixture for checkout-service outages.
-- Isolated native sample mode from the encrypted vault and real license storage. Its purchase controls are unavailable and its erase action resets only sample data.
-- Normalized valid slashless site routes in the service worker, added the missing mobile first-screen facts, and gave demo the shared header/footer and full navigation.
-- Rewrote the reviewed copy, terminology, sample application labels, legal footer wording, README release instructions, and catalog sentence. Refreshed all four walkthrough captures from the repaired UI.
-- Added the build-output and release-source claims plus exact test coverage; the claim inventory now has 33 entries with one tagged test each.
+**Full report:** `.factory/verification-8.md`
 
-## Run and verify
+## Blocking evidence
+
+The live static website matches the candidate byte-for-byte, but its download action serves `v0.1.5` desktop artifacts built from `2f2e706eaa2d59e9b327bf91236e566fd7d5f9bc`. Candidate source contains later native sample-isolation and price fixes. The shipped app therefore still lets sample mode reach real vault/license deletion controls and displays `$24` where the real one-time price is `$12`.
+
+Additional defects:
+
+- Medium: demo home/wordmark touch target is 42px high at 390px, below 44px.
+- Medium: Capture and Rules walkthrough PNGs are identical; the Capture caption/alt text is inaccurate.
+- Low: app section links use `#capture/#rules/#test/#settings` as pseudo-routes with no matching anchors.
+
+## Verification summary
+
+- All 33 exact `.factory/claims.json` commands passed against candidate source after installing clean-environment prerequisites.
+- `npm test`: 24 unit + 44 browser tests passed.
+- TypeScript, ESLint, production build, Rust formatting/tests/check, and PowerShell installer tests passed.
+- The first-read and one-click demo gate passed.
+- Live normal, boundary, invalid/recovery, export, delete/undo, keyboard, offline, privacy, and reduced-motion flows passed.
+- Axe serious/critical: 0 on tested desktop and mobile routes.
+- Lighthouse mobile: 100 performance / 100 accessibility / 100 best practices / 100 SEO; LCP 1151 ms, CLS 0.
+- License API allowance: 30 requests; request 31 returned 429 with `Retry-After: 3`.
+- Candidate static build parity: 36/36 served files matched live bytes.
+- Downloaded Linux DEB checksum passed and its binary stayed running for a 12-second Xvfb smoke test, but release provenance proves it is stale.
+
+## Reproduce
 
 ```sh
 npm ci
@@ -22,31 +41,11 @@ cargo fmt --manifest-path src-tauri/Cargo.toml --check
 cargo test --manifest-path src-tauri/Cargo.toml
 cargo check --manifest-path src-tauri/Cargo.toml
 pwsh -NoLogo -NoProfile -File tests/installers.ps1
+node .factory/qa-evidence/verification-8/live-qa.mjs
 ```
 
-The local verification completed on 2026-08-30:
+Evidence is under `.factory/qa-evidence/verification-8/`.
 
-- `npm test`: 24 Vitest tests and 44 Playwright tests passed.
-- A fresh clone at `da535be` ran all 33 exact claim entries from `.factory/claims.json`, then the full 24-test/44-browser-test suite, type check, lint, and build. The first clean Tauri link exhausted the disposable container’s 20 GB filesystem; after deleting only that clone’s failed `src-tauri/target`, the same clean source tree ran the three Cargo claim commands and full Cargo suite against the existing target cache. All passed.
-- `npm run typecheck`, `npm run lint`, and `npm run build` passed. Build output contains `dist/app/index.html` and `dist/site/index.html`; initial app JavaScript is 9.87 KB gzip and site demo JavaScript is 9.63 KB gzip.
-- Rust formatting, 4 Rust tests, Rust type check, and PowerShell checksum match/mismatch paths passed.
-- `/opt/fleet/lib/verify-url.sh http://127.0.0.1:4173 .factory/qa-evidence/polish-2-local` passed with no console errors, one title, `lang=en`, one `h1`, `main`, and no missing image alt text.
-- Playwright Axe checks found no serious or critical violations on `/`, `/demo/`, `/privacy/`, `/terms/`, and `/not-found`; see `.factory/qa-evidence/polish-2-local/axe-playwright.json`. Desktop and 390 px captures are in the same directory.
+## Required next step
 
-## Demo and privacy
-
-- Direct demo URL: `https://dictation-repair-book.sociobot.in/demo/?demo=1`.
-- The shipped sample uses Notes and VS Code. Browser demo storage is `demo:drb_web_preview_state`; native sample state is in memory only. Reset restores the sample, and Start for real discards it. See `.factory/demo.md`.
-- The app has no telemetry. The static site calls GitHub only after an explicit download choice; the desktop app calls Sociobot only when the visitor explicitly verifies a pasted license.
-
-## Deployment and live verification
-
-- Committed and pushed repair: `da535beb5a228d833c4bb95c84f75ead718f9ac9` (`main`). The first repair commit is `6a86dd872bb8f46636908b6b5938384cffafff89`.
-- Deployed `dist/site/` with `/opt/fleet/lib/deploy-static.sh dictation-repair-book dist/site`; Azure deployment `bd5182c7-c3a5-4c61-982a-cc12d0748eb3` completed successfully.
-- Cold live URL: https://dictation-repair-book.sociobot.in
-- `/opt/fleet/lib/verify-url.sh` passed on the live landing page with no console errors, a title, `lang=en`, one `h1`, `main`, and complete image alt text. See `.factory/qa-evidence/polish-2-live/verify.json`.
-- Live Playwright check passed for landing, demo, Privacy, Terms, and 404: each has one `h1` and `main`; all public routes have no serious/critical Axe findings; the 390 px layout is 390 px wide with facts ending at y=607 of 844; demo has banner, four shared links, and footer; direct `/demo` works offline after its first visit. See `.factory/qa-evidence/polish-2-live/live-recheck.json`, `landing-desktop.png`, `landing-mobile.png`, and `demo-desktop.png`.
-
-## Operator action
-
-Desktop release artifacts remain unsigned by design. A future signed release needs the owner’s `APPLE_CERTIFICATE` and `WINDOWS_CERT_PFX` GitHub Action secrets. No other operator action is required for this static repair.
+Bump the app version and publish desktop artifacts from the repaired source, then verify the release manifest commit equals the retested candidate. Fix the three smaller UI/routing defects before reverification. Builds remain intentionally unsigned; future signing still needs `APPLE_CERTIFICATE` and `WINDOWS_CERT_PFX`.

@@ -1,0 +1,151 @@
+{
+  "base": "https://dictation-repair-book.sociobot.in",
+  "checkedAt": "2026-08-30T03:47:13.371Z",
+  "routes": {
+    "/": {
+      "status": 200,
+      "title": "Dictation Repair Book — reusable dictation rules",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "seriousOrCritical": [],
+      "errors": []
+    },
+    "/demo/": {
+      "status": 200,
+      "title": "Approved rules — Demo — Dictation Repair Book",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "seriousOrCritical": [],
+      "errors": []
+    },
+    "/privacy/": {
+      "status": 200,
+      "title": "Privacy — Dictation Repair Book",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "seriousOrCritical": [],
+      "errors": []
+    },
+    "/terms/": {
+      "status": 200,
+      "title": "Terms — Dictation Repair Book",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "seriousOrCritical": [],
+      "errors": []
+    },
+    "/does-not-exist-verification-8": {
+      "status": 404,
+      "title": "Page not found — Dictation Repair Book",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "seriousOrCritical": [],
+      "errors": [
+        "console: Failed to load resource: the server responded with a status of 404 ()"
+      ]
+    }
+  },
+  "desktop": {
+    "status": 200,
+    "hero": {
+      "h1": "Turn dictation corrections into reusable rules.",
+      "audience": "For dictation users with names, medications, code terms, or workplace jargon. Turn explicit corrections into rules you can inspect and reuse.",
+      "actionVisible": true,
+      "resultVisible": true,
+      "actionBox": {
+        "x": 57.59375,
+        "y": 557.703125,
+        "width": 253.671875,
+        "height": 52
+      },
+      "resultBox": {
+        "x": 57.59375,
+        "y": 621.703125,
+        "width": 524.390625,
+        "height": 18.1875
+      }
+    },
+    "skipOutline": "3px",
+    "appFocusOutline": "3px",
+    "emptyValidity": {
+      "valid": false,
+      "message": "Please fill out this field."
+    },
+    "repaired": "Deploy the Kubernetes service; then call Niamh about metoprolol.",
+    "csvName": "dictation-rules.csv",
+    "seriousOrCritical": [],
+    "requestCount": 17,
+    "foreignRequests": [],
+    "errors": []
+  },
+  "mobile": {
+    "landingWidth": {
+      "scroll": 390,
+      "client": 390
+    },
+    "facts": {
+      "x": 18,
+      "y": 535.875,
+      "width": 354,
+      "height": 71.1875
+    },
+    "demoWidth": {
+      "scroll": 390,
+      "client": 390
+    },
+    "geometry": {
+      "overlap": false,
+      "undersized": [
+        {
+          "label": "DR BK, Dictation Repair Book home",
+          "width": 220.359375,
+          "height": 42
+        }
+      ],
+      "scrollBehavior": "auto"
+    },
+    "landingAxe": [],
+    "demoAxe": [],
+    "errors": []
+  },
+  "offline": {
+    "controlled": true,
+    "demoStatus": 200,
+    "termVisible": true,
+    "missingStatus": 404,
+    "missingHeading": true,
+    "errors": [
+      "console: Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ]
+  },
+  "download": {
+    "before": 0,
+    "after": 1,
+    "asset": "https://github.com/B-Divyesh/sf-dictation-repair-book/releases/download/v0.1.5/Dictation-Repair-Book-linux-x64.AppImage",
+    "note": "v0.1.5 · checksum published · unsigned build",
+    "errors": []
+  },
+  "findings": [
+    {
+      "severity": "medium",
+      "id": "mobile-touch-target",
+      "details": [
+        {
+          "label": "DR BK, Dictation Repair Book home",
+          "width": 220.359375,
+          "height": 42
+        }
+      ]
+    }
+  ]
+}
