@@ -40,7 +40,11 @@ The local verification completed on 2026-08-30:
 
 ## Deployment and live verification
 
-Deploy `dist/site/` through `/opt/fleet/lib/deploy-static.sh dictation-repair-book dist/site`, then run the live cold-route and demo checks documented in the final section of this handoff. The exact deployment URL, commit, and live evidence are appended after deployment.
+- Committed and pushed repair: `da535beb5a228d833c4bb95c84f75ead718f9ac9` (`main`). The first repair commit is `6a86dd872bb8f46636908b6b5938384cffafff89`.
+- Deployed `dist/site/` with `/opt/fleet/lib/deploy-static.sh dictation-repair-book dist/site`; Azure deployment `bd5182c7-c3a5-4c61-982a-cc12d0748eb3` completed successfully.
+- Cold live URL: https://dictation-repair-book.sociobot.in
+- `/opt/fleet/lib/verify-url.sh` passed on the live landing page with no console errors, a title, `lang=en`, one `h1`, `main`, and complete image alt text. See `.factory/qa-evidence/polish-2-live/verify.json`.
+- Live Playwright check passed for landing, demo, Privacy, Terms, and 404: each has one `h1` and `main`; all public routes have no serious/critical Axe findings; the 390 px layout is 390 px wide with facts ending at y=607 of 844; demo has banner, four shared links, and footer; direct `/demo` works offline after its first visit. See `.factory/qa-evidence/polish-2-live/live-recheck.json`, `landing-desktop.png`, `landing-mobile.png`, and `demo-desktop.png`.
 
 ## Operator action
 

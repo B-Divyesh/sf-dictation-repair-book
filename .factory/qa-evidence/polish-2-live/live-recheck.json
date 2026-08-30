@@ -1,0 +1,64 @@
+{
+  "routes": {
+    "/": {
+      "status": 200,
+      "title": "Dictation Repair Book — reusable dictation rules",
+      "h1": 1,
+      "main": 1,
+      "console": []
+    },
+    "/demo/": {
+      "status": 200,
+      "title": "Approved rules — Demo — Dictation Repair Book",
+      "h1": 1,
+      "main": 1,
+      "console": []
+    },
+    "/privacy/": {
+      "status": 200,
+      "title": "Privacy — Dictation Repair Book",
+      "h1": 1,
+      "main": 1,
+      "console": []
+    },
+    "/terms/": {
+      "status": 200,
+      "title": "Terms — Dictation Repair Book",
+      "h1": 1,
+      "main": 1,
+      "console": []
+    },
+    "/not-found": {
+      "status": 404,
+      "title": "Page not found — Dictation Repair Book",
+      "h1": 1,
+      "main": 1,
+      "console": []
+    }
+  },
+  "axe": {
+    "/": [],
+    "/demo/": [],
+    "/privacy/": [],
+    "/terms/": [],
+    "/not-found": []
+  },
+  "mobile": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "factsBottom": 607,
+    "viewport": 844
+  },
+  "demo": {
+    "banner": 1,
+    "primaryLinks": 4,
+    "footer": 1,
+    "hasOldTerms": false
+  },
+  "offline": {
+    "controlled": true,
+    "title": "Approved rules — Demo — Dictation Repair Book",
+    "h1": 1,
+    "status": 200
+  }
+}

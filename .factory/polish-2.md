@@ -1,6 +1,6 @@
 # Polish round 2
 
-Repair base: `1d6f385e50380874ac418bfca9d2fe5547b488c6`. This table closes every finding in `.factory/review-1.md` and `.factory/review-2.md`; the commands and captures named below are rerun from the committed repair and clean clone before handoff.
+Repair base: `1d6f385e50380874ac418bfca9d2fe5547b488c6`. This table closes every finding in `.factory/review-1.md` and `.factory/review-2.md`; the commands and captures named below are rerun from the committed repair and clean clone before handoff. Every web-facing entry was also checked cold at https://dictation-repair-book.sociobot.in; route, Axe, mobile, demo-chrome, and direct-demo-offline results are recorded in `.factory/qa-evidence/polish-2-live/live-recheck.json`, with captures at `landing-desktop.png`, `landing-mobile.png`, and `demo-desktop.png`.
 
 | Finding | Change made | Evidence |
 | --- | --- | --- |
@@ -8,7 +8,7 @@ Repair base: `1d6f385e50380874ac418bfca9d2fe5547b488c6`. This table closes every
 | F-1-2 | Demo section controls are real hash links; direct load, history, focus, titles, and announcements remain guarded. | `demo sections deep-link, restore with history, announce, and focus their h1` |
 | F-1-3 | Native sample now blocks every real vault/license path; its Settings erase resets sample data only and purchase controls are unavailable. | `@claim:native-sample-isolation` IPC-spy browser test |
 | F-1-4 | Scrollable installer commands remain focusable and labelled. | `landing page is accessible` Axe check |
-| F-1-5 | Worker normalizes slashless valid routes before cache lookup while preserving constructed 404 responses for unknown routes. | `service-worker controlled route variants keep valid pages online and offline`; unknown-route test |
+| F-1-5 | Worker normalizes slashless valid routes before cache lookup while preserving constructed 404 responses for unknown routes; direct demo now registers it too. | `service-worker controlled route variants keep valid pages online and offline`; `@claim:offline-demo`; live direct `/demo` offline check |
 | F-1-6 | Production-vault round-trip encryption test remains in place. | `cargo test … claim_encrypted_vault_uses_aes_256_gcm` |
 | F-1-7 | PowerShell installer executes matching and mismatch paths. | `pwsh -NoLogo -NoProfile -File tests/installers.ps1` |
 | F-1-8 | Fixture bundles exercise actual release preparation and manifest hashes. | `@claim:release-matrix` |
