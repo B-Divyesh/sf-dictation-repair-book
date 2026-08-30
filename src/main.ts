@@ -6,6 +6,12 @@ import { buildIdentity } from './release';
 import { emptyState, parseRepairState, type Correction, type RepairState } from './types';
 import { mayTouchRealNativeData } from './native-sample';
 
+// The direct /demo/ entry point uses this app bundle, not the landing bundle.
+// Register here as well so a one-click demo visit is available offline after it loads.
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || ['localhost', '127.0.0.1'].includes(location.hostname))) {
+  void navigator.serviceWorker.register('/sw.js');
+}
+
 type Page = 'capture' | 'rules' | 'test' | 'settings';
 const pages: Page[] = ['capture', 'rules', 'test', 'settings'];
 const pageFromHash = (): Page | null => pages.includes(location.hash.slice(1) as Page) ? location.hash.slice(1) as Page : null;

@@ -386,11 +386,11 @@ test('@claim:offline-demo opens the complete sample repair book offline after on
   const errors: string[] = [];
   page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()); });
   page.on('pageerror', (error) => errors.push(error.message));
-  await page.goto('/');
+  await page.goto('/demo/');
   await page.evaluate(async () => { await navigator.serviceWorker.ready; });
   await expect.poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true);
   await context.setOffline(true);
-  await page.goto('/demo/');
+  await page.goto('/demo');
   await expect(page.getByText('Kubernetes', { exact: true })).toBeVisible();
   expect(errors).toEqual([]);
 });
