@@ -1,1 +1,1 @@
-Turn dictation corrections into private reusable rules for people with names, medications, code terms, and workplace jargon.
+Turn dictation corrections into reusable rules you can inspect, test, export, or erase.

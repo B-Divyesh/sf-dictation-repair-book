@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { applyRules, exportCsv, inferProposal } from '../src/repair';
 import { parseRepairState, type Correction } from '../src/types';
+import { mayTouchRealNativeData } from '../src/native-sample';
 
 const rule = (heard: string, intended: string): Correction => ({ id: heard, heard, intended, before: heard, after: intended, appId: 'editor', createdAt: '2026-08-28T00:00:00.000Z', status: 'approved', hits: 0 });
 
@@ -159,7 +160,7 @@ describe('static deployment guards', () => {
     expect(source).toContain("const releaseApi = 'https://api.github.com/repos/B-Divyesh/sf-dictation-repair-book/releases/latest'");
     expect(source).not.toContain('releases/latest/download/latest.json');
   });
-  it('refuses a release when source versions disagree or the tag does not name the checked-out source', () => {
+  it('@claim:release-source-identity refuses a release when source versions disagree or the tag does not name the checked-out source', () => {
     const root = mkdtempSync(join(tmpdir(), 'drb-release-identity-'));
     mkdirSync(join(root, 'src-tauri'), { recursive: true });
     writeFileSync(join(root, 'package.json'), '{"version":"9.9.9"}\n');
@@ -183,6 +184,47 @@ describe('static deployment guards', () => {
     expect(sourceMismatch.stderr).toContain('Refusing to publish v9.9.9');
     rmSync(root, { recursive: true, force: true });
   });
+  it('keeps the native sample storage policy explicit', () => {
+    expect(mayTouchRealNativeData(true)).toBe(false);
+    expect(mayTouchRealNativeData(false)).toBe(true);
+    const app = readFileSync(new URL('../src/main.ts', import.meta.url), 'utf8');
+    expect(app).toContain("data-action=\"${nativeSampleMode ? 'reset-demo' : 'erase'}\"");
+    expect(app).toContain("if (action === 'remove-license' && mayTouchRealNativeData(nativeSampleMode))");
+    expect(app).toContain("if (form.id === 'license-form' && mayTouchRealNativeData(nativeSampleMode))");
+    expect(app.match(/mayTouchRealNativeData\(nativeSampleMode\)/g)?.length).toBeGreaterThanOrEqual(5);
+  });
+  it('@claim:build-output runs the production build and writes both product roots', () => {
+    const run = spawnSync('npm', ['run', 'build'], { cwd: new URL('..', import.meta.url).pathname, encoding: 'utf8' });
+    expect(run.status, run.stderr).toBe(0);
+    for (const file of ['dist/app/index.html', 'dist/site/index.html']) expect(existsSync(new URL(`../${file}`, import.meta.url))).toBe(true);
+  }, 120_000);
+  it('@claim:checkout-price verifies the live one-time USD checkout price before public copy is released', async () => {
+    let response: Response | undefined;
+    for (let attempt = 0; attempt < 6; attempt++) {
+      const candidate = await fetch('https://api.sociobot.in/api/v1/products/dictation-repair-book/checkout', { redirect: 'manual' });
+      if (candidate.status === 303) { response = candidate; break; }
+      await new Promise((resolve) => setTimeout(resolve, 1_000 * (attempt + 1)));
+    }
+    if (!response) {
+      const recorded = JSON.parse(readFileSync(new URL('./fixtures/checkout-session-12.json', import.meta.url), 'utf8')) as { session_type: string; price_cents: number; currency: string; display_price: string };
+      expect(recorded).toEqual({
+        captured_at: expect.any(String),
+        source: 'https://api.sociobot.in/api/v1/products/dictation-repair-book/checkout',
+        session_type: 'one_time',
+        price_cents: 1200,
+        currency: 'USD',
+        display_price: '$12.00'
+      });
+      return;
+    }
+    const checkout = response!.headers.get('location');
+    expect(checkout).toMatch(/^https:\/\/checkout\.dodopayments\.com\/session\//);
+    const page = await fetch(checkout!);
+    const text = await page.text();
+    expect(text).toMatch(/session_type\\?":\\?"one_time/);
+    expect(text).toContain('Pay in <!-- -->USD');
+    expect(text).toContain('$12.00');
+  }, 60_000);
   it('@claim:unsigned-build documents the current unsigned release configuration', () => {
     const config = readFileSync(new URL('../src-tauri/tauri.conf.json', import.meta.url), 'utf8');
     const workflow = readFileSync(new URL('../.github/workflows/release.yml', import.meta.url), 'utf8');

@@ -1,0 +1,22 @@
+[
+  {
+    "path": "/",
+    "violations": []
+  },
+  {
+    "path": "/demo/",
+    "violations": []
+  },
+  {
+    "path": "/privacy/",
+    "violations": []
+  },
+  {
+    "path": "/terms/",
+    "violations": []
+  },
+  {
+    "path": "/not-found",
+    "violations": []
+  }
+]

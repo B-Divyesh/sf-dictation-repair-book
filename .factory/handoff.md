@@ -1,38 +1,47 @@
-# Adversarial review 2 handoff — FAIL
+# Polish round 2 handoff
 
-Reviewed commit `d42a8955110f00de2c742e18e70e3decffa99794` and the live site on 2026-08-30. No product code was modified. The full report is `.factory/review-2.md`.
+## Completed repair
 
-## Result
+This repair closes every finding in `.factory/review-1.md` and `.factory/review-2.md`. The detailed finding-to-evidence mapping is in `.factory/polish-2.md`.
 
-**FAIL:** 16 findings remain, including six blocking findings.
+- Aligned all public and app purchase copy to the verified `$12` one-time checkout price, with a read-only checkout claim test and recorded session fixture for checkout-service outages.
+- Isolated native sample mode from the encrypted vault and real license storage. Its purchase controls are unavailable and its erase action resets only sample data.
+- Normalized valid slashless site routes in the service worker, added the missing mobile first-screen facts, and gave demo the shared header/footer and full navigation.
+- Rewrote the reviewed copy, terminology, sample application labels, legal footer wording, README release instructions, and catalog sentence. Refreshed all four walkthrough captures from the repaired UI.
+- Added the build-output and release-source claims plus exact test coverage; the claim inventory now has 33 entries with one tagged test each.
 
-- Public copy says `$24`, while the live one-time Dodo checkout charges `$12.00 USD`; the passing claim test never verifies checkout price.
-- Native sample mode can invoke `erase_vault` and remove the real license while showing “nothing is saved.”
-- A controlling service worker turns valid `/demo`, `/privacy`, and `/terms` URLs into 404s; the sitemap publishes two of those broken forms.
-- Privacy/offline/price facts begin below the 390×844 first viewport.
-- `/demo/` still lacks the shared site header/footer, and route chrome remains inconsistent.
-- The previously unlisted “Sociobot/Dodo is merchant of record” assertion remains live in demo Settings.
+## Run and verify
 
-Ten additional findings cover unlisted build/release claims, terminology drift, ambiguous source labels and slogans, a vague heading, privacy and release jargon, and button semantics.
+```sh
+npm ci
+npm test
+npm run typecheck
+npm run lint
+npm run build
+cargo fmt --manifest-path src-tauri/Cargo.toml --check
+cargo test --manifest-path src-tauri/Cargo.toml
+cargo check --manifest-path src-tauri/Cargo.toml
+pwsh -NoLogo -NoProfile -File tests/installers.ps1
+```
 
-## Verification performed
+The local verification completed on 2026-08-30:
 
-- Fresh Chromium cold reads at 390×844 and 1440×900.
-- Live browser demo repair, Reset, Start for real, real-storage sentinel, same-origin request log, and offline reload.
-- Native-mode browser harness with mocked production IPC proving the real-storage deletion paths.
-- Every exact command in `.factory/claims.json` from a fresh clone. All commands passed after installing documented Tauri Linux prerequisites and PowerShell 7.6.5; `free-book` still fails independent truth checking because checkout is $12.
-- `CI=1 npm test`: 21 Vitest and 42 Playwright tests passed.
-- `npm run typecheck`, `npm run lint`, and `npm run build` passed; `dist/app/` and `dist/site/` were produced.
-- Live metadata, route focus/history, 404, link crawl, request origins, 390 px overflow, and Axe checks on landing, demo, Privacy, Terms, and 404.
-- Every F-1-1 through F-1-30 history item rechecked against live behavior and source; F-1-3, F-1-5, F-1-16, F-1-29, and F-1-30 are reopened as blocking.
+- `npm test`: 24 Vitest tests and 44 Playwright tests passed.
+- `npm run typecheck`, `npm run lint`, and `npm run build` passed. Build output contains `dist/app/index.html` and `dist/site/index.html`; initial app JavaScript is 9.87 KB gzip and site demo JavaScript is 9.63 KB gzip.
+- Rust formatting, 4 Rust tests, Rust type check, and PowerShell checksum match/mismatch paths passed.
+- `/opt/fleet/lib/verify-url.sh http://127.0.0.1:4173 .factory/qa-evidence/polish-2-local` passed with no console errors, one title, `lang=en`, one `h1`, `main`, and no missing image alt text.
+- Playwright Axe checks found no serious or critical violations on `/`, `/demo/`, `/privacy/`, `/terms/`, and `/not-found`; see `.factory/qa-evidence/polish-2-local/axe-playwright.json`. Desktop and 390 px captures are in the same directory.
 
-## Reproduce the blocking evidence
+## Demo and privacy
 
-1. Follow the live **Buy once — $24** action and inspect the checkout product data: `one_time_price`, `price: 1200`, `USD`.
-2. In a native-mode test harness, seed real license keys, load the sample, open Settings, and choose **Erase all local data** or **Remove from device**; observe real license deletion and `erase_vault` IPC.
-3. Visit the landing page, wait for service-worker control, then navigate to `/demo`, `/privacy`, or `/terms`; each returns the cached 404.
-4. At 390×844, measure `.trust-line`; its top is 859.8 px.
+- Direct demo URL: `https://dictation-repair-book.sociobot.in/demo/?demo=1`.
+- The shipped sample uses Notes and VS Code. Browser demo storage is `demo:drb_web_preview_state`; native sample state is in memory only. Reset restores the sample, and Start for real discards it. See `.factory/demo.md`.
+- The app has no telemetry. The static site calls GitHub only after an explicit download choice; the desktop app calls Sociobot only when the visitor explicitly verifies a pasted license.
 
-## Next step
+## Deployment and live verification
 
-Repair every finding in `.factory/review-2.md`, add the missing claim coverage, deploy the corrected site/billing configuration, and run a fresh adversarial review. Do not accept the current candidate.
+Deploy `dist/site/` through `/opt/fleet/lib/deploy-static.sh dictation-repair-book dist/site`, then run the live cold-route and demo checks documented in the final section of this handoff. The exact deployment URL, commit, and live evidence are appended after deployment.
+
+## Operator action
+
+Desktop release artifacts remain unsigned by design. A future signed release needs the owner’s `APPLE_CERTIFICATE` and `WINDOWS_CERT_PFX` GitHub Action secrets. No other operator action is required for this static repair.

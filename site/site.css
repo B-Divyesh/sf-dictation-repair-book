@@ -190,6 +190,17 @@ h1 mark {
     650 13px/1.4 ui-monospace,
     monospace;
 }
+.first-screen-facts {
+  display: grid;
+  gap: 4px;
+  max-width: 58ch;
+  margin: 0;
+  padding: 0;
+  color: var(--muted);
+  font: 650 13px/1.4 ui-monospace, monospace;
+  list-style: none;
+}
+.first-screen-facts li::before { content: "✓ "; color: var(--ink); font-weight: 900; }
 .trust-line b {
   color: var(--ink);
 }
@@ -741,12 +752,16 @@ footer small {
   .mini-download {
     font-size: 14px;
   }
-  .hero {
-    padding-top: 48px;
-  }
+  .hero { padding-top: 24px; gap: 28px; }
   .hero h1 {
-    font-size: 52px;
+    margin: 16px 0;
+    font-size: 43px;
   }
+  .lede { margin: 0; font-size: 17px; line-height: 1.4; }
+  .hero-actions { gap: 8px; margin: 20px 0 10px; }
+  .first-screen-facts { font-size: 12px; gap: 2px; }
+  .trust-line { display: none; }
+  .hero-art { display: none; }
   .hero-art {
     box-shadow: 7px 7px 0;
   }

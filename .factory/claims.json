@@ -46,7 +46,7 @@
     "claim": "CSV and JSON exports remain available without a license, and CSV preserves visible source names after source removal.",
     "where": "landing workflow, Rules, Settings, README",
     "test": "npm run test:e2e -- --grep @claim:portable-exports",
-    "sandbox": "fresh demo; remove Engineering notes; assert the visible and exported source name; download CSV and JSON"
+    "sandbox": "fresh demo; remove VS Code; assert the visible and exported source name; download CSV and JSON"
   },
   {
     "id": "json-roundtrip",
@@ -99,7 +99,7 @@
   },
   {
     "id": "free-book",
-    "claim": "The first 25 approved rules and every export are free; a $24 one-time license permits further approvals.",
+    "claim": "The first 25 approved rules and every export are free; a $12 one-time license permits further approvals.",
     "where": "pricing section, desktop Settings, README, terms",
     "test": "npm run test:e2e -- --grep @claim:free-book",
     "sandbox": "browser preview seeded with 25 rules; assert the free limit and price; seed a valid cached license and approve rule 26"
@@ -201,5 +201,33 @@
     "where": "landing offline status",
     "test": "npm run test:e2e -- --grep @claim:offline-demo",
     "sandbox": "fresh browser; visit landing and wait for service-worker control; go offline; navigate to demo; assert sample UI and zero errors"
+  },
+  {
+    "id": "native-sample-isolation",
+    "claim": "The installed-app sample cannot change the real vault or license data.",
+    "where": "native demo banner, Settings, README",
+    "test": "npm run test:e2e -- --grep @claim:native-sample-isolation",
+    "sandbox": "native sample policy fixture; exercise reset, erase, license removal, and license submission guards while real storage is seeded"
+  },
+  {
+    "id": "checkout-price",
+    "claim": "A $12 USD one-time license permits further approved rules after the free 25.",
+    "where": "landing, desktop Settings, README, terms",
+    "test": "npm run test:unit -- --testNamePattern @claim:checkout-price",
+    "sandbox": "read-only checkout session; assert one_time, USD, and 1200-cent price"
+  },
+  {
+    "id": "build-output",
+    "claim": "npm run build creates dist/app/ for the desktop webview and dist/site/ for the static site deployment.",
+    "where": "README",
+    "test": "npm run test:unit -- --testNamePattern @claim:build-output",
+    "sandbox": "clean working tree; run npm run build and assert both entry documents"
+  },
+  {
+    "id": "release-source-identity",
+    "claim": "The release workflow refuses a tag that does not match the checked-out source or whose app versions disagree.",
+    "where": "README",
+    "test": "npm run test:unit -- --testNamePattern @claim:release-source-identity",
+    "sandbox": "temporary git repository with matching, mismatched-version, and post-tag-commit cases"
   }
 ]

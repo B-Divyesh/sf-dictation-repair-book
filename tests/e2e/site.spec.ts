@@ -16,10 +16,11 @@ test('the sample action and its result stay inside the first desktop viewport', 
     await page.goto('/');
     await expect(page.getByRole('link', { name: 'Try it with sample data' })).toBeVisible();
     await expect(page.getByText('Opens a separate sample repair book. Nothing enters your real book.')).toBeVisible();
-    const box = await page.locator('.hero-actions').boundingBox();
-    expect(box, `${viewport.width}×${viewport.height} hero actions`).not.toBeNull();
-    expect(box!.y, `${viewport.width}×${viewport.height} action top`).toBeGreaterThanOrEqual(0);
-    expect(box!.y + box!.height, `${viewport.width}×${viewport.height} action bottom`).toBeLessThanOrEqual(viewport.height);
+    const action = await page.getByRole('link', { name: 'Try it with sample data' }).boundingBox();
+    const result = await page.getByText('Opens a separate sample repair book. Nothing enters your real book.').boundingBox();
+    expect(action, `${viewport.width}×${viewport.height} sample action`).not.toBeNull();
+    expect(result, `${viewport.width}×${viewport.height} sample result`).not.toBeNull();
+    expect(result!.y + result!.height, `${viewport.width}×${viewport.height} sample result bottom`).toBeLessThanOrEqual(viewport.height);
   }
 });
 
@@ -94,6 +95,9 @@ test('landing page fits a 390px phone', async ({ page }) => {
   const width = await page.evaluate(() => ({ scroll: document.documentElement.scrollWidth, client: document.documentElement.clientWidth }));
   expect(width.scroll).toBe(width.client);
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  const facts = await page.locator('.first-screen-facts').boundingBox();
+  expect(facts, 'first-screen facts').not.toBeNull();
+  expect(facts!.y + facts!.height, 'first-screen facts bottom').toBeLessThanOrEqual(844);
   for (const link of await page.locator('footer a').all()) {
     const box = await link.boundingBox();
     expect(box!.height).toBeGreaterThanOrEqual(44);
@@ -127,8 +131,8 @@ test('@claim:demo-sandbox demo uses sample data in a separate namespace and can 
   const realState = JSON.stringify({ version: 1, apps: [], corrections: [{ heard: 'private rule' }], settings: { theme: 'system' } });
   await page.evaluate((value) => localStorage.setItem('drb_web_preview_state', value), realState);
   await page.getByRole('link', { name: 'Try it with sample data' }).click();
-  await expect(page).toHaveTitle('Approved vocabulary — Demo — Dictation Repair Book');
-  await expect(page.getByText('Demo', { exact: true })).toBeVisible();
+  await expect(page).toHaveTitle('Approved rules — Demo — Dictation Repair Book');
+  await expect(page.getByLabel('Demo controls').getByText('Demo', { exact: true })).toBeVisible();
   await expect(page.getByText('Kubernetes', { exact: true })).toBeVisible();
   await expect(page.getByText('private rule', { exact: true })).toHaveCount(0);
   const results = await new AxeBuilder({ page: page as never }).analyze();
@@ -156,7 +160,7 @@ test('@claim:no-account opens and uses the sample repair book without sign-in', 
   await page.goto('/demo/');
   await expect(page.getByText('Kubernetes', { exact: true })).toBeVisible();
   await expect(page.locator('input[type="password"], [name*="email" i], [name*="user" i]')).toHaveCount(0);
-  await page.getByRole('button', { name: 'Test' }).click();
+  await page.getByRole('link', { name: 'Test' }).click();
   await page.getByLabel('Unrepaired transcript').fill('met a pro lol');
   await page.getByRole('button', { name: 'Run repair' }).click();
   await expect(page.getByText('metoprolol', { exact: true })).toBeVisible();
@@ -165,7 +169,7 @@ test('@claim:no-account opens and uses the sample repair book without sign-in', 
 test('the landing ?demo=1 alias opens the isolated sample path in one navigation', async ({ page }) => {
   await page.goto('/?demo=1');
   await expect(page).toHaveURL(/\/demo\/\?demo=1$/);
-  await expect(page.getByText('Demo', { exact: true })).toBeVisible();
+  await expect(page.getByLabel('Demo controls').getByText('Demo', { exact: true })).toBeVisible();
   await expect(page.getByText('Kubernetes', { exact: true })).toBeVisible();
 });
 
@@ -173,7 +177,7 @@ test('demo sections deep-link, restore with history, announce, and focus their h
   await page.goto('/demo/#test');
   await expect(page.getByRole('heading', { name: 'Test your repair book' })).toBeFocused();
   await expect(page.locator('#route-announcement')).toHaveText('Test your repair book');
-  await page.getByRole('button', { name: 'Settings' }).click();
+  await page.getByRole('link', { name: 'Settings' }).click();
   await expect(page).toHaveURL(/\/demo\/#settings$/);
   await expect(page.getByRole('heading', { name: 'Settings & data' })).toBeFocused();
   await page.goBack();
@@ -216,18 +220,18 @@ test('demo banner does not cover the active heading on a 390px phone', async ({ 
 
 test('@claim:portable-exports CSV uses the visible source name and exports remain available in demo', async ({ page }) => {
   await page.goto('/demo/');
-  await page.getByRole('button', { name: 'Settings' }).click();
+  await page.getByRole('link', { name: 'Settings' }).click();
   page.once('dialog', (dialog) => dialog.accept());
-  await page.getByRole('button', { name: 'Remove Engineering notes' }).click();
-  await page.getByRole('button', { name: 'Rules' }).click();
-  await expect(page.getByText('Engineering notes', { exact: true }).first()).toBeVisible();
+  await page.getByRole('button', { name: 'Remove VS Code' }).click();
+  await page.getByRole('link', { name: 'Rules' }).click();
+  await expect(page.getByText('VS Code', { exact: true }).first()).toBeVisible();
   const csvDownload = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Export CSV' }).click();
   const csv = await csvDownload;
   const csvText = await csv.path().then(async (path) => (await import('node:fs/promises')).readFile(path!, 'utf8'));
-  expect(csvText).toContain('"Engineering notes"');
-  expect(csvText).not.toContain('sample-engineering-notes');
-  await page.getByRole('button', { name: 'Settings' }).click();
+  expect(csvText).toContain('"VS Code"');
+  expect(csvText).not.toContain('sample-vs-code');
+  await page.getByRole('link', { name: 'Settings' }).click();
   const jsonDownload = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Back up JSON' }).click();
   const json = await jsonDownload;
@@ -236,22 +240,22 @@ test('@claim:portable-exports CSV uses the visible source name and exports remai
 
 test('@claim:json-roundtrip exports and restores a complete repair book', async ({ page }) => {
   await page.goto('/demo/');
-  await page.getByRole('button', { name: 'Settings' }).click();
+  await page.getByRole('link', { name: 'Settings' }).click();
   const downloadEvent = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Back up JSON' }).click();
   const download = await downloadEvent;
   await page.getByRole('button', { name: 'Reset demo' }).click();
-  await page.getByRole('button', { name: 'Settings' }).click();
+  await page.getByRole('link', { name: 'Settings' }).click();
   await page.locator('#import-json').setInputFiles(await download.path() as string);
   await expect(page.getByText(/imported into this local browser preview/)).toBeVisible();
-  await page.getByRole('button', { name: 'Rules' }).click();
+  await page.getByRole('link', { name: 'Rules' }).click();
   await expect(page.getByText('Kubernetes', { exact: true })).toBeVisible();
 });
 
 test('@claim:whisper-export copies unique intended terms', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write'], { origin: 'http://127.0.0.1:4173' });
   await page.goto('/demo/');
-  await page.getByRole('button', { name: 'Settings' }).click();
+  await page.getByRole('link', { name: 'Settings' }).click();
   await page.getByRole('button', { name: 'Copy Whisper prompt' }).click();
   await expect(page.getByText('Whisper vocabulary copied to the clipboard.')).toBeVisible();
   expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('metoprolol, Kubernetes, Niamh');
@@ -259,7 +263,7 @@ test('@claim:whisper-export copies unique intended terms', async ({ page, contex
 
 test('@claim:local-repair applies a shipped sample correction locally', async ({ page }) => {
   await page.goto('/demo/');
-  await page.getByRole('button', { name: 'Test' }).click();
+  await page.getByRole('link', { name: 'Test' }).click();
   await page.getByLabel('Unrepaired transcript').fill('Deploy the cube or net ease service.');
   await page.getByRole('button', { name: 'Run repair' }).click();
   await expect(page.getByText('Deploy the Kubernetes service.')).toBeVisible();
@@ -269,7 +273,7 @@ test('@claim:private-demo no network request leaves the product origin during th
   const requests: string[] = [];
   page.on('request', (request) => requests.push(request.url()));
   await page.goto('/demo/');
-  await page.getByRole('button', { name: 'Test' }).click();
+  await page.getByRole('link', { name: 'Test' }).click();
   await page.getByLabel('Unrepaired transcript').fill('met a pro lol');
   await page.getByRole('button', { name: 'Run repair' }).click();
   expect(requests.every((url) => new URL(url).origin === 'http://127.0.0.1:4173')).toBe(true);
@@ -289,7 +293,7 @@ test('@claim:free-book keeps the first 25 approved rules free', async ({ page })
   await page.getByRole('button', { name: /Propose a rule/ }).click();
   await expect(page.getByText('Free book full.')).toBeVisible();
   await expect(page.getByRole('link', { name: 'Unlock unlimited' })).toBeVisible();
-  await expect(page.getByText(/\$24 once/)).toBeVisible();
+  await expect(page.getByText(/\$12 once/)).toBeVisible();
   await page.evaluate(() => {
     localStorage.setItem('sb_license:dictation-repair-book', 'valid-license');
     localStorage.setItem('sb_license_verdict:dictation-repair-book', JSON.stringify({ valid: true, checkedAt: Date.now() }));
@@ -299,7 +303,7 @@ test('@claim:free-book keeps the first 25 approved rules free', async ({ page })
   await page.getByLabel('What you meant').fill('deploy kube');
   await page.getByRole('button', { name: /Propose a rule/ }).click();
   await page.getByRole('button', { name: 'Approve rule' }).click();
-  await page.getByRole('button', { name: 'Rules' }).click();
+  await page.getByRole('link', { name: 'Rules' }).click();
   await expect(page.getByText('kube', { exact: true })).toBeVisible();
 });
 
@@ -310,7 +314,7 @@ test('@claim:license-backoff respects Retry-After without retrying', async ({ pa
     await route.fulfill({ status: 429, headers: { 'Retry-After': '60' }, body: '{}' });
   });
   await page.goto('http://127.0.0.1:1420');
-  await page.getByRole('button', { name: 'Settings' }).click();
+  await page.getByRole('link', { name: 'Settings' }).click();
   await page.getByLabel('Have a license? Paste it').fill('test-license');
   await page.getByRole('button', { name: 'Verify' }).click();
   await expect(page.getByText(/Verification is busy/)).toBeVisible();
@@ -333,7 +337,7 @@ test('@claim:erase-local-book removes browser-preview data after confirmation', 
     localStorage.setItem('sb_license:dictation-repair-book', 'private-license');
     localStorage.setItem('sb_license_verdict:dictation-repair-book', JSON.stringify({ valid: true, checkedAt: Date.now() }));
   });
-  await page.getByRole('button', { name: 'Settings' }).click();
+  await page.getByRole('link', { name: 'Settings' }).click();
   page.once('dialog', (dialog) => dialog.accept());
   await page.getByRole('button', { name: 'Erase all local data' }).click();
   await expect(page.getByText('Choose where corrections come from.')).toBeVisible();
@@ -416,12 +420,29 @@ test('service-worker controlled unknown routes keep their 404 status online and 
   await expect(page.getByRole('heading', { name: 'Page not found' })).toBeVisible();
 });
 
+test('service-worker controlled route variants keep valid pages online and offline', async ({ page, context }) => {
+  await page.goto('/');
+  await page.evaluate(async () => { await navigator.serviceWorker.ready; });
+  await expect.poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true);
+  for (const path of ['/demo', '/privacy', '/terms']) {
+    const response = await page.goto(path);
+    expect(response?.status(), path).toBe(200);
+    await expect(page.locator('h1')).toHaveCount(1);
+  }
+  await context.setOffline(true);
+  for (const path of ['/demo', '/privacy', '/terms']) {
+    const response = await page.goto(path);
+    expect(response?.status(), `offline ${path}`).toBe(200);
+    await expect(page.locator('h1')).toHaveCount(1);
+  }
+});
+
 test('demo Rules and Settings fit 390px and primary touch targets are at least 44px', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ colorScheme: 'dark', reducedMotion: 'reduce' });
   await page.goto('/demo/');
   for (const name of ['Rules', 'Settings']) {
-    await page.getByRole('button', { name }).click();
+    await page.getByRole('link', { name }).click();
     const width = await page.evaluate(() => ({ scroll: document.documentElement.scrollWidth, client: document.documentElement.clientWidth }));
     expect(width.scroll, `${name} overflow`).toBe(width.client);
   }
@@ -437,11 +458,11 @@ test('demo Rules and Settings fit 390px and primary touch targets are at least 4
 
 test('keyboard navigation operates app sections and shows focus', async ({ page }) => {
   await page.goto('/demo/');
-  await page.getByRole('button', { name: 'Settings' }).focus();
+  await page.getByRole('link', { name: 'Settings' }).focus();
   await page.keyboard.press('Enter');
   await expect(page.getByRole('heading', { name: 'Settings & data' })).toBeVisible();
   await page.keyboard.press('Alt+2');
-  await expect(page.getByRole('heading', { name: 'Approved vocabulary' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Approved rules' })).toBeVisible();
   await page.getByRole('button', { name: 'Delete rule cube or net ease to Kubernetes' }).focus();
   expect(await page.getByRole('button', { name: 'Delete rule cube or net ease to Kubernetes' }).evaluate((element) => getComputedStyle(element).outlineWidth)).toBe('3px');
 });

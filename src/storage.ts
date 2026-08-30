@@ -10,13 +10,13 @@ export const isDemo = () => !isNative() && (location.pathname.replace(/\/$/, '')
 export const sampleState = (): RepairState => ({
   version: 1,
   apps: [
-    { id: 'sample-clinical-notes', name: 'Clinical notes', enabled: true },
-    { id: 'sample-engineering-notes', name: 'Engineering notes', enabled: true }
+    { id: 'sample-notes', name: 'Notes', enabled: true },
+    { id: 'sample-vs-code', name: 'VS Code', enabled: true }
   ],
   corrections: [
-    { id: 'sample-metoprolol', before: 'Continue met a pro lol at bedtime.', after: 'Continue metoprolol at bedtime.', heard: 'met a pro lol', intended: 'metoprolol', appId: 'sample-clinical-notes', sourceName: 'Clinical notes', createdAt: '2026-08-28T00:00:00.000Z', status: 'approved', hits: 4 },
-    { id: 'sample-kubernetes', before: 'Deploy the cube or net ease service.', after: 'Deploy the Kubernetes service.', heard: 'cube or net ease', intended: 'Kubernetes', appId: 'sample-engineering-notes', sourceName: 'Engineering notes', createdAt: '2026-08-27T00:00:00.000Z', status: 'approved', hits: 7 },
-    { id: 'sample-niamh', before: 'Ask Neem to review the handoff.', after: 'Ask Niamh to review the handoff.', heard: 'Neem', intended: 'Niamh', appId: 'sample-engineering-notes', sourceName: 'Engineering notes', createdAt: '2026-08-26T00:00:00.000Z', status: 'approved', hits: 2 }
+    { id: 'sample-metoprolol', before: 'Continue met a pro lol at bedtime.', after: 'Continue metoprolol at bedtime.', heard: 'met a pro lol', intended: 'metoprolol', appId: 'sample-notes', sourceName: 'Notes', createdAt: '2026-08-28T00:00:00.000Z', status: 'approved', hits: 4 },
+    { id: 'sample-kubernetes', before: 'Deploy the cube or net ease service.', after: 'Deploy the Kubernetes service.', heard: 'cube or net ease', intended: 'Kubernetes', appId: 'sample-vs-code', sourceName: 'VS Code', createdAt: '2026-08-27T00:00:00.000Z', status: 'approved', hits: 7 },
+    { id: 'sample-niamh', before: 'Ask Neem to review the handoff.', after: 'Ask Niamh to review the handoff.', heard: 'Neem', intended: 'Niamh', appId: 'sample-vs-code', sourceName: 'VS Code', createdAt: '2026-08-26T00:00:00.000Z', status: 'approved', hits: 2 }
   ],
   settings: { theme: 'system' }
 });

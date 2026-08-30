@@ -12,7 +12,7 @@ Dictation Repair Book is a Tauri 2 desktop app with a static download site at [d
 - Search, delete, undo, and export rules as CSV, JSON backup, or a Whisper vocabulary prompt.
 - Encrypt the native repair book with AES-256-GCM and a local per-device key.
 - Erase the encrypted repair book, temporary vault file, key, and local license data.
-- Include 25 approved rules and every export for free; a $24 one-time license allows further approvals.
+- Include 25 approved rules and every export for free; a $12 one-time license allows further approvals.
 
 ## Privacy
 
@@ -63,7 +63,7 @@ irm https://dictation-repair-book.sociobot.in/install.ps1 | iex
 
 The install commands compare the downloaded package with `SHA256SUMS`. Direct downloads include that published checksum. Current builds are unsigned, so macOS and Windows may ask you to confirm the first launch.
 
-Push a version-synchronised `v*` tag, or dispatch `.github/workflows/release.yml` with an existing tag, to build macOS DMGs, Windows MSI/EXE, and Linux AppImage/DEB files. The workflow refuses a tag that does not point at the checked-out source or whose app, Tauri, and Cargo versions disagree. It publishes `SHA256SUMS`, `latest.json`, and `build-info.json` with the exact source commit before attaching all files to the GitHub Release.
+Set the same version in `package.json`, `src-tauri/Cargo.toml`, and `src-tauri/tauri.conf.json`. Then push its `v*` tag or run the release workflow for that tag. The workflow refuses a tag that does not point at the checked-out source or whose app, Tauri, and Cargo versions disagree. It publishes `SHA256SUMS`, `latest.json`, and `build-info.json` with the exact source commit before attaching all files to the GitHub Release.
 
 ## License
 

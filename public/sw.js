@@ -1,4 +1,4 @@
-const CACHE = 'drb-site-v6';
+const CACHE = 'drb-site-v7';
 const PAGES = ['/', '/demo/', '/privacy/', '/terms/', '/404.html'];
 const STATIC = ['/favicon.svg', '/apple-touch-icon.png', '/assets/hero-ledger-768.webp'];
 
@@ -30,7 +30,9 @@ self.addEventListener('activate', (event) => event.waitUntil((async () => {
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET' || new URL(event.request.url).origin !== self.location.origin) return;
   event.respondWith((async () => {
-    const path = new URL(event.request.url).pathname;
+    const requestedPath = new URL(event.request.url).pathname;
+    const knownVariant = requestedPath !== '/' && !requestedPath.endsWith('/') && PAGES.includes(`${requestedPath}/`);
+    const path = knownVariant ? `${requestedPath}/` : requestedPath;
     if (event.request.mode === 'navigate' && !PAGES.includes(path)) {
       const missing = await caches.match('/404.html');
       if (!missing) return Response.error();
