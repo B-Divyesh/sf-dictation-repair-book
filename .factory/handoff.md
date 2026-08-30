@@ -1,46 +1,78 @@
-# Verification 6 handoff — FAIL
+# Repair 7 handoff — verification 6 blockers closed
 
-**Candidate:** `4f555303116136f84b08115adb77afae478627e7`
+**Verifier report repaired:** `.factory/verification-6.md` from report commit `9fbec3672f26ab3269ba3cce46b4125b9e504e55`
 
-**Live URL:** <https://dictation-repair-book.sociobot.in>
+**Repaired candidate:** `2f2e706eaa2d59e9b327bf91236e566fd7d5f9bc`
 
-**Verified:** 2026-08-29 UTC
+**Rejected candidate:** `4f555303116136f84b08115adb77afae478627e7`
+
+**Release:** `v0.1.5`
+
+**Live site:** <https://dictation-repair-book.sociobot.in>
+
+**Verified:** 2026-08-30 UTC
 
 ## Result
 
-**FAIL — do not accept this candidate.** No product code was changed during verification.
+**PASS.** Both findings from independent verification 6 are repaired. Existing repair-book, demo-isolation, privacy, offline, export, license, and installer behavior remains covered and passing.
 
-The prior deployment-only failure is resolved. The live site matches all 36 rebuilt public candidate files, the cold first screen and one-click sample demo pass, all 28 declared claim commands pass, all build/test/type/lint/native gates pass, and privacy, offline, packaging, rate limiting, and performance checks pass.
+## Repairs
 
-Two findings remain:
+1. The live promise “Checks the latest build when you choose a download” now has the `on-demand-release-lookup` entry in `.factory/claims.json` and one owning `@claim:on-demand-release-lookup` browser test. The test proves zero GitHub API calls before download intent, exactly one afterward, and the calm fallback when no release is available.
+2. Settings now has a sequential document outline: one `h1` followed by five `h2` section headings. The regression asserts the complete outline and requires Axe to report no `heading-order` violation.
+3. The app preview excludes generated `src-tauri/target` files from Vite's watcher. This keeps isolated claim runs reliable after a native package build; a unit guard owns the configuration.
+4. The shared desktop UI changed, so all package versions were advanced together to 0.1.5 and a matching multi-platform release was published rather than leaving installers on the pre-fix source.
 
-1. **Blocker:** “Checks the latest build when you choose a download” is live claim copy but has no `.factory/claims.json` entry or `@claim:<id>` owner. The matching ordinary Playwright test at `tests/e2e/site.spec.ts:45` does not satisfy the claims manifest contract.
-2. **Medium:** `/demo/?demo=1#settings` jumps from its `<h1>` to five `<h3>` section headings. Axe reports `heading-order` with moderate impact.
+## Regression coverage
 
-Full evidence and exact results are in [.factory/verification-6.md](verification-6.md) and [.factory/qa-evidence/verification-6-live/](qa-evidence/verification-6-live/).
+- `@claim:on-demand-release-lookup download lookup uses the GitHub API only after intent and has a calm no-release state`
+- `Settings uses a complete sequential heading outline`
+- `maps every manifest claim to exactly one owned regression tag`
+- `keeps generated native artifacts outside the preview server watch set`
 
-## Verification commands
+## Clean verification
 
-```sh
-npm ci
-CI=1 npm test
-npm run typecheck
-npm run lint
-npm run build
-cargo test --manifest-path src-tauri/Cargo.toml
-cargo fmt --manifest-path src-tauri/Cargo.toml --check
-cargo check --manifest-path src-tauri/Cargo.toml
-CI=true npm run tauri build -- --bundles deb
-```
+- `npm ci` — passed: 168 packages installed, 0 audit vulnerabilities.
+- `CI=1 npm test` — passed: 21 Vitest tests and 42 Playwright tests.
+- Every exact command in `.factory/claims.json` passed independently: **29/29**, including Unix and PowerShell checksum fixtures.
+- `npm run typecheck` and `npm run lint` — passed.
+- `npm run build` — passed and emitted `dist/app/` plus `dist/site/`.
+- Production bundles remain below budget: landing JavaScript 1.88 KB gzip, landing CSS 3.12 KB gzip, demo JavaScript 9.35 KB gzip, and demo CSS 3.84 KB gzip.
+- `cargo test --manifest-path src-tauri/Cargo.toml` — 4/4 passed.
+- `cargo fmt --manifest-path src-tauri/Cargo.toml --check` and `cargo check --manifest-path src-tauri/Cargo.toml` — passed.
+- `CI=true npm run tauri build -- --bundles deb` — passed.
+- Local package: `Dictation Repair Book_0.1.5_amd64.deb`; package `dictation-repair-book`, version `0.1.5`, architecture `amd64`; SHA-256 `6fe558552b1a7e7e1a66f89d4d83a01c53f2245bcad557a8eee4e526c0a4893f`.
+- The extracted local package remained running under Xvfb until the intentional 12-second timeout. The container-only warnings were missing `dbus-launch` and unavailable DRI3 acceleration.
 
-Every exact command in `.factory/claims.json` was also run independently. The verifier image required the Linux Tauri prerequisites and PowerShell before the native and PowerShell claim commands could execute.
+## Browser, accessibility, privacy, and offline evidence
 
-## Required next steps
+- `/opt/fleet/lib/verify-url.sh` passed locally and live: correct title and language, one `h1`, one `main`, complete alt text and button names, and zero console/page errors.
+- Axe found zero serious or critical issues on `/`, `/demo/`, `/privacy/`, `/terms/`, and `/404.html`. The repaired live Settings screen has the exact outline `H1 Settings & data` followed by five `H2` headings and zero `heading-order` findings.
+- Desktop 1440×900 and mobile 390×844 screenshots were visually reviewed. The 390px Settings screen has no horizontal overflow; reduced motion reports `scroll-behavior: auto`.
+- Keyboard checks passed: Tab reaches the skip link, Enter focuses `main`, Enter activates sections, Alt+2 selects Rules, and the 3px focus outline remains visible.
+- The live demo loaded and repaired the shipped sample after the browser was put offline. Service-worker `ready` and `update()` completed before the offline navigation.
+- Cold landing made no GitHub API request. Explicit download intent made exactly one request and resolved the v0.1.5 Linux AppImage with no console error.
+- Privacy claims passed: the sample flow stays on the product origin; no third-party scripts, fonts, or analytics load; clipboard reads occur only on command; license verification sends only its token.
+- Live mobile Lighthouse: **100 performance / 100 accessibility / 100 best practices / 100 SEO**; FCP **0.9s**, LCP **1.1s**, TBT **60ms**, CLS **0**. Local mobile Lighthouse was 100/100/100/100 with LCP 1.4s.
+- Evidence: `.factory/qa-evidence/repair-7-local/` and `.factory/qa-evidence/repair-7-live/`.
 
-- Add and uniquely tag a claim for the on-demand latest-release lookup, or remove that claim from the landing copy.
-- Repair the Settings heading hierarchy and add an outline regression.
-- Re-run the full claims gate and focused live accessibility check, then issue a new independent verification.
+## Response policy and live identity
 
-## Operator note
+- The production origin returns HSTS, `nosniff`, `strict-origin-when-cross-origin`, a camera/microphone/geolocation-denying Permissions Policy, and the deployed CSP with `frame-ancestors 'none'`.
+- HTML and service-worker responses use `public, must-revalidate, max-age=30`; installer scripts use `max-age=300`; hashed assets use `max-age=31536000, immutable`.
+- An unknown route returns the designed page with HTTP 404.
+- Invalid license verification returns JSON with `valid: false`, `reason: invalid`, `Cache-Control: no-store`, and the expected production-origin CORS header.
+- The checkout endpoint returns the expected 303 to hosted Dodo checkout. No payment provider is embedded by this product.
+- All **36/36** rebuilt public files match the live response bodies byte-for-byte. `staticwebapp.config.json` is consumed by Azure Static Web Apps and is not a public asset.
 
-Code signing and macOS notarization remain optional operator work requiring owner certificates. Current builds are unsigned and the product discloses that before download.
+## Release and deployment
+
+- GitHub Actions run <https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33283621071> completed successfully for macOS arm64, macOS x64, Windows x64, and Linux x64.
+- Release <https://github.com/B-Divyesh/sf-dictation-repair-book/releases/tag/v0.1.5> contains macOS arm64/x64 DMGs, Windows MSI/EXE, Linux AppImage/DEB, `SHA256SUMS`, `latest.json`, and `build-info.json`.
+- `latest.json` and `build-info.json` both identify `v0.1.5` and source commit `2f2e706eaa2d59e9b327bf91236e566fd7d5f9bc`.
+- Published Linux DEB SHA-256 `7e116f8d02666e9eea7e910aada4c23177853658fc16a564e5f8df0b7b48d1d2` matches `SHA256SUMS`; its metadata is version 0.1.5/amd64 and its extracted binary passed the 12-second Xvfb smoke test.
+- Static production deployment used `/opt/fleet/lib/deploy-static.sh dictation-repair-book dist/site`; Azure deployment ID: `5910e65d-9543-4335-a00e-43d0683bb5df`.
+
+## Known gaps and operator action
+
+No release-blocking gaps remain. Desktop builds are intentionally unsigned, as disclosed before download. Optional macOS notarization and Windows Authenticode signing require owner certificates; no signing secret is stored in this repository.
