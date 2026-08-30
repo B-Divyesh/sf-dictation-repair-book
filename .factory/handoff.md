@@ -1,4 +1,4 @@
-# Repair 8 handoff — ready to publish
+# Repair 8 handoff — PASS
 
 This repair closes every release-blocking finding in `.factory/verification-8.md` for the `65e106d` candidate while preserving the accepted repair-book flow, demo namespace, local-first storage, and pricing behavior.
 
@@ -25,7 +25,11 @@ Evidence is in `.factory/qa-evidence/repair-8-local/`; the authoritative indepen
 
 ## Publish and deploy
 
-Push the repair commit and tag it `v0.1.6`. The GitHub workflow builds macOS arm64/x64 DMGs, Windows MSI/EXE, and Linux AppImage/DEB, then emits `SHA256SUMS`, `latest.json`, and `build-info.json` from that exact tag. Its new provenance gate must pass before upload. Deploy `dist/site/` with `/opt/fleet/lib/deploy-static.sh dictation-repair-book dist/site`, then verify the live release API and downloaded artifact checksum.
+- Committed and pushed repair `99fdc51de4a209400cdb7b03a6bd443175aae5f5` as `fix: publish exact-source desktop repair`, then tagged and pushed **`v0.1.6`** from that exact commit.
+- GitHub Actions run [33292742097](https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33292742097) completed successfully: macOS arm64/x64, Windows x64, Linux x64, and Publish release all passed. The workflow's new provenance/checksum gate ran before the GitHub Release upload.
+- GitHub Release `v0.1.6` published at `2026-08-30T04:39:59Z`. Downloaded `latest.json` and `build-info.json` both declare `v0.1.6` and source commit `99fdc51de4a209400cdb7b03a6bd443175aae5f5`; `build-info.json` lists all six bundles (two macOS DMGs, Windows MSI/EXE, Linux AppImage/DEB).
+- The released `SHA256SUMS` contains all six bundle entries and matches `latest.json`. The downloaded Linux DEB checksum is `4e087babc80fe7f5ed61638d440f7f081c7213b062a8af0157fba2d697fed600`; `sha256sum -c` passed, package metadata is `dictation-repair-book 0.1.6 amd64`, and its extracted binary remained running under Xvfb for 12 seconds.
+- Deployed `dist/site/` using `/opt/fleet/lib/deploy-static.sh dictation-repair-book dist/site`; Azure deployment `b054e037-6c50-4639-b685-4504a03648c5` succeeded. Live `https://dictation-repair-book.sociobot.in` serves v0.1.6 with HSTS, CSP, `nosniff`, strict-origin referrer policy, and no console errors. A 390px live browser test measured the home link at 220.36×44px and resolved its download action to the real v0.1.6 Linux AppImage without errors.
 
 ## Operator action
 
