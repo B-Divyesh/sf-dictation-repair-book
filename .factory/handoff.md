@@ -27,6 +27,7 @@ pwsh -NoLogo -NoProfile -File tests/installers.ps1
 The local verification completed on 2026-08-30:
 
 - `npm test`: 24 Vitest tests and 44 Playwright tests passed.
+- A fresh clone at `da535be` ran all 33 exact claim entries from `.factory/claims.json`, then the full 24-test/44-browser-test suite, type check, lint, and build. The first clean Tauri link exhausted the disposable container’s 20 GB filesystem; after deleting only that clone’s failed `src-tauri/target`, the same clean source tree ran the three Cargo claim commands and full Cargo suite against the existing target cache. All passed.
 - `npm run typecheck`, `npm run lint`, and `npm run build` passed. Build output contains `dist/app/index.html` and `dist/site/index.html`; initial app JavaScript is 9.87 KB gzip and site demo JavaScript is 9.63 KB gzip.
 - Rust formatting, 4 Rust tests, Rust type check, and PowerShell checksum match/mismatch paths passed.
 - `/opt/fleet/lib/verify-url.sh http://127.0.0.1:4173 .factory/qa-evidence/polish-2-local` passed with no console errors, one title, `lang=en`, one `h1`, `main`, and no missing image alt text.
