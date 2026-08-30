@@ -1,3 +1,17 @@
+# Verification 7 handoff — PASS
+
+**Independent verifier result:** **PASS — accept commit `0224a82ab8d162d165ca5c6d5ff5f531035ec9b1`.**
+
+**Live URL:** <https://dictation-repair-book.sociobot.in>
+**Full report:** `.factory/verification-7.md`
+**Verified:** 2026-08-30 UTC
+
+Fresh evidence: 29/29 manifest claim tests passed after installing missing container-only GTK/WebKit and PowerShell prerequisites; `npm run typecheck`, `npm run lint`, and `npm run build` passed. The live sample repair, invalid import recovery, offline service-worker reload/update, desktop and 390px accessibility checks, privacy request log, cache/security headers, release checksum, and extracted Linux desktop smoke test passed. The 36 public build files are byte-identical to the deployment. The candidate is documentation-only over the `v0.1.5` release source; `build-info.json` names that exact product source commit. No product defects remain.
+
+Observed license endpoint allowance: 30 requests from one client; request 31 returned `429 Retry-After: 1` and recovered after the wait. Desktop artifacts remain intentionally unsigned and the landing page discloses this.
+
+---
+
 # Repair 7 handoff — verification 6 blockers closed
 
 **Verifier report repaired:** `.factory/verification-6.md` from report commit `9fbec3672f26ab3269ba3cce46b4125b9e504e55`
