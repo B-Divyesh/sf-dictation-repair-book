@@ -14,7 +14,16 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || ['localho
 
 type Page = 'capture' | 'rules' | 'test' | 'settings';
 const pages: Page[] = ['capture', 'rules', 'test', 'settings'];
-const pageFromHash = (): Page | null => pages.includes(location.hash.slice(1) as Page) ? location.hash.slice(1) as Page : null;
+const pageFromLocation = (): Page | null => {
+  const requested = new URLSearchParams(location.search).get('view');
+  return requested && pages.includes(requested as Page) ? requested as Page : null;
+};
+const pageUrl = (next: Page) => {
+  const url = new URL(location.href);
+  url.searchParams.set('view', next);
+  url.hash = '';
+  return `${url.pathname}${url.search}`;
+};
 let startupError = '';
 let state = await loadState().catch(() => {
   startupError = isNative()
@@ -25,7 +34,7 @@ let state = await loadState().catch(() => {
   return isDemo() ? sampleState() : emptyState();
 });
 let nativeSampleMode = false;
-let page: Page = pageFromHash() || (isDemo() ? 'rules' : 'capture');
+let page: Page = pageFromLocation() || (isDemo() ? 'rules' : 'capture');
 let proposal: Proposal | null = null;
 let testResult: { text: string; applied: string[] } | null = null;
 let notice = startupError;
@@ -51,8 +60,8 @@ function chrome(content: string, title: string, kicker: string) {
   return `<div class="app-shell" data-theme="${state.settings.theme}">
     ${isDemo() ? `<header class="demo-site-header"><a class="demo-wordmark" href="/" aria-label="DR BK, Dictation Repair Book home"><span aria-hidden="true">DR<br>BK</span><b>Dictation Repair Book</b></a><nav aria-label="Primary"><a href="/demo/">Demo</a><a href="/#how">How it works</a><a href="/privacy/">Privacy</a><a href="/#price">Price</a></nav></header>` : ''}
     <aside class="rail" aria-label="Product navigation">
-      <a class="brand" href="#capture" data-nav="capture" aria-label="Dictation Repair Book, capture page"><span class="brand-mark" aria-hidden="true">DR<br>BK</span><span class="brand-name">Dictation<br>Repair Book</span></a>
-      <nav aria-label="Repair book sections">${tabs.map((tab) => `<a class="nav-item ${page === tab.id ? 'active' : ''}" href="#${tab.id}" data-nav="${tab.id}" aria-current="${page === tab.id ? 'page' : 'false'}"><span aria-hidden="true">${tab.icon}</span>${tab.label}<kbd>${tab.key}</kbd></a>`).join('')}</nav>
+      <a class="brand" href="${pageUrl('capture')}" data-nav="capture" aria-label="Dictation Repair Book, capture page"><span class="brand-mark" aria-hidden="true">DR<br>BK</span><span class="brand-name">Dictation<br>Repair Book</span></a>
+      <nav aria-label="Repair book sections">${tabs.map((tab) => `<a class="nav-item ${page === tab.id ? 'active' : ''}" href="${pageUrl(tab.id)}" data-nav="${tab.id}" aria-current="${page === tab.id ? 'page' : 'false'}"><span aria-hidden="true">${tab.icon}</span>${tab.label}<kbd>${tab.key}</kbd></a>`).join('')}</nav>
       <div class="privacy-stamp"><span>LOCAL ONLY</span><p>${isNative() ? 'Vault encrypted on this device.' : 'Browser preview uses local storage.'}</p><small>${buildIdentity}</small></div>
     </aside>
     ${isDemo() || nativeSampleMode ? `<aside class="demo-banner" aria-label="Demo controls"><span><b>Demo</b> — sample data, nothing is saved.</span><button class="button secondary" data-action="reset-demo">Reset demo</button>${nativeSampleMode ? '<button class="button secondary" data-action="keep-sample">Keep this repair book</button><button class="button secondary" data-action="start-real">Start for real</button>' : '<a class="button secondary" href="/" data-action="start-real">Start for real</a>'}</aside>` : ''}
@@ -62,7 +71,7 @@ function chrome(content: string, title: string, kicker: string) {
       ${notice ? `<div class="notice" role="status">${esc(notice)}${lastRemoved ? ' <button data-action="undo-delete">Undo</button>' : ''}</div>` : ''}
       ${content}
     </main>
-    ${isDemo() ? `<footer class="demo-site-footer"><p>Private rules for repaired dictation text.</p><nav aria-label="Legal"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav><small>v0.1.5 · Built by Param Factory</small></footer>` : ''}
+    ${isDemo() ? `<footer class="demo-site-footer"><p>Private rules for repaired dictation text.</p><nav aria-label="Legal"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav><small>v0.1.6 · Built by Param Factory</small></footer>` : ''}
   </div>`;
 }
 
@@ -112,10 +121,10 @@ function render(moveFocus = false) {
 }
 
 function navigate(next: Page, addHistory = true) {
-  if (page === next && pageFromHash() === next) return;
+  if (page === next && pageFromLocation() === next) return;
   page = next;
   notice = '';
-  if (addHistory && location.hash !== `#${next}`) history.pushState({}, '', `#${next}`);
+  if (addHistory && pageFromLocation() !== next) history.pushState({}, '', pageUrl(next));
   render(true);
 }
 
@@ -138,7 +147,7 @@ app.addEventListener('click', async (event) => {
   const external = target.closest<HTMLAnchorElement>('a[href^="https://"]');
   if (external && isNative()) { event.preventDefault(); const { openUrl } = await import('@tauri-apps/plugin-opener'); await openUrl(external.href); return; }
   const nav = target.closest<HTMLElement>('[data-nav]')?.dataset.nav as Page | undefined;
-  if (nav) { navigate(nav); return; }
+  if (nav) { event.preventDefault(); navigate(nav); return; }
   const clip = target.closest<HTMLElement>('[data-clip]')?.dataset.clip;
   if (clip) { try { (document.getElementById(clip) as HTMLTextAreaElement).value = await readClipboard(); notice = ''; } catch { notice = 'Clipboard access was blocked. Paste with Ctrl/Command+V instead.'; render(); } return; }
   const action = target.closest<HTMLElement>('[data-action]')?.dataset.action;
@@ -174,10 +183,9 @@ app.addEventListener('submit', async (event) => {
 });
 
 function restoreRouteFromLocation() {
-  const target = pageFromHash();
+  const target = pageFromLocation();
   if (target && target !== page) { page = target; notice = ''; render(true); }
 }
-window.addEventListener('hashchange', restoreRouteFromLocation);
 window.addEventListener('popstate', restoreRouteFromLocation);
 
 app.addEventListener('change', async (event) => {
@@ -193,4 +201,4 @@ app.addEventListener('input', (event) => {
 });
 
 window.addEventListener('keydown', (event) => { if (event.altKey && ['1','2','3','4'].includes(event.key)) navigate((['capture','rules','test','settings'] as Page[])[Number(event.key)-1]); });
-render(Boolean(pageFromHash()));
+render(Boolean(pageFromLocation()));

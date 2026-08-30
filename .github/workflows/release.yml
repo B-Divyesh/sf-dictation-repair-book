@@ -100,6 +100,10 @@ jobs:
           RELEASE_VERSION: ${{ github.event.inputs.version || github.ref_name }}
           RELEASE_COMMIT: ${{ steps.release.outputs.commit }}
         run: node scripts/prepare-release.mjs "$RELEASE_VERSION"
+      - name: Verify published artifact provenance and checksums
+        env:
+          RELEASE_COMMIT: ${{ steps.release.outputs.commit }}
+        run: node scripts/verify-release-artifacts.mjs "${{ github.event.inputs.version || github.ref_name }}" release-assets
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.inputs.version || github.ref_name }}

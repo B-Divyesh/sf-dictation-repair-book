@@ -42,7 +42,7 @@ test('app fits a 390px window and keeps navigation reachable', async ({ page }) 
 });
 
 test('web preview identifies its release version without exposing book data', async ({ page }) => {
-  await expect(page.getByText('v0.1.5 · local preview', { exact: true })).toBeVisible();
+  await expect(page.getByText('v0.1.6 · local preview', { exact: true })).toBeVisible();
 });
 
 test('@claim:native-sample-isolation keeps the native sample away from real vault and license storage', async ({ page }) => {

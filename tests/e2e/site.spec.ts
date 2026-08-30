@@ -173,22 +173,25 @@ test('the landing ?demo=1 alias opens the isolated sample path in one navigation
   await expect(page.getByText('Kubernetes', { exact: true })).toBeVisible();
 });
 
-test('demo sections deep-link, restore with history, announce, and focus their h1', async ({ page }) => {
-  await page.goto('/demo/#test');
+test('demo sections use real query URLs, restore with history, announce, and focus their h1', async ({ page }) => {
+  await page.goto('/demo/?view=test');
   await expect(page.getByRole('heading', { name: 'Test your repair book' })).toBeFocused();
   await expect(page.locator('#route-announcement')).toHaveText('Test your repair book');
   await page.getByRole('link', { name: 'Settings' }).click();
-  await expect(page).toHaveURL(/\/demo\/#settings$/);
+  await expect(page).toHaveURL(/\/demo\/\?view=settings$/);
   await expect(page.getByRole('heading', { name: 'Settings & data' })).toBeFocused();
   await page.goBack();
-  await expect(page).toHaveURL(/\/demo\/#test$/);
+  await expect(page).toHaveURL(/\/demo\/\?view=test$/);
   await expect(page.getByRole('heading', { name: 'Test your repair book' })).toBeFocused();
   await page.goForward();
   await expect(page.getByRole('heading', { name: 'Settings & data' })).toBeFocused();
+  const routes = await page.locator('.rail [data-nav]').evaluateAll((links) => links.map((link) => link.getAttribute('href')));
+  expect(routes).toHaveLength(5);
+  expect(routes.every((route) => route?.includes('view=') && !route.startsWith('#'))).toBe(true);
 });
 
 test('Settings uses a complete sequential heading outline', async ({ page }) => {
-  await page.goto('/demo/?demo=1#settings');
+  await page.goto('/demo/?demo=1&view=settings');
   const outline = await page.locator('h1, h2, h3, h4, h5, h6').evaluateAll((headings) => headings.map((heading) => ({
     level: Number(heading.tagName.slice(1)),
     text: heading.textContent?.trim()
@@ -446,8 +449,13 @@ test('demo Rules and Settings fit 390px and primary touch targets are at least 4
     const width = await page.evaluate(() => ({ scroll: document.documentElement.scrollWidth, client: document.documentElement.clientWidth }));
     expect(width.scroll, `${name} overflow`).toBe(width.client);
   }
-  for (const name of ['Reset demo', 'Start for real']) {
-    const box = await page.getByRole(name === 'Reset demo' ? 'button' : 'link', { name }).boundingBox();
+  const targets: [string, 'button' | 'link'][] = [
+    ['Reset demo', 'button'],
+    ['Start for real', 'link'],
+    ['DR BK, Dictation Repair Book home', 'link']
+  ];
+  for (const [name, role] of targets) {
+    const box = await page.getByRole(role, { name }).boundingBox();
     expect(box!.height, `${name} height`).toBeGreaterThanOrEqual(44);
     expect(box!.width, `${name} width`).toBeGreaterThanOrEqual(44);
   }

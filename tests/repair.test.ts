@@ -150,7 +150,24 @@ describe('static deployment guards', () => {
       expect(asset.sha256).toMatch(/^[a-f0-9]{64}$/);
       expect(readFileSync(join(output, 'SHA256SUMS'), 'utf8')).toContain(`${asset.sha256}  ${asset.filename}`);
     }
+    const artifactVerification = new URL('../scripts/verify-release-artifacts.mjs', import.meta.url).pathname;
+    const verified = spawnSync(process.execPath, [artifactVerification, 'v9.9.9', output], { encoding: 'utf8', env: { ...process.env, RELEASE_COMMIT: commit } });
+    expect(verified.status, verified.stderr).toBe(0);
+    writeFileSync(join(output, 'latest.json'), JSON.stringify({ ...manifest, commit: '2f2e706eaa2d59e9b327bf91236e566fd7d5f9bc' }));
+    const staleRelease = spawnSync(process.execPath, [artifactVerification, 'v9.9.9', output], { encoding: 'utf8', env: { ...process.env, RELEASE_COMMIT: commit } });
+    expect(staleRelease.status).not.toBe(0);
+    expect(staleRelease.stderr).toContain('latest.json commit 2f2e706eaa2d59e9b327bf91236e566fd7d5f9bc does not match source');
     rmSync(root, { recursive: true, force: true });
+  });
+
+  it('ships distinct, accurately labelled Capture and Rules walkthrough frames', () => {
+    const capture = readFileSync(new URL('../public/assets/walkthrough-capture.png', import.meta.url));
+    const rules = readFileSync(new URL('../public/assets/walkthrough-rules.png', import.meta.url));
+    const landing = readFileSync(new URL('../site/index.html', import.meta.url), 'utf8');
+    expect(capture.equals(rules)).toBe(false);
+    expect(landing).toContain('walkthrough-capture.png');
+    expect(landing).toContain('Desktop Capture screen with original and corrected dictation fields');
+    expect(landing).toContain('Desktop Rules screen showing approved metoprolol, Kubernetes, and Niamh rules');
   });
 
   it('allows only the GitHub API for release metadata requests in the site CSP', () => {

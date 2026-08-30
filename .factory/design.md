@@ -52,7 +52,7 @@ Prompt sheet:
 - Social preview: `public/assets/social-card.jpg` is a 1200×630 center crop of the approved hero asset, created locally with ImageMagick on 2026-08-29; no new generated content was introduced.
 - Apple touch icon: `public/apple-touch-icon.png` is a 180×180 derivative of the hand-authored native app icon, created locally with ImageMagick on 2026-08-29.
 - Hand-authored SVG icons use simple geometric paths created for this project and are covered by the repository MIT license.
-- Desktop walkthrough images: `public/assets/walkthrough-{capture,rules,test,settings}.png` are Playwright captures of the shipped local demo UI at 1440×960 on 2026-08-29. They are product screenshots, not stock or generated imagery.
+- Desktop walkthrough images: `public/assets/walkthrough-{capture,rules,test,settings}.png` are Playwright captures of the shipped local UI at 1440×960. The Capture frame was recaptured from the repaired before/after form on 2026-08-30; the other frames remain product screenshots, not stock or generated imagery.
 
 ## Image review checklist
 
