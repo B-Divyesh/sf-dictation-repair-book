@@ -42,7 +42,7 @@ test('cold landing load has no failed requests or console errors before download
   expect(requests.some((url) => new URL(url).origin === 'https://api.github.com')).toBe(false);
 });
 
-test('download lookup uses the GitHub API only after intent and has a calm no-release state', async ({ page }) => {
+test('@claim:on-demand-release-lookup download lookup uses the GitHub API only after intent and has a calm no-release state', async ({ page }) => {
   let calls = 0;
   await page.route('**/repos/B-Divyesh/sf-dictation-repair-book/releases/latest', async (route) => {
     calls++;
@@ -181,6 +181,26 @@ test('demo sections deep-link, restore with history, announce, and focus their h
   await expect(page.getByRole('heading', { name: 'Test your repair book' })).toBeFocused();
   await page.goForward();
   await expect(page.getByRole('heading', { name: 'Settings & data' })).toBeFocused();
+});
+
+test('Settings uses a complete sequential heading outline', async ({ page }) => {
+  await page.goto('/demo/?demo=1#settings');
+  const outline = await page.locator('h1, h2, h3, h4, h5, h6').evaluateAll((headings) => headings.map((heading) => ({
+    level: Number(heading.tagName.slice(1)),
+    text: heading.textContent?.trim()
+  })));
+  expect(outline).toEqual([
+    { level: 1, text: 'Settings & data' },
+    { level: 2, text: 'Application access' },
+    { level: 2, text: 'Take your words anywhere' },
+    { level: 2, text: 'Theme' },
+    { level: 2, text: 'Keep an unlimited repair book' },
+    { level: 2, text: 'Erase this repair book' }
+  ]);
+  expect(outline.every((heading, index) => index === 0 || heading.level <= outline[index - 1].level + 1)).toBe(true);
+
+  const results = await new AxeBuilder({ page: page as never }).analyze();
+  expect(results.violations.filter((violation) => violation.id === 'heading-order')).toEqual([]);
 });
 
 test('demo banner does not cover the active heading on a 390px phone', async ({ page }) => {

@@ -84,6 +84,10 @@ describe('static deployment guards', () => {
     expect(runner).toContain('portOpen(4173)');
     expect(runner).toContain('portOpen(1420)');
   });
+  it('keeps generated native artifacts outside the preview server watch set', () => {
+    const config = readFileSync(new URL('../vite.config.ts', import.meta.url), 'utf8');
+    expect(config).toContain("'**/src-tauri/target/**'");
+  });
   it('@claim:checksum-installers refuses files that do not match SHA-256', () => {
     const powershell = readFileSync(new URL('../public/install.ps1', import.meta.url), 'utf8');
     const root = mkdtempSync(join(tmpdir(), 'drb-installer-'));

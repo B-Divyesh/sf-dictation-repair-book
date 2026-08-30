@@ -1,6 +1,6 @@
 [package]
 name = "dictation-repair-book"
-version = "0.1.4"
+version = "0.1.5"
 description = "A private correction-to-glossary utility"
 authors = ["Param Factory"]
 edition = "2021"

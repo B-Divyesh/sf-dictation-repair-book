@@ -77,6 +77,13 @@
     "sandbox": "fresh landing page; record requests; allow only the product origin and disclosed GitHub release API"
   },
   {
+    "id": "on-demand-release-lookup",
+    "claim": "The website checks the latest build only after a user chooses a download.",
+    "where": "landing first-screen download note",
+    "test": "npm run test:e2e -- --grep @claim:on-demand-release-lookup",
+    "sandbox": "fresh browser context; intercept the GitHub latest-release endpoint; assert zero calls before download intent and exactly one call after it"
+  },
+  {
     "id": "explicit-access",
     "claim": "The desktop capability set grants no audio, global-keyboard, or arbitrary-field access.",
     "where": "landing privacy section, privacy page, README",
