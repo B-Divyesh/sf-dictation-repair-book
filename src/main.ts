@@ -2,7 +2,7 @@ import './style.css';
 import { applyRules, exportCsv, exportWhisper, inferProposal, type Proposal } from './repair';
 import { eraseVault, isDemo, isNative, loadState, readClipboard, sampleState, saveState, writeClipboard } from './storage';
 import { acceptReturnedLicense, cachedUnlock, checkoutUrl, clearLicense, storeLicense, verifyLicense } from './license';
-import { buildIdentity } from './release';
+import { buildIdentity, releaseCommit, releaseTag } from './release';
 import { emptyState, parseRepairState, type Correction, type RepairState } from './types';
 import { mayTouchRealNativeData } from './native-sample';
 
@@ -57,21 +57,23 @@ function chrome(content: string, title: string, kicker: string) {
     { id: 'test', label: 'Test', key: '3', icon: '✓' },
     { id: 'settings', label: 'Settings', key: '4', icon: '⚙' }
   ];
-  return `<div class="app-shell" data-theme="${state.settings.theme}">
+  const demoControls = (native: boolean) => `<aside class="demo-banner${native ? ' native-demo-banner' : ''}" aria-label="Demo controls"><span><b>Demo</b> — sample data, nothing is saved.</span><button class="button secondary" data-action="reset-demo">Reset demo</button>${native ? '<button class="button secondary" data-action="keep-sample">Keep this repair book</button><button class="button secondary" data-action="start-real">Start for real</button>' : '<a class="button secondary" href="/" data-action="start-real">Start for real</a>'}</aside>`;
+  return `<div class="app-shell" data-theme="${state.settings.theme}" data-release-tag="${releaseTag}" data-release-commit="${releaseCommit}">
     ${isDemo() ? `<header class="demo-site-header"><a class="demo-wordmark" href="/" aria-label="DR BK, Dictation Repair Book home"><span aria-hidden="true">DR<br>BK</span><b>Dictation Repair Book</b></a><nav aria-label="Primary"><a href="/demo/">Demo</a><a href="/#how">How it works</a><a href="/privacy/">Privacy</a><a href="/#price">Price</a></nav></header>` : ''}
     <aside class="rail" aria-label="Product navigation">
       <a class="brand" href="${pageUrl('capture')}" data-nav="capture" aria-label="Dictation Repair Book, capture page"><span class="brand-mark" aria-hidden="true">DR<br>BK</span><span class="brand-name">Dictation<br>Repair Book</span></a>
       <nav aria-label="Repair book sections">${tabs.map((tab) => `<a class="nav-item ${page === tab.id ? 'active' : ''}" href="${pageUrl(tab.id)}" data-nav="${tab.id}" aria-current="${page === tab.id ? 'page' : 'false'}"><span aria-hidden="true">${tab.icon}</span>${tab.label}<kbd>${tab.key}</kbd></a>`).join('')}</nav>
       <div class="privacy-stamp"><span>LOCAL ONLY</span><p>${isNative() ? 'Vault encrypted on this device.' : 'Browser preview uses local storage.'}</p><small>${buildIdentity}</small></div>
     </aside>
-    ${isDemo() || nativeSampleMode ? `<aside class="demo-banner" aria-label="Demo controls"><span><b>Demo</b> — sample data, nothing is saved.</span><button class="button secondary" data-action="reset-demo">Reset demo</button>${nativeSampleMode ? '<button class="button secondary" data-action="keep-sample">Keep this repair book</button><button class="button secondary" data-action="start-real">Start for real</button>' : '<a class="button secondary" href="/" data-action="start-real">Start for real</a>'}</aside>` : ''}
+    ${isDemo() ? demoControls(false) : ''}
     <main id="main" tabindex="-1">
+      ${nativeSampleMode ? demoControls(true) : ''}
       <header class="work-header"><div><p class="eyebrow">${kicker}</p><h1 tabindex="-1">${title}</h1></div><span class="rule-count"><b>${approved().length}</b> approved</span></header>
       <p class="sr-only" aria-live="polite" id="route-announcement">${title}</p>
       ${notice ? `<div class="notice" role="status">${esc(notice)}${lastRemoved ? ' <button data-action="undo-delete">Undo</button>' : ''}</div>` : ''}
       ${content}
     </main>
-    ${isDemo() ? `<footer class="demo-site-footer"><p>Private rules for repaired dictation text.</p><nav aria-label="Legal"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav><small>v0.1.6 · Built by Param Factory</small></footer>` : ''}
+    ${isDemo() ? `<footer class="demo-site-footer"><p>Private rules for repaired dictation text.</p><nav aria-label="Legal"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav><small>v0.1.7 · Built by Param Factory</small></footer>` : ''}
   </div>`;
 }
 

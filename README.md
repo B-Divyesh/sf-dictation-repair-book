@@ -75,7 +75,7 @@ irm https://dictation-repair-book.sociobot.in/install.ps1 | iex
 
 The install commands compare the downloaded package with `SHA256SUMS`. Direct downloads include that published checksum. Current builds are unsigned, so macOS and Windows may ask you to confirm the first launch.
 
-Set the same version in `package.json`, `src-tauri/Cargo.toml`, and `src-tauri/tauri.conf.json`. Then push its `v*` tag or run the release workflow for that tag. The workflow refuses a tag that does not point at the checked-out source or whose app, Tauri, and Cargo versions disagree. It publishes `SHA256SUMS`, `latest.json`, and `build-info.json` with the exact source commit before attaching all files to the GitHub Release.
+Set the same version in `package.json`, `src-tauri/Cargo.toml`, and `src-tauri/tauri.conf.json`. Then push its `v*` tag or run the release workflow for that tag. The workflow refuses a tag that does not point at the checked-out source or whose app, Tauri, and Cargo versions disagree. Each packaged desktop webview carries its exact release tag and full source commit. The workflow publishes `SHA256SUMS`, `latest.json`, and `build-info.json` with that commit before attaching all files to the GitHub Release.
 
 ## License
 

@@ -42,7 +42,45 @@ test('app fits a 390px window and keeps navigation reachable', async ({ page }) 
 });
 
 test('web preview identifies its release version without exposing book data', async ({ page }) => {
-  await expect(page.getByText('v0.1.6 · local preview', { exact: true })).toBeVisible();
+  await expect(page.getByText('v0.1.7 · local preview', { exact: true })).toBeVisible();
+});
+
+test('native sample banner clears every rules heading element at the exact 1180x780 default window', async ({ page }) => {
+  await page.setViewportSize({ width: 1180, height: 780 });
+  await page.addInitScript(() => {
+    Object.defineProperty(window, '__TAURI_INTERNALS__', {
+      configurable: true,
+      value: { invoke: async (command: string) => command === 'load_state'
+        ? { version: 1, apps: [], corrections: [], settings: { theme: 'system' } }
+        : undefined }
+    });
+  });
+  await page.goto('http://127.0.0.1:1420');
+  await page.getByRole('button', { name: 'Load sample repair book' }).click();
+
+  const layout = await page.evaluate(() => {
+    const rectangle = (selector: string) => {
+      const element = document.querySelector(selector);
+      if (!element) throw new Error(`Missing ${selector}`);
+      const { top, right, bottom, left } = element.getBoundingClientRect();
+      return { top, right, bottom, left };
+    };
+    const banner = rectangle('.native-demo-banner');
+    const targets = ['.work-header .eyebrow', '.work-header h1', '.rule-count'].map(rectangle);
+    const overlaps = targets.map((target) => banner.left < target.right && banner.right > target.left && banner.top < target.bottom && banner.bottom > target.top);
+    return {
+      viewport: { width: innerWidth, height: innerHeight },
+      banner,
+      targets,
+      overlaps,
+      horizontalOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth
+    };
+  });
+
+  expect(layout.viewport).toEqual({ width: 1180, height: 780 });
+  expect(layout.overlaps).toEqual([false, false, false]);
+  expect(layout.banner.bottom).toBeLessThanOrEqual(Math.min(...layout.targets.map(({ top }) => top)));
+  expect(layout.horizontalOverflow).toBe(false);
 });
 
 test('@claim:native-sample-isolation keeps the native sample away from real vault and license storage', async ({ page }) => {

@@ -216,6 +216,23 @@ describe('static deployment guards', () => {
     expect(sourceMismatch.stderr).toContain('Refusing to publish v9.9.9');
     rmSync(root, { recursive: true, force: true });
   });
+  it('@claim:artifact-identity embeds the exact release tag and full source commit in the packaged webview', () => {
+    const root = mkdtempSync(join(tmpdir(), 'drb-artifact-identity-'));
+    const output = join(root, 'app');
+    const tag = 'v9.9.9';
+    const commit = 'a17f090a92296b516d827c7d538cfd002634b80a';
+    const env = { ...process.env, VITE_RELEASE_TAG: tag, VITE_RELEASE_COMMIT: commit, RELEASE_TAG: tag, RELEASE_COMMIT: commit };
+    const build = spawnSync('npm', ['run', 'build:app', '--', '--outDir', output], { cwd: new URL('..', import.meta.url).pathname, encoding: 'utf8', env });
+    expect(build.status, build.stderr).toBe(0);
+    const verify = new URL('../scripts/verify-built-identity.mjs', import.meta.url).pathname;
+    const exact = spawnSync(process.execPath, [verify, output], { encoding: 'utf8', env });
+    expect(exact.status, exact.stderr).toBe(0);
+    expect(JSON.parse(exact.stdout)).toMatchObject({ tag, commit });
+    const stale = spawnSync(process.execPath, [verify, output], { encoding: 'utf8', env: { ...env, RELEASE_COMMIT: 'b'.repeat(40) } });
+    expect(stale.status).not.toBe(0);
+    expect(stale.stderr).toContain('Built webview does not carry exact identity');
+    rmSync(root, { recursive: true, force: true });
+  }, 120_000);
   it('keeps the native sample storage policy explicit', () => {
     expect(mayTouchRealNativeData(true)).toBe(false);
     expect(mayTouchRealNativeData(false)).toBe(true);

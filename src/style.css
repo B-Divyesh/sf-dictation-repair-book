@@ -44,6 +44,7 @@ a { color:var(--ink); text-decoration-thickness:2px; text-underline-offset:3px; 
 .demo-site-footer a { min-height:44px; display:inline-flex; align-items:center; color:#f4f0e2; }
 .demo-site-footer small { grid-column:1/-1; color:#bdb9aa; font:12px ui-monospace,monospace; }
 .demo-banner { position:fixed; z-index:30; top:12px; right:16px; display:flex; align-items:center; gap:10px; max-width:min(700px,calc(100vw - 32px)); padding:8px 10px; border:2px solid var(--ink); background:var(--acid); color:#171714; box-shadow:4px 4px 0 var(--ink); font-size:14px; }
+.native-demo-banner { position:static; max-width:none; flex-wrap:wrap; margin:0 0 32px; }
 .demo-banner span { margin-right:4px; }
 .demo-banner .button { min-height:44px; padding:7px 10px; background:var(--paper); white-space:nowrap; }
 .rail { position:sticky; top:0; height:100vh; display:flex; flex-direction:column; padding:24px 16px 20px; border-right:3px solid var(--ink); background:var(--paper-deep); }
@@ -200,6 +201,7 @@ textarea { resize:vertical; font:600 16px/1.6 ui-monospace,"SFMono-Regular",Cons
   .button-grid { grid-template-columns:1fr; }
   .inline-form { flex-direction:column; }
   .demo-banner { position:static; max-width:none; flex-wrap:wrap; justify-content:flex-end; margin:12px 12px 0; }
+  .native-demo-banner { margin:0 0 24px; }
   .demo-banner span { flex:1 1 100%; }
   .demo-site-header { min-height:64px; padding:8px 12px; }
   .demo-site-header nav { display:none; }
