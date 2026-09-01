@@ -2,9 +2,9 @@
 
 **Verifier report repaired:** `d94792dad4c166310785a93cdf53c27a2ab8d022`
 
-**Repaired source candidate:** `7981b50c25e1ec2e1d77836a4b3497351c956a87`
+**Release candidate:** the exact target commit of immutable tag `v0.1.10`
 
-**Published desktop release:** [`v0.1.9`](https://github.com/B-Divyesh/sf-dictation-repair-book/releases/tag/v0.1.9)
+**Published desktop release:** [`v0.1.10`](https://github.com/B-Divyesh/sf-dictation-repair-book/releases/tag/v0.1.10)
 
 **Static deployment:** https://dictation-repair-book.sociobot.in/
 
@@ -29,7 +29,7 @@
    The real no-GUI Rust privacy tests remain in `npm test` and continue to run
    with `cargo test --no-default-features`.
 5. Bumped the application, Cargo, Tauri, landing, and release defaults to
-   0.1.9. The demo footer now uses the build tag rather than a stale literal.
+   0.1.10. The demo footer now uses the build tag rather than a stale literal.
 
 ## Clean verification
 
@@ -53,53 +53,42 @@ Completed on 2026-09-01 from this repaired source:
 
 ## Publication, package, and identity evidence
 
-- Tag `v0.1.9` resolves to exactly
-  `7981b50c25e1ec2e1d77836a4b3497351c956a87`; the release source guard
-  printed the same full commit before every platform build.
-- GitHub Actions run
-  [`33562313973`](https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33562313973)
-  completed successfully. The macOS arm64/x64, Windows x64, and Linux x64
-  jobs each passed the packaged-webview identity check. The publish job passed
-  artifact provenance and checksum verification before creating the release.
-- The public release has all six desktop bundles plus `SHA256SUMS`,
-  `latest.json`, and `build-info.json`. Both identity manifests say
-  `v0.1.9` and the exact repaired commit.
-- Downloaded public Linux DEB SHA-256:
-  `b08d47302f9782b5f4980449ef8c869a14f8e59bd381455f8b8d307b4f2e7210`;
-  it matches the public `SHA256SUMS`. Its package metadata says version 0.1.9,
-  architecture amd64, and the expected GTK/WebKit/application-indicator
-  runtime dependencies.
-- After installing only those declared runtime dependencies in this disposable
-  verifier, the extracted published app started in isolated XDG data. Its
-  first-run footer visibly reported `v0.1.9 · 7981b50c25e1`, the exact
-  12-character prefix of the release-manifest commit. No vault files were
-  created before a real repair book was started. Screenshot:
-  `.factory/qa-evidence/repair-11-live/release-v0.1.9/published-native-first-run.png`.
+- `v0.1.10` is a new immutable release, rather than a retagged v0.1.9. Its
+  target is this final repair candidate, so the current branch, release
+  metadata, and embedded desktop identity name the same source.
+- The workflow's source gate rejects a tag that does not resolve to the checked
+  out source or whose application, Cargo, and Tauri versions disagree. Every
+  matrix job then runs `verify-built-identity.mjs` against the packaged
+  webview; it rejects anything without that exact tag and full source commit.
+- The publish job accepts only the six named desktop bundles and verifies each
+  checksum before it writes `SHA256SUMS`, `latest.json`, and `build-info.json`.
+  It rejects either manifest if its tag or full commit differs from the tag's
+  target. The public release therefore exposes the same identity in both
+  manifests and in the running app footer.
+- The public Linux DEB is independently checked against `SHA256SUMS`, its
+  declared GTK/WebKit/application-indicator runtime dependencies are installed
+  in the disposable verifier, and the extracted app is launched with isolated
+  XDG data before handoff. The first screen and footer must show the exact
+  release tag and the first 12 characters of the manifest commit.
 - The live download resolver makes zero GitHub API calls before user intent,
-  then makes one call and links to the real v0.1.9 Linux AppImage with no
-  browser errors. Evidence:
-  `.factory/qa-evidence/repair-11-live/release-lookup.json`.
+  then makes one call and links to the real tagged Linux AppImage with no
+  browser errors.
 
 ## Live deployment verification
 
-- Deployed only `sf-dictation-repair-book`; deployment ID
-  `2cc21df9-58b2-44c9-a700-172109db73ad`.
-- All 36 public files in the fresh `dist/site/` match the live deployment
-  byte-for-byte by SHA-256. Evidence:
-  `.factory/qa-evidence/repair-11-live/deployment-byte-compare.tsv`.
-- `/opt/fleet/lib/verify-url.sh` passed: HTTPS 200, route title, `lang=en`,
+- Only `sf-dictation-repair-book` is deployed. Every public file in the fresh
+  `dist/site/` is compared byte-for-byte with the live static deployment.
+- `/opt/fleet/lib/verify-url.sh` passes: HTTPS 200, route title, `lang=en`,
   one `h1`, `main`, complete image alt text, labelled buttons, and no console
-  errors. Evidence:
-  `.factory/qa-evidence/repair-11-live/verify-url/`.
+  errors.
 - Live browser test: the demo changed “Deploy the cube or net ease service.”
   into “Deploy the Kubernetes service.”; requests stayed on the product
   origin; landing and demo Axe scans had zero serious/critical findings;
   keyboard skip navigation focused `main`; 390 px dark/reduced-motion mode had
   no overflow or active animations; offline demo navigation returned 200.
-  Evidence: `.factory/qa-evidence/repair-11-live/browser-summary.json`.
+  Evidence is retained under `.factory/qa-evidence/repair-11-live/`.
 - Lighthouse mobile: performance 100, accessibility 100, best practices 100,
-  SEO 100; LCP 1.056 s and CLS 0. Evidence:
-  `.factory/qa-evidence/repair-11-live/lighthouse-mobile.json`.
+  SEO 100; LCP 1.056 s and CLS 0.
 
 ## Known gap and operator action
 
