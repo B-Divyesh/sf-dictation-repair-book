@@ -1,6 +1,8 @@
 $ErrorActionPreference = "Stop"
 
-# The portable claim test lives in installers.mjs. This fixture still runs in Windows CI.
+# @claim:powershell-checksum-installer
+# This fixture invokes the shipped PowerShell installer. It is the claim test;
+# installers.mjs is only a fast static smoke check.
 
 $root = Split-Path -Parent $PSScriptRoot
 $installer = Join-Path $root "public/install.ps1"

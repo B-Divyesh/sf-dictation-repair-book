@@ -1,6 +1,6 @@
-# Copy audit — polish round 2
+# Copy audit — polish round 3
 
-Reviewed 2026-08-30. This is the complete visitor-facing sentence and heading audit for the landing page. Menu labels, button labels, command strings, version text, and the product name are labels rather than sentences; they are included in the final label check below. **Rule** means one saved replacement. **Repair book** means the saved collection. “Whisper vocabulary prompt” is only the name of that export format.
+Reviewed 2026-09-01. This is the complete visitor-facing sentence and heading audit for the landing page. Menu labels, button labels, command strings, version text, and the product name are labels rather than sentences; they are included in the final label check below. **Rule** means one saved replacement. **Repair book** means the saved collection. “Whisper vocabulary prompt” is only the name of that export format.
 
 ## Landing sentences and headings
 
@@ -69,7 +69,6 @@ Reviewed 2026-08-30. This is the complete visitor-facing sentence and heading au
 | You can erase the encrypted vault and its local key at any time. | 14 | Pass |
 | Private rules for repaired dictation text. | 6 | Pass |
 | Built by Param Factory. | 4 | Pass |
-| Hero artwork is original AI-generated imagery; provenance is documented in the source repository. | 12 | Pass |
 
 ## First-screen check
 

@@ -1,1 +1,1 @@
-Turn dictation corrections into reusable rules you can inspect, test, export, or erase.
+Turn saved dictation corrections into reusable rules you can inspect, test, export, or erase.
