@@ -1,0 +1,306 @@
+
+> dictation-repair-book@0.1.10 test
+> npm run test:unit && npm run test:installer-contract && npm run test:native && npm run test:e2e
+
+
+> dictation-repair-book@0.1.10 test:unit
+> vitest run
+
+
+ RUN  v3.2.7 /work/repo
+
+ ✓ tests/repair.test.ts (27 tests) 4653ms
+   ✓ static deployment guards > @claim:artifact-identity embeds the exact release tag and full source commit in the packaged webview  906ms
+   ✓ static deployment guards > @claim:build-output runs the production build and writes both product roots  1696ms
+   ✓ static deployment guards > @claim:checkout-price verifies the live one-time USD checkout price before public copy is released  1531ms
+
+ Test Files  1 passed (1)
+      Tests  27 passed (27)
+   Start at  23:20:58
+   Duration  5.30s (transform 96ms, setup 0ms, collect 115ms, tests 4.65s, environment 0ms, prepare 99ms)
+
+
+> dictation-repair-book@0.1.10 test:installer-contract
+> node tests/installers.mjs && pwsh -NoLogo -NoProfile -File tests/installers.ps1
+
+PowerShell installer static smoke check passed. The executable checksum claim runs tests/installers.ps1.
+Verified SHA256. Starting the unsigned Windows installer...
+Dictation Repair Book installer finished. Windows may show an unsigned-publisher warning on first launch.
+PowerShell installer checksum match and mismatch paths passed.
+
+> dictation-repair-book@0.1.10 test:native
+> cargo test --manifest-path src-tauri/Cargo.toml --no-default-features
+
+   Compiling proc-macro2 v1.0.107
+   Compiling unicode-ident v1.0.24
+   Compiling quote v1.0.47
+   Compiling serde_core v1.0.229
+   Compiling syn v2.0.119
+   Compiling syn v3.0.4
+   Compiling cfg-if v1.0.4
+   Compiling synstructure v0.13.2
+   Compiling stable_deref_trait v1.2.1
+   Compiling siphasher v1.0.3
+   Compiling zerofrom-derive v0.1.7
+   Compiling phf_shared v0.13.1
+   Compiling yoke-derive v0.8.2
+   Compiling zerofrom v0.1.8
+   Compiling fastrand v2.5.0
+   Compiling smallvec v1.15.2
+   Compiling phf_generator v0.13.1
+   Compiling yoke v0.8.3
+   Compiling zerovec-derive v0.11.6
+   Compiling memchr v2.8.3
+   Compiling displaydoc v0.2.7
+   Compiling zerovec v0.11.8
+   Compiling serde_derive v1.0.229
+   Compiling serde v1.0.229
+   Compiling libc v0.2.189
+   Compiling itoa v1.0.18
+   Compiling tinystr v0.8.4
+   Compiling phf_codegen v0.13.1
+   Compiling litemap v0.8.3
+   Compiling writeable v0.6.4
+   Compiling version_check v0.9.5
+   Compiling icu_locale_core v2.3.0
+   Compiling generic-array v0.14.7
+   Compiling getrandom v0.2.17
+   Compiling potential_utf v0.1.6
+   Compiling zerotrie v0.2.5
+   Compiling zmij v1.0.23
+   Compiling utf8_iter v1.0.4
+   Compiling parking_lot_core v0.9.12
+   Compiling icu_normalizer_data v2.3.0
+   Compiling icu_properties_data v2.3.0
+   Compiling icu_collections v2.3.0
+   Compiling icu_provider v2.3.1
+   Compiling rand_core v0.6.4
+   Compiling phf_macros v0.13.1
+   Compiling scopeguard v1.2.0
+   Compiling typenum v1.20.1
+   Compiling new_debug_unreachable v1.0.6
+   Compiling phf v0.13.1
+   Compiling lock_api v0.4.14
+   Compiling string_cache_codegen v0.6.1
+   Compiling precomputed-hash v0.1.1
+   Compiling winnow v1.0.4
+   Compiling serde_json v1.0.151
+   Compiling toml_parser v1.1.3+spec-1.1.0
+   Compiling web_atoms v0.2.6
+   Compiling parking_lot v0.12.5
+   Compiling icu_normalizer v2.3.0
+   Compiling icu_properties v2.3.0
+   Compiling serde_spanned v1.1.1
+   Compiling strsim v0.11.1
+   Compiling ident_case v1.0.1
+   Compiling toml_writer v1.1.2+spec-1.1.0
+   Compiling darling_core v0.23.0
+   Compiling idna_adapter v1.2.2
+   Compiling string_cache v0.9.0
+   Compiling crypto-common v0.1.7
+   Compiling semver v1.0.28
+   Compiling typeid v1.0.3
+   Compiling autocfg v1.5.1
+   Compiling dtoa v1.0.11
+   Compiling percent-encoding v2.3.2
+   Compiling log v0.4.34
+   Compiling form_urlencoded v1.2.2
+   Compiling dtoa-short v0.3.5
+   Compiling indexmap v1.9.3
+   Compiling darling_macro v0.23.0
+   Compiling idna v1.1.0
+   Compiling tendril v0.5.1
+   Compiling selectors v0.36.1
+   Compiling aho-corasick v1.1.5
+   Compiling cssparser-macros v0.6.1
+   Compiling derive_more-impl v2.1.1
+   Compiling uuid v1.26.0
+   Compiling toml_datetime v1.1.1+spec-1.1.0
+   Compiling thiserror v1.0.69
+   Compiling regex-syntax v0.8.11
+   Compiling thiserror v2.0.20
+   Compiling camino v1.2.5
+   Compiling unic-char-range v0.9.0
+   Compiling erased-serde v0.4.10
+   Compiling unic-common v0.9.0
+   Compiling unic-ucd-version v0.9.0
+   Compiling unic-char-property v0.9.0
+   Compiling toml v1.1.4+spec-1.1.0
+   Compiling regex-automata v0.4.18
+   Compiling derive_more v2.1.1
+   Compiling cssparser v0.36.0
+   Compiling markup5ever v0.38.0
+   Compiling url v2.5.8
+   Compiling darling v0.23.0
+   Compiling servo_arc v0.4.3
+   Compiling thiserror-impl v1.0.69
+   Compiling thiserror-impl v2.0.20
+   Compiling serde_derive_internals v0.29.1
+   Compiling num-conv v0.2.2
+   Compiling bitflags v2.13.1
+   Compiling hashbrown v0.12.3
+   Compiling bit-vec v0.8.0
+   Compiling schemars v0.8.22
+   Compiling equivalent v1.0.2
+   Compiling anyhow v1.0.104
+   Compiling find-msvc-tools v0.1.11
+   Compiling time-core v0.1.9
+   Compiling rustc-hash v2.1.3
+   Compiling powerfmt v0.2.0
+   Compiling deranged v0.5.8
+   Compiling hashbrown v0.17.1
+   Compiling shlex v2.0.1
+   Compiling fnv v1.0.7
+   Compiling byteorder v1.5.0
+   Compiling time v0.3.55
+   Compiling cfb v0.7.3
+   Compiling cc v1.4.4
+   Compiling indexmap v2.14.0
+   Compiling bit-set v0.8.0
+   Compiling schemars_derive v0.8.22
+   Compiling regex v1.13.1
+   Compiling serde_with_macros v3.22.0
+   Compiling html5ever v0.38.0
+   Compiling unic-ucd-ident v0.9.0
+   Compiling rustc_version v0.4.1
+   Compiling jsonptr v0.6.3
+   Compiling cargo-platform v0.1.9
+   Compiling quick-xml v0.41.0
+   Compiling toml_datetime v0.7.5+spec-1.1.0
+   Compiling zerocopy v0.8.56
+   Compiling winnow v0.7.15
+   Compiling foldhash v0.2.0
+   Compiling bytes v1.12.1
+   Compiling option-ext v0.2.0
+   Compiling ctor-proc-macro v0.0.7
+   Compiling dunce v1.0.5
+   Compiling base64 v0.22.1
+   Compiling dyn-clone v1.0.20
+   Compiling same-file v1.0.6
+   Compiling walkdir v2.5.0
+   Compiling plist v1.10.0
+   Compiling ctor v0.8.0
+   Compiling toml v0.9.12+spec-1.1.0
+   Compiling dirs-sys v0.5.0
+   Compiling http v1.5.0
+   Compiling dom_query v0.27.0
+   Compiling cargo_metadata v0.19.2
+   Compiling json-patch v3.0.1
+   Compiling embed-resource v3.0.11
+   Compiling urlpattern v0.3.0
+   Compiling serde_with v3.22.0
+   Compiling serde-untagged v0.1.9
+   Compiling infer v0.19.0
+   Compiling inout v0.1.4
+   Compiling glob v0.3.4
+   Compiling cpufeatures v0.2.17
+   Compiling subtle v2.6.1
+   Compiling universal-hash v0.5.1
+   Compiling tauri-utils v2.9.3
+   Compiling cipher v0.4.4
+   Compiling tauri-winres v0.3.6
+   Compiling cargo_toml v0.22.3
+   Compiling dirs v6.0.0
+   Compiling heck v0.5.0
+   Compiling opaque-debug v0.3.1
+   Compiling polyval v0.6.2
+   Compiling tauri-build v2.6.3
+   Compiling ppv-lite86 v0.2.21
+   Compiling rand_chacha v0.3.1
+   Compiling ghash v0.5.1
+   Compiling ctr v0.9.2
+   Compiling aes v0.8.4
+   Compiling aead v0.5.2
+   Compiling dictation-repair-book v0.1.10 (/work/repo/src-tauri)
+   Compiling aes-gcm v0.10.3
+   Compiling rand v0.8.8
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 55.91s
+     Running unittests src/lib.rs (src-tauri/target/debug/deps/dictation_repair_book_lib-af9942334d483f8e)
+
+running 4 tests
+test privacy::tests::claim_native_erase_removes_vault_and_key ... ok
+test privacy::tests::claim_encrypted_vault_uses_aes_256_gcm ... ok
+test privacy::tests::claim_per_device_key_is_random_and_private_on_unix ... ok
+test privacy::tests::rejects_partially_shaped_state_before_encryption ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (src-tauri/target/debug/deps/dictation_repair_book-e28beb6e91b9f725)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests dictation_repair_book_lib
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+> dictation-repair-book@0.1.10 test:e2e
+> node scripts/run-e2e.mjs
+
+[WebServer] (node:18786) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:18773) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:18822) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 45 tests using 1 worker
+(node:18867) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:18867) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·············································
+  45 passed (45.6s)
+
+> dictation-repair-book@0.1.10 typecheck
+> tsc --noEmit
+
+
+> dictation-repair-book@0.1.10 lint
+> eslint .
+
+
+> dictation-repair-book@0.1.10 build
+> npm run build:app && npm run build:site
+
+
+> dictation-repair-book@0.1.10 build:app
+> vite build
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 14 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/app/index.html                  0.61 kB │ gzip:  0.36 kB
+dist/app/assets/index-RuK5tDlY.css  15.97 kB │ gzip:  4.05 kB
+dist/app/assets/core-DlQNAQKj.js     0.13 kB │ gzip:  0.15 kB │ map: 11.35 kB
+dist/app/assets/index-BrQt8BRm.js    0.17 kB │ gzip:  0.17 kB │ map:  3.48 kB
+dist/app/assets/index-BgnGOvke.js   27.52 kB │ gzip: 10.02 kB │ map: 56.69 kB
+✓ built in 329ms
+
+> dictation-repair-book@0.1.10 build:site
+> vite build --config vite.site.config.ts
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 21 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/site/demo/index.html                             1.92 kB │ gzip: 0.65 kB
+../dist/site/404.html                                    2.75 kB │ gzip: 0.94 kB
+../dist/site/terms/index.html                            4.48 kB │ gzip: 1.61 kB
+../dist/site/privacy/index.html                          4.61 kB │ gzip: 1.69 kB
+../dist/site/index.html                                 14.63 kB │ gzip: 4.27 kB
+../dist/site/assets/site-D642qofu.css                   11.98 kB │ gzip: 3.23 kB
+../dist/site/assets/demo-RuK5tDlY.css                   15.97 kB │ gzip: 4.05 kB
+../dist/site/assets/core-DlQNAQKj.js                     0.13 kB │ gzip: 0.15 kB │ map: 11.35 kB
+../dist/site/assets/index-BrQt8BRm.js                    0.17 kB │ gzip: 0.17 kB │ map:  3.48 kB
+../dist/site/assets/modulepreload-polyfill-B5Qt9EMX.js   0.77 kB │ gzip: 0.44 kB │ map:  0.12 kB
+../dist/site/assets/index-CUAqEr4u.js                    4.47 kB │ gzip: 1.88 kB │ map: 10.41 kB
+../dist/site/assets/demo-Cm308AJT.js                    26.85 kB │ gzip: 9.78 kB │ map: 56.69 kB
+✓ built in 401ms

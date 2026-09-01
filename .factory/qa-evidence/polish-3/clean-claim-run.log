@@ -1,0 +1,1005 @@
+
+=== CLAIM 1/34: demo-sandbox ===
+
+> dictation-repair-book@0.1.10 test:e2e
+> node scripts/run-e2e.mjs --grep @claim:demo-sandbox
+
+[WebServer] (node:1712) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:1699) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:1749) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:1768) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1768) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (6.4s)
+
+=== CLAIM 2/34: no-account ===
+
+> dictation-repair-book@0.1.10 test:e2e
+> node scripts/run-e2e.mjs --grep @claim:no-account
+
+[WebServer] (node:1910) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:1897) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:1947) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:1967) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1967) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.8s)
+
+=== CLAIM 3/34: rule-management ===
+
+> dictation-repair-book@0.1.10 test:e2e
+> node scripts/run-e2e.mjs --grep @claim:rule-management
+
+[WebServer] (node:2094) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:2081) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:2130) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:2150) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2150) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (5.1s)
+
+=== CLAIM 4/34: literal-code-replacement ===
+
+> dictation-repair-book@0.1.10 test:unit
+> vitest run --testNamePattern @claim:literal-code-replacement
+
+
+ RUN  v3.2.7 /tmp/dictation-repair-book-clean.DhH3Mx
+
+ ✓ tests/repair.test.ts (27 tests | 26 skipped) 5ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 26 skipped (27)
+   Start at  23:08:40
+   Duration  599ms (transform 144ms, setup 0ms, collect 120ms, tests 5ms, environment 0ms, prepare 113ms)
+
+
+=== CLAIM 5/34: longest-rule-first ===
+
+> dictation-repair-book@0.1.10 test:unit
+> vitest run --testNamePattern @claim:longest-rule-first
+
+
+ RUN  v3.2.7 /tmp/dictation-repair-book-clean.DhH3Mx
+
+ ✓ tests/repair.test.ts (27 tests | 26 skipped) 5ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 26 skipped (27)
+   Start at  23:08:41
+   Duration  615ms (transform 115ms, setup 0ms, collect 125ms, tests 5ms, environment 0ms, prepare 82ms)
+
+
+=== CLAIM 6/34: local-repair ===
+
+> dictation-repair-book@0.1.10 test:e2e
+> node scripts/run-e2e.mjs --grep @claim:local-repair
+
+[WebServer] (node:2532) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:2519) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:2569) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:2588) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2588) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.6s)
+
+=== CLAIM 7/34: portable-exports ===
+
+> dictation-repair-book@0.1.10 test:e2e
+> node scripts/run-e2e.mjs --grep @claim:portable-exports
+
+[WebServer] (node:2740) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:2727) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:2776) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:2795) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2795) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.7s)
+
+=== CLAIM 8/34: json-roundtrip ===
+
+> dictation-repair-book@0.1.10 test:e2e
+> node scripts/run-e2e.mjs --grep @claim:json-roundtrip
+
+[WebServer] (node:2950) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:2934) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:2986) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:3005) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3005) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.9s)
+
+=== CLAIM 9/34: whisper-export ===
+
+> dictation-repair-book@0.1.10 test:e2e
+> node scripts/run-e2e.mjs --grep @claim:whisper-export
+
+[WebServer] (node:3136) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3123) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3173) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:3192) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3192) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.6s)
+
+=== CLAIM 10/34: private-demo ===
+
+> dictation-repair-book@0.1.10 test:e2e
+> node scripts/run-e2e.mjs --grep @claim:private-demo
+
+[WebServer] (node:3322) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3309) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3358) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:3377) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3377) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.6s)
+
+=== CLAIM 11/34: website-privacy ===
+
+> dictation-repair-book@0.1.10 test:e2e
+> node scripts/run-e2e.mjs --grep @claim:website-privacy
+
+[WebServer] (node:3506) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3493) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3542) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:3561) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3561) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.5s)
+
+=== CLAIM 12/34: on-demand-release-lookup ===
+
+> dictation-repair-book@0.1.10 test:e2e
+> node scripts/run-e2e.mjs --grep @claim:on-demand-release-lookup
+
+[WebServer] (node:3692) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3679) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3728) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:3747) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3747) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.7s)
+
+=== CLAIM 13/34: explicit-access ===
+
+> dictation-repair-book@0.1.10 test:unit
+> vitest run --testNamePattern @claim:explicit-access
+
+
+ RUN  v3.2.7 /tmp/dictation-repair-book-clean.DhH3Mx
+
+ ✓ tests/repair.test.ts (27 tests | 26 skipped) 3ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 26 skipped (27)
+   Start at  23:09:27
+   Duration  599ms (transform 122ms, setup 0ms, collect 114ms, tests 3ms, environment 0ms, prepare 125ms)
+
+
+=== CLAIM 14/34: clipboard-on-command ===
+
+> dictation-repair-book@0.1.10 test:e2e
+> node scripts/run-e2e.mjs --grep @claim:clipboard-on-command
+
+[WebServer] (node:4038) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4025) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4075) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:4094) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4094) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.7s)
+
+=== CLAIM 15/34: free-book ===
+
+> dictation-repair-book@0.1.10 test:e2e
+> node scripts/run-e2e.mjs --grep @claim:free-book
+
+[WebServer] (node:4226) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4213) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4263) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:4282) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4282) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (5.1s)
+
+=== CLAIM 16/34: erase-local-book ===
+
+> dictation-repair-book@0.1.10 test:e2e
+> node scripts/run-e2e.mjs --grep @claim:erase-local-book
+
+[WebServer] (node:4415) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4402) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:4451) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:4470) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4470) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.7s)
+
+=== CLAIM 17/34: native-erase ===
+    Updating crates.io index
+ Downloading crates ...
+  Downloaded dtor-proc-macro v0.0.6
+  Downloaded dtor v0.3.0
+  Downloaded dunce v1.0.5
+  Downloaded potential_utf v0.1.6
+  Downloaded rand_chacha v0.3.1
+  Downloaded litemap v0.8.3
+  Downloaded serde_json v1.0.151
+  Downloaded http v1.5.0
+  Downloaded semver v1.0.28
+  Downloaded dyn-clone v1.0.20
+  Downloaded aead v0.5.2
+  Downloaded string_cache_codegen v0.6.1
+  Downloaded string_cache v0.9.0
+  Downloaded phf_macros v0.13.1
+  Downloaded indexmap v2.14.0
+  Downloaded parking_lot v0.12.5
+  Downloaded ppv-lite86 v0.2.21
+  Downloaded glob v0.3.4
+  Downloaded getrandom v0.2.17
+  Downloaded idna v1.1.0
+  Downloaded inout v0.1.4
+  Downloaded schemars v0.8.22
+  Downloaded serde_derive v1.0.229
+  Downloaded rustc_version v0.4.1
+  Downloaded equivalent v1.0.2
+  Downloaded icu_properties v2.3.0
+  Downloaded polyval v0.6.2
+  Downloaded writeable v0.6.4
+  Downloaded idna_adapter v1.2.2
+  Downloaded option-ext v0.2.0
+  Downloaded percent-encoding v2.3.2
+  Downloaded infer v0.19.0
+  Downloaded itoa v1.0.18
+  Downloaded strsim v0.11.1
+  Downloaded url v2.5.8
+  Downloaded camino v1.2.5
+  Downloaded generic-array v0.14.7
+  Downloaded json-patch v3.0.1
+  Downloaded precomputed-hash v0.1.1
+  Downloaded serde_spanned v1.1.1
+  Downloaded web_atoms v0.2.6
+  Downloaded embed-resource v3.0.11
+  Downloaded time-macros v0.2.32
+  Downloaded byteorder v1.5.0
+  Downloaded ident_case v1.0.1
+  Downloaded markup5ever v0.38.0
+  Downloaded phf_generator v0.13.1
+  Downloaded cc v1.4.4
+  Downloaded bit-vec v0.8.0
+  Downloaded typeid v1.0.3
+  Downloaded tinyvec v1.12.0
+  Downloaded tinyvec_macros v0.1.1
+  Downloaded universal-hash v0.5.1
+  Downloaded same-file v1.0.6
+  Downloaded scopeguard v1.2.0
+  Downloaded serde_core v1.0.229
+  Downloaded zerofrom-derive v0.1.7
+  Downloaded bytes v1.12.1
+  Downloaded fnv v1.0.7
+  Downloaded siphasher v1.0.3
+  Downloaded unic-common v0.9.0
+  Downloaded bit-set v0.8.0
+  Downloaded cargo_metadata v0.19.2
+  Downloaded derive_more v2.1.1
+  Downloaded deranged v0.5.8
+  Downloaded bs58 v0.5.1
+  Downloaded cargo-platform v0.1.9
+  Downloaded zerovec-derive v0.11.6
+  Downloaded cipher v0.4.4
+  Downloaded tendril v0.5.1
+  Downloaded toml_datetime v1.1.1+spec-1.1.0
+  Downloaded unic-char-property v0.9.0
+  Downloaded urlpattern v0.3.0
+  Downloaded anyhow v1.0.104
+  Downloaded cfg-if v1.0.4
+  Downloaded dirs v6.0.0
+  Downloaded ctr v0.9.2
+  Downloaded defmt-parser v1.0.0
+  Downloaded dirs-sys v0.5.0
+  Downloaded hex v0.4.3
+  Downloaded jiff-core v0.1.0
+  Downloaded new_debug_unreachable v1.0.6
+  Downloaded smallvec v1.15.2
+  Downloaded tinystr v0.8.4
+  Downloaded toml_parser v1.1.3+spec-1.1.0
+  Downloaded dtoa-short v0.3.5
+  Downloaded unic-ucd-version v0.9.0
+  Downloaded bitflags v1.3.2
+  Downloaded cpufeatures v0.2.17
+  Downloaded powerfmt v0.2.0
+  Downloaded toml_writer v1.1.2+spec-1.1.0
+  Downloaded utf8_iter v1.0.4
+  Downloaded yoke-derive v0.8.2
+  Downloaded ctor v0.8.0
+  Downloaded darling_macro v0.23.0
+  Downloaded tauri-utils v2.9.3
+  Downloaded thiserror-impl v1.0.69
+  Downloaded toml_datetime v0.7.5+spec-1.1.0
+  Downloaded unicode-ident v1.0.24
+  Downloaded version_check v0.9.5
+  Downloaded bitflags v2.13.1
+  Downloaded cfb v0.7.3
+  Downloaded subtle v2.6.1
+  Downloaded tauri-build v2.6.3
+  Downloaded base64 v0.22.1
+  Downloaded cargo_toml v0.22.3
+  Downloaded walkdir v2.5.0
+  Downloaded yoke v0.8.3
+  Downloaded zerotrie v0.2.5
+  Downloaded cssparser v0.36.0
+  Downloaded defmt v1.1.1
+  Downloaded derive_more-impl v2.1.1
+  Downloaded displaydoc v0.2.7
+  Downloaded dom_query v0.27.0
+  Downloaded phf_codegen v0.13.1
+  Downloaded rustc-hash v2.1.3
+  Downloaded zerovec v0.11.8
+  Downloaded aes-gcm v0.10.3
+  Downloaded fastrand v2.5.0
+  Downloaded num-conv v0.2.2
+  Downloaded opaque-debug v0.3.1
+  Downloaded phf_shared v0.13.1
+  Downloaded ref-cast-impl v1.0.27
+  Downloaded schemars_derive v0.8.22
+  Downloaded serde-untagged v0.1.9
+  Downloaded servo_arc v0.4.3
+  Downloaded shlex v2.0.1
+  Downloaded stable_deref_trait v1.2.1
+  Downloaded toml v0.9.12+spec-1.1.0
+  Downloaded typenum v1.20.1
+  Downloaded winnow v1.0.4
+  Downloaded aho-corasick v1.1.5
+  Downloaded chrono v0.4.45
+  Downloaded dtoa v1.0.11
+  Downloaded erased-serde v0.4.10
+  Downloaded find-msvc-tools v0.1.11
+  Downloaded foldhash v0.2.0
+  Downloaded form_urlencoded v1.2.2
+  Downloaded ghash v0.5.1
+  Downloaded heck v0.5.0
+  Downloaded lock_api v0.4.14
+  Downloaded parking_lot_core v0.9.12
+  Downloaded phf v0.13.1
+  Downloaded proc-macro2 v1.0.107
+  Downloaded quote v1.0.47
+  Downloaded rand_core v0.6.4
+  Downloaded ref-cast v1.0.27
+  Downloaded serde_derive_internals v0.29.1
+  Downloaded serde_with_macros v3.22.0
+  Downloaded syn v2.0.119
+  Downloaded syn v3.0.4
+  Downloaded synstructure v0.13.2
+  Downloaded time v0.3.55
+  Downloaded toml v1.1.4+spec-1.1.0
+  Downloaded autocfg v1.5.1
+  Downloaded ctor-proc-macro v0.0.7
+  Downloaded defmt-macros v1.1.1
+  Downloaded jsonptr v0.6.3
+  Downloaded serde v1.0.229
+  Downloaded num-traits v0.2.19
+  Downloaded plist v1.10.0
+  Downloaded time-core v0.1.9
+  Downloaded crypto-common v0.1.7
+  Downloaded iana-time-zone v0.1.65
+  Downloaded icu_provider v2.3.1
+  Downloaded indexmap v1.9.3
+  Downloaded schemars v0.9.0
+  Downloaded selectors v0.36.1
+  Downloaded unic-ucd-ident v0.9.0
+  Downloaded uuid v1.26.0
+  Downloaded aes v0.8.4
+  Downloaded cssparser-macros v0.6.1
+  Downloaded html5ever v0.38.0
+  Downloaded icu_locale_core v2.3.0
+  Downloaded icu_normalizer_data v2.3.0
+  Downloaded log v0.4.34
+  Downloaded memchr v2.8.3
+  Downloaded rand v0.8.8
+  Downloaded thiserror v2.0.20
+  Downloaded hashbrown v0.12.3
+  Downloaded icu_collections v2.3.0
+  Downloaded schemars v1.2.2
+  Downloaded thiserror-impl v2.0.20
+  Downloaded winnow v0.7.15
+  Downloaded zerocopy v0.8.56
+  Downloaded darling_core v0.23.0
+  Downloaded hashbrown v0.17.1
+  Downloaded tauri-winres v0.3.6
+  Downloaded unic-char-range v0.9.0
+  Downloaded zmij v1.0.23
+  Downloaded regex v1.13.1
+  Downloaded thiserror v1.0.69
+  Downloaded icu_properties_data v2.3.0
+  Downloaded serde_with v3.22.0
+  Downloaded quick-xml v0.41.0
+  Downloaded icu_normalizer v2.3.0
+  Downloaded regex-syntax v0.8.11
+  Downloaded regex-automata v0.4.18
+  Downloaded jiff v0.2.35
+  Downloaded libc v0.2.189
+  Downloaded darling v0.23.0
+  Downloaded zerofrom v0.1.8
+   Compiling proc-macro2 v1.0.107
+   Compiling unicode-ident v1.0.24
+   Compiling quote v1.0.47
+   Compiling serde_core v1.0.229
+   Compiling syn v2.0.119
+   Compiling syn v3.0.4
+   Compiling cfg-if v1.0.4
+   Compiling synstructure v0.13.2
+   Compiling stable_deref_trait v1.2.1
+   Compiling siphasher v1.0.3
+   Compiling zerofrom-derive v0.1.7
+   Compiling phf_shared v0.13.1
+   Compiling yoke-derive v0.8.2
+   Compiling zerofrom v0.1.8
+   Compiling smallvec v1.15.2
+   Compiling fastrand v2.5.0
+   Compiling phf_generator v0.13.1
+   Compiling yoke v0.8.3
+   Compiling zerovec-derive v0.11.6
+   Compiling memchr v2.8.3
+   Compiling displaydoc v0.2.7
+   Compiling zerovec v0.11.8
+   Compiling serde_derive v1.0.229
+   Compiling serde v1.0.229
+   Compiling libc v0.2.189
+   Compiling itoa v1.0.18
+   Compiling tinystr v0.8.4
+   Compiling phf_codegen v0.13.1
+   Compiling litemap v0.8.3
+   Compiling version_check v0.9.5
+   Compiling writeable v0.6.4
+   Compiling generic-array v0.14.7
+   Compiling icu_locale_core v2.3.0
+   Compiling getrandom v0.2.17
+   Compiling potential_utf v0.1.6
+   Compiling zerotrie v0.2.5
+   Compiling zmij v1.0.23
+   Compiling icu_normalizer_data v2.3.0
+   Compiling parking_lot_core v0.9.12
+   Compiling utf8_iter v1.0.4
+   Compiling icu_properties_data v2.3.0
+   Compiling icu_collections v2.3.0
+   Compiling icu_provider v2.3.1
+   Compiling rand_core v0.6.4
+   Compiling phf_macros v0.13.1
+   Compiling typenum v1.20.1
+   Compiling new_debug_unreachable v1.0.6
+   Compiling scopeguard v1.2.0
+   Compiling lock_api v0.4.14
+   Compiling phf v0.13.1
+   Compiling string_cache_codegen v0.6.1
+   Compiling winnow v1.0.4
+   Compiling precomputed-hash v0.1.1
+   Compiling serde_json v1.0.151
+   Compiling toml_parser v1.1.3+spec-1.1.0
+   Compiling web_atoms v0.2.6
+   Compiling parking_lot v0.12.5
+   Compiling icu_properties v2.3.0
+   Compiling icu_normalizer v2.3.0
+   Compiling serde_spanned v1.1.1
+   Compiling ident_case v1.0.1
+   Compiling toml_writer v1.1.2+spec-1.1.0
+   Compiling strsim v0.11.1
+   Compiling darling_core v0.23.0
+   Compiling idna_adapter v1.2.2
+   Compiling string_cache v0.9.0
+   Compiling crypto-common v0.1.7
+   Compiling semver v1.0.28
+   Compiling autocfg v1.5.1
+   Compiling log v0.4.34
+   Compiling percent-encoding v2.3.2
+   Compiling dtoa v1.0.11
+   Compiling typeid v1.0.3
+   Compiling darling_macro v0.23.0
+   Compiling dtoa-short v0.3.5
+   Compiling form_urlencoded v1.2.2
+   Compiling indexmap v1.9.3
+   Compiling idna v1.1.0
+   Compiling tendril v0.5.1
+   Compiling selectors v0.36.1
+   Compiling aho-corasick v1.1.5
+   Compiling derive_more-impl v2.1.1
+   Compiling cssparser-macros v0.6.1
+   Compiling toml_datetime v1.1.1+spec-1.1.0
+   Compiling uuid v1.26.0
+   Compiling regex-syntax v0.8.11
+   Compiling erased-serde v0.4.10
+   Compiling unic-char-range v0.9.0
+   Compiling thiserror v2.0.20
+   Compiling camino v1.2.5
+   Compiling unic-common v0.9.0
+   Compiling thiserror v1.0.69
+   Compiling unic-ucd-version v0.9.0
+   Compiling unic-char-property v0.9.0
+   Compiling toml v1.1.4+spec-1.1.0
+   Compiling regex-automata v0.4.18
+   Compiling cssparser v0.36.0
+   Compiling derive_more v2.1.1
+   Compiling markup5ever v0.38.0
+   Compiling url v2.5.8
+   Compiling darling v0.23.0
+   Compiling servo_arc v0.4.3
+   Compiling thiserror-impl v1.0.69
+   Compiling thiserror-impl v2.0.20
+   Compiling serde_derive_internals v0.29.1
+   Compiling schemars v0.8.22
+   Compiling bit-vec v0.8.0
+   Compiling time-core v0.1.9
+   Compiling shlex v2.0.1
+   Compiling byteorder v1.5.0
+   Compiling rustc-hash v2.1.3
+   Compiling equivalent v1.0.2
+   Compiling find-msvc-tools v0.1.11
+   Compiling hashbrown v0.17.1
+   Compiling hashbrown v0.12.3
+   Compiling num-conv v0.2.2
+   Compiling powerfmt v0.2.0
+   Compiling fnv v1.0.7
+   Compiling bitflags v2.13.1
+   Compiling anyhow v1.0.104
+   Compiling deranged v0.5.8
+   Compiling time v0.3.55
+   Compiling cfb v0.7.3
+   Compiling indexmap v2.14.0
+   Compiling cc v1.4.4
+   Compiling bit-set v0.8.0
+   Compiling schemars_derive v0.8.22
+   Compiling regex v1.13.1
+   Compiling serde_with_macros v3.22.0
+   Compiling html5ever v0.38.0
+   Compiling unic-ucd-ident v0.9.0
+   Compiling rustc_version v0.4.1
+   Compiling jsonptr v0.6.3
+   Compiling cargo-platform v0.1.9
+   Compiling quick-xml v0.41.0
+   Compiling toml_datetime v0.7.5+spec-1.1.0
+   Compiling option-ext v0.2.0
+   Compiling ctor-proc-macro v0.0.7
+   Compiling dunce v1.0.5
+   Compiling same-file v1.0.6
+   Compiling zerocopy v0.8.56
+   Compiling bytes v1.12.1
+   Compiling dyn-clone v1.0.20
+   Compiling base64 v0.22.1
+   Compiling foldhash v0.2.0
+   Compiling winnow v0.7.15
+   Compiling dom_query v0.27.0
+   Compiling toml v0.9.12+spec-1.1.0
+   Compiling http v1.5.0
+   Compiling plist v1.10.0
+   Compiling walkdir v2.5.0
+   Compiling ctor v0.8.0
+   Compiling dirs-sys v0.5.0
+   Compiling json-patch v3.0.1
+   Compiling cargo_metadata v0.19.2
+   Compiling embed-resource v3.0.11
+   Compiling urlpattern v0.3.0
+   Compiling serde_with v3.22.0
+   Compiling serde-untagged v0.1.9
+   Compiling infer v0.19.0
+   Compiling inout v0.1.4
+   Compiling subtle v2.6.1
+   Compiling glob v0.3.4
+   Compiling cpufeatures v0.2.17
+   Compiling universal-hash v0.5.1
+   Compiling cipher v0.4.4
+   Compiling tauri-utils v2.9.3
+   Compiling tauri-winres v0.3.6
+   Compiling dirs v6.0.0
+   Compiling cargo_toml v0.22.3
+   Compiling heck v0.5.0
+   Compiling opaque-debug v0.3.1
+   Compiling polyval v0.6.2
+   Compiling ppv-lite86 v0.2.21
+   Compiling tauri-build v2.6.3
+   Compiling rand_chacha v0.3.1
+   Compiling ghash v0.5.1
+   Compiling aes v0.8.4
+   Compiling ctr v0.9.2
+   Compiling aead v0.5.2
+   Compiling dictation-repair-book v0.1.10 (/tmp/dictation-repair-book-clean.DhH3Mx/src-tauri)
+   Compiling aes-gcm v0.10.3
+   Compiling rand v0.8.8
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 54.91s
+     Running unittests src/lib.rs (src-tauri/target/debug/deps/dictation_repair_book_lib-af9942334d483f8e)
+
+running 1 test
+test privacy::tests::claim_native_erase_removes_vault_and_key ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (src-tauri/target/debug/deps/dictation_repair_book-e28beb6e91b9f725)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+=== CLAIM 18/34: license-backoff ===
+
+> dictation-repair-book@0.1.10 test:e2e
+> node scripts/run-e2e.mjs --grep @claim:license-backoff
+
+[WebServer] (node:7386) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7373) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7445) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:7464) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7464) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (5.0s)
+
+=== CLAIM 19/34: license-daily-cache ===
+
+> dictation-repair-book@0.1.10 test:e2e
+> node scripts/run-e2e.mjs --grep @claim:license-daily-cache
+
+[WebServer] (node:7602) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7589) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7642) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:7661) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7661) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.6s)
+
+=== CLAIM 20/34: license-request-privacy ===
+
+> dictation-repair-book@0.1.10 test:e2e
+> node scripts/run-e2e.mjs --grep @claim:license-request-privacy
+
+[WebServer] (node:7789) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7776) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7825) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:7844) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7844) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.6s)
+
+=== CLAIM 21/34: license-return ===
+
+> dictation-repair-book@0.1.10 test:e2e
+> node scripts/run-e2e.mjs --grep @claim:license-return
+
+[WebServer] (node:7972) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7959) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:8008) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:8027) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8027) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.7s)
+
+=== CLAIM 22/34: encrypted-vault ===
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.20s
+     Running unittests src/lib.rs (src-tauri/target/debug/deps/dictation_repair_book_lib-af9942334d483f8e)
+
+running 1 test
+test privacy::tests::claim_encrypted_vault_uses_aes_256_gcm ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (src-tauri/target/debug/deps/dictation_repair_book-e28beb6e91b9f725)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+=== CLAIM 23/34: per-device-key ===
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.19s
+     Running unittests src/lib.rs (src-tauri/target/debug/deps/dictation_repair_book_lib-af9942334d483f8e)
+
+running 1 test
+test privacy::tests::claim_per_device_key_is_random_and_private_on_unix ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (src-tauri/target/debug/deps/dictation_repair_book-e28beb6e91b9f725)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+=== CLAIM 24/34: revoked-license-locks ===
+
+> dictation-repair-book@0.1.10 test:e2e
+> node scripts/run-e2e.mjs --grep @claim:revoked-license-locks
+
+[WebServer] (node:8179) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:8166) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:8215) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:8234) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8234) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.8s)
+
+=== CLAIM 25/34: checksum-installers ===
+
+> dictation-repair-book@0.1.10 test:unit
+> vitest run --testNamePattern @claim:checksum-installers
+
+
+ RUN  v3.2.7 /tmp/dictation-repair-book-clean.DhH3Mx
+
+ ✓ tests/repair.test.ts (27 tests | 26 skipped) 22ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 26 skipped (27)
+   Start at  23:11:16
+   Duration  657ms (transform 200ms, setup 0ms, collect 142ms, tests 22ms, environment 0ms, prepare 139ms)
+
+
+=== CLAIM 26/34: powershell-checksum-installer ===
+Verified SHA256. Starting the unsigned Windows installer...
+Dictation Repair Book installer finished. Windows may show an unsigned-publisher warning on first launch.
+PowerShell installer checksum match and mismatch paths passed.
+
+=== CLAIM 27/34: release-matrix ===
+
+> dictation-repair-book@0.1.10 test:unit
+> vitest run --testNamePattern @claim:release-matrix
+
+
+ RUN  v3.2.7 /tmp/dictation-repair-book-clean.DhH3Mx
+
+ ✓ tests/repair.test.ts (27 tests | 26 skipped) 174ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 26 skipped (27)
+   Start at  23:11:17
+   Duration  767ms (transform 95ms, setup 0ms, collect 124ms, tests 174ms, environment 0ms, prepare 72ms)
+
+
+=== CLAIM 28/34: unsigned-build ===
+
+> dictation-repair-book@0.1.10 test:unit
+> vitest run --testNamePattern @claim:unsigned-build
+
+
+ RUN  v3.2.7 /tmp/dictation-repair-book-clean.DhH3Mx
+
+ ✓ tests/repair.test.ts (27 tests | 26 skipped) 3ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 26 skipped (27)
+   Start at  23:11:19
+   Duration  641ms (transform 108ms, setup 0ms, collect 126ms, tests 3ms, environment 0ms, prepare 144ms)
+
+
+=== CLAIM 29/34: offline-demo ===
+
+> dictation-repair-book@0.1.10 test:e2e
+> node scripts/run-e2e.mjs --grep @claim:offline-demo
+
+[WebServer] (node:8833) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:8820) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:8873) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:8893) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8893) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.7s)
+
+=== CLAIM 30/34: native-sample-isolation ===
+
+> dictation-repair-book@0.1.10 test:e2e
+> node scripts/run-e2e.mjs --grep @claim:native-sample-isolation
+
+[WebServer] (node:9021) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:9008) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:9057) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:9076) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:9076) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (5.0s)
+
+=== CLAIM 31/34: checkout-price ===
+
+> dictation-repair-book@0.1.10 test:unit
+> vitest run --testNamePattern @claim:checkout-price
+
+
+ RUN  v3.2.7 /tmp/dictation-repair-book-clean.DhH3Mx
+
+ ✓ tests/repair.test.ts (27 tests | 26 skipped) 1478ms
+   ✓ static deployment guards > @claim:checkout-price verifies the live one-time USD checkout price before public copy is released  1476ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 26 skipped (27)
+   Start at  23:11:33
+   Duration  2.09s (transform 135ms, setup 0ms, collect 125ms, tests 1.48s, environment 0ms, prepare 100ms)
+
+
+=== CLAIM 32/34: build-output ===
+
+> dictation-repair-book@0.1.10 test:unit
+> vitest run --testNamePattern @claim:build-output
+
+
+ RUN  v3.2.7 /tmp/dictation-repair-book-clean.DhH3Mx
+
+ ✓ tests/repair.test.ts (27 tests | 26 skipped) 1632ms
+   ✓ static deployment guards > @claim:build-output runs the production build and writes both product roots  1630ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 26 skipped (27)
+   Start at  23:11:36
+   Duration  2.23s (transform 119ms, setup 0ms, collect 125ms, tests 1.63s, environment 0ms, prepare 155ms)
+
+
+=== CLAIM 33/34: release-source-identity ===
+
+> dictation-repair-book@0.1.10 test:unit
+> vitest run --testNamePattern @claim:release-source-identity
+
+
+ RUN  v3.2.7 /tmp/dictation-repair-book-clean.DhH3Mx
+
+ ✓ tests/repair.test.ts (27 tests | 26 skipped) 241ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 26 skipped (27)
+   Start at  23:11:39
+   Duration  833ms (transform 100ms, setup 0ms, collect 114ms, tests 241ms, environment 0ms, prepare 91ms)
+
+
+=== CLAIM 34/34: artifact-identity ===
+
+> dictation-repair-book@0.1.10 test:unit
+> vitest run --testNamePattern @claim:artifact-identity
+
+
+ RUN  v3.2.7 /tmp/dictation-repair-book-clean.DhH3Mx
+
+ ✓ tests/repair.test.ts (27 tests | 26 skipped) 863ms
+   ✓ static deployment guards > @claim:artifact-identity embeds the exact release tag and full source commit in the packaged webview  861ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 26 skipped (27)
+   Start at  23:11:40
+   Duration  1.52s (transform 114ms, setup 0ms, collect 130ms, tests 863ms, environment 0ms, prepare 121ms)
+
+
+ALL CLAIM COMMANDS PASSED: 34
