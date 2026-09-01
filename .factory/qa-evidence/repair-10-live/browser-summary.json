@@ -1,0 +1,21 @@
+{
+  "routes": {
+    "/": { "status": 200, "h1": 1, "main": 1, "seriousOrCritical": [], "errors": [] },
+    "/demo/": { "status": 200, "h1": 1, "main": 1, "seriousOrCritical": [], "errors": [] },
+    "/privacy/": { "status": 200, "h1": 1, "main": 1, "seriousOrCritical": [], "errors": [] },
+    "/terms/": { "status": 200, "h1": 1, "main": 1, "seriousOrCritical": [], "errors": [] },
+    "/404.html": { "status": 200, "h1": 1, "main": 1, "seriousOrCritical": [], "errors": [] }
+  },
+  "desktop": { "skipFocused": true, "mainFocused": true, "version": "v0.1.8" },
+  "mobile": {
+    "viewport": { "width": 390, "height": 844 },
+    "overflow": false,
+    "bannerHeadingOverlap": false,
+    "reducedMotionScrollBehavior": "auto",
+    "seriousOrCritical": [],
+    "sampleRepairPassed": true,
+    "errors": [],
+    "requestOrigins": ["https://dictation-repair-book.sociobot.in"]
+  },
+  "offline": { "title": "Approved rules — Demo — Dictation Repair Book", "sampleAvailable": true }
+}

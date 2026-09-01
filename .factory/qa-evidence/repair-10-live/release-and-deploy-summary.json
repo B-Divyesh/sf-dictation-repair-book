@@ -1,0 +1,46 @@
+{
+  "release": {
+    "tag": "v0.1.8",
+    "commit": "49fd9e80d963157bf0763e041420b5ff748ea3ba",
+    "workflowRun": 33556576508,
+    "workflowConclusion": "success",
+    "assetCount": 9,
+    "checksummedBundles": 6,
+    "downloadedDeb": {
+      "sha256": "1091f6804001c9d122c05ff6e71cd36b3b00ea1dad9e584bb08dcb253f14f032",
+      "checksumMatches": true,
+      "version": "0.1.8",
+      "architecture": "amd64"
+    }
+  },
+  "publishedNativeCheck": {
+    "viewport": { "width": 1180, "height": 780 },
+    "identity": "v0.1.8 · 49fd9e80d963",
+    "sampleLoaded": true,
+    "sampleBannerClearOfHeading": true,
+    "input": "Deploy the cube or net ease service.",
+    "output": "Deploy the Kubernetes service.",
+    "appliedRule": "Kubernetes"
+  },
+  "deployment": {
+    "resource": "sf-dictation-repair-book",
+    "deploymentId": "1155d55c-9988-4cea-a1ba-9ca3133da4e6",
+    "url": "https://dictation-repair-book.sociobot.in",
+    "byteMatches": 36,
+    "filesCompared": 36,
+    "unknownRouteStatus": 404,
+    "liveDownload": "https://github.com/B-Divyesh/sf-dictation-repair-book/releases/download/v0.1.8/Dictation-Repair-Book-linux-x64.AppImage",
+    "liveDownloadConsoleErrors": []
+  },
+  "lighthouseMobile": {
+    "performance": 100,
+    "accessibility": 100,
+    "bestPractices": 100,
+    "seo": 100,
+    "fcpSeconds": 0.9,
+    "lcpSeconds": 1.1,
+    "totalBlockingTimeMs": 30,
+    "cls": 0,
+    "speedIndexSeconds": 0.9
+  }
+}
