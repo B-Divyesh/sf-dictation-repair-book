@@ -1,0 +1,54 @@
+
+ RUN  v3.2.7 /tmp/tmp.3saIdoZ6yB/original
+
+ ❯ tests/repair.test.ts (27 tests | 1 failed | 26 skipped) 7015ms
+   ↓ correction inference > isolates a changed proper term
+   ↓ correction inference > rejects empty and unchanged input
+   ↓ local rule application > uses whole terms and longer rules first
+   ↓ local rule application > @claim:longest-rule-first applies overlapping approved rules in longest-first order
+   ↓ local rule application > does not replace a fragment inside another word
+   ↓ local rule application > @claim:literal-code-replacement preserves replacement metacharacters literally
+   ↓ local rule application > escapes CSV fields and exports the visible source name
+   ↓ local rule application > keeps a recorded source name after its application is removed
+   ↓ untrusted state validation > rejects a partially shaped backup
+   ↓ untrusted state validation > accepts and migrates a complete version 1 backup
+   ↓ static deployment guards > maps every manifest claim to exactly one owned regression tag
+   ↓ static deployment guards > ships a CSP and real 404 rewrite instead of falling back to the landing page
+   ↓ static deployment guards > precaches complete offline routes without serving HTML for missing assets
+   ↓ static deployment guards > runs CI browser QA serially with owned servers and a fresh browser context per test
+   ↓ static deployment guards > keeps generated native artifacts outside the preview server watch set
+   × static deployment guards > keeps native privacy claims portable without Linux GUI development packages 7014ms
+     → Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+   ↓ static deployment guards > @claim:checksum-installers refuses files that do not match SHA-256
+   ↓ static deployment guards > @claim:explicit-access ships no audio, global-keyboard, or arbitrary-field permission
+   ↓ static deployment guards > @claim:release-matrix prepares every documented desktop format and hashed manifest from bundles
+   ↓ static deployment guards > ships distinct, accurately labelled Capture and Rules walkthrough frames
+   ↓ static deployment guards > allows only the GitHub API for release metadata requests in the site CSP
+   ↓ static deployment guards > @claim:release-source-identity refuses a release when source versions disagree or the tag does not name the checked-out source
+   ↓ static deployment guards > @claim:artifact-identity embeds the exact release tag and full source commit in the packaged webview
+   ↓ static deployment guards > keeps the native sample storage policy explicit
+   ↓ static deployment guards > @claim:build-output runs the production build and writes both product roots
+   ↓ static deployment guards > @claim:checkout-price verifies the live one-time USD checkout price before public copy is released
+   ↓ static deployment guards > @claim:unsigned-build documents the current unsigned release configuration
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/repair.test.ts > static deployment guards > keeps native privacy claims portable without Linux GUI development packages
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/repair.test.ts:92:3
+     90|     expect(config).toContain("'**/src-tauri/target/**'");
+     91|   });
+     92|   it('keeps native privacy claims portable without Linux GUI developme…
+       |   ^
+     93|     const cargo = readFileSync(new URL('../src-tauri/Cargo.toml', impo…
+     94|     const claims = JSON.parse(readFileSync(new URL('../.factory/claims…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 26 skipped (27)
+   Start at  21:51:30
+   Duration  7.60s (transform 102ms, setup 0ms, collect 113ms, tests 7.02s, environment 0ms, prepare 87ms)

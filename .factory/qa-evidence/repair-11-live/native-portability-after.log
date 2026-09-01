@@ -1,0 +1,13 @@
+
+> dictation-repair-book@0.1.9 test:unit
+> vitest run --testNamePattern keeps native privacy claims portable
+
+
+ RUN  v3.2.7 /work/repo
+
+ ✓ tests/repair.test.ts (27 tests | 26 skipped) 63ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 26 skipped (27)
+   Start at  21:51:45
+   Duration  670ms (transform 142ms, setup 0ms, collect 143ms, tests 63ms, environment 0ms, prepare 107ms)
