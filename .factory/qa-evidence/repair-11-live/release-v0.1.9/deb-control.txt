@@ -1,0 +1,4 @@
+Package: dictation-repair-book
+Version: 0.1.9
+Architecture: amd64
+Depends: libayatana-appindicator3-1, libwebkit2gtk-4.1-0, libgtk-3-0

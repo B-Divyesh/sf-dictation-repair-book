@@ -1,0 +1,12 @@
+{
+  "version": "v0.1.9",
+  "commit": "7981b50c25e1ec2e1d77836a4b3497351c956a87",
+  "artifacts": [
+    "Dictation-Repair-Book-linux-x64.AppImage",
+    "Dictation-Repair-Book-linux-x64.deb",
+    "Dictation-Repair-Book-macos-arm64.dmg",
+    "Dictation-Repair-Book-macos-x64.dmg",
+    "Dictation-Repair-Book-windows-x64.exe",
+    "Dictation-Repair-Book-windows-x64.msi"
+  ]
+}

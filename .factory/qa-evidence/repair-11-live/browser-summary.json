@@ -1,0 +1,31 @@
+{
+  "desktop": {
+    "repaired": "Deploy the Kubernetes service.",
+    "errors": [],
+    "requestOrigins": [
+      "https://dictation-repair-book.sociobot.in"
+    ],
+    "axeSeriousOrCritical": 0
+  },
+  "keyboardAndLanding": {
+    "skipFocused": true,
+    "mainFocused": true,
+    "axeSeriousOrCritical": 0
+  },
+  "mobile": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "animations": 0,
+    "scrollBehavior": "auto",
+    "resetDemo": {
+      "x": 111.765625,
+      "y": 112,
+      "width": 117.40625,
+      "height": 44
+    }
+  },
+  "offline": {
+    "status": 200,
+    "heading": "Approved rules"
+  }
+}
