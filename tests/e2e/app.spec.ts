@@ -42,7 +42,7 @@ test('app fits a 390px window and keeps navigation reachable', async ({ page }) 
 });
 
 test('web preview identifies its release version without exposing book data', async ({ page }) => {
-  await expect(page.getByText('v0.1.8 · local preview', { exact: true })).toBeVisible();
+  await expect(page.getByText('v0.1.9 · local preview', { exact: true })).toBeVisible();
 });
 
 test('native sample banner clears every rules heading element at the exact 1180x780 default window', async ({ page }) => {

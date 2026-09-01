@@ -5,7 +5,7 @@ import { join } from 'node:path';
 const tag = process.argv[2];
 const directory = process.argv[3] || 'release-assets';
 if (!tag || !/^v(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)$/.test(tag)) {
-  throw new Error('release tag must be a stable version such as v0.1.8');
+  throw new Error('release tag must be a stable version such as v0.1.9');
 }
 
 const expectedCommit = process.env.RELEASE_COMMIT?.toLowerCase();
