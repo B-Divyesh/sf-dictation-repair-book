@@ -10,18 +10,22 @@ license = "MIT"
 name = "dictation_repair_book_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
+[features]
+default = ["desktop"]
+desktop = ["dep:arboard", "dep:tauri", "dep:tauri-plugin-opener"]
+
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
 
 [dependencies]
-tauri = { version = "2", features = ["tray-icon"] }
-tauri-plugin-opener = "2"
+tauri = { version = "2", features = ["tray-icon"], optional = true }
+tauri-plugin-opener = { version = "2", optional = true }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 aes-gcm = "0.10"
 base64 = "0.22"
 rand = "0.8"
-arboard = "3"
+arboard = { version = "3", optional = true }
 
 [profile.release]
 panic = "abort"

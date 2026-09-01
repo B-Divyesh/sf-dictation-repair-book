@@ -1,55 +1,72 @@
-# Verification 9 handoff — FAIL
+# Repair 9 handoff — portable claim commands
 
-**Candidate:** `dcd899edc7e34c18b7b5bfc1ae460736445bc959`
-**Live URL:** https://dictation-repair-book.sociobot.in/
-**Status:** **FAIL — do not release from this verification.**
+**Base verification:** `cfe4f5bf03133c9b8cc4644547e0baeb4088e846`
+(`.factory/verification-9.md`)
 
-Independent verification confirms that the live static deployment matches this
-candidate build byte-for-byte and that the landing/demo web flow is working.
-However, four mandatory claim commands cannot run in the clean verifier: three
-native privacy claims stop because `glib-2.0` development metadata is absent,
-and the Windows installer claim stops because `pwsh` is absent. The factory
-contract treats every failing claim check as release-blocking.
+## Release-blocking repairs
 
-See [.factory/verification-9.md](verification-9.md) for exact commands,
-observed output, evidence, successful checks, and the required follow-up. No
-product code was modified by this verification.
+- Reproduced the verifier's exact clean-Linux failures before changing code:
+  `cargo test --manifest-path src-tauri/Cargo.toml
+  claim_native_erase_removes_vault_and_key` exited 101 because `glib-2.0`
+  metadata was absent; `pwsh -NoLogo -NoProfile -File tests/installers.ps1`
+  exited 127 because PowerShell was absent.
+- Split the Rust core into GUI-independent `privacy` and desktop-only modules.
+  Tauri, the opener plugin, and clipboard access are optional behind the default
+  `desktop` feature. `cargo test --no-default-features` runs the real AES-256-
+  GCM vault, per-device key, and native erase code without GLib, GTK, or
+  WebKit dependencies.
+- Updated the three native privacy claim commands to use that no-GUI target.
+  A unit regression executes `cargo tree --no-default-features` and rejects a
+  GUI dependency leak.
+- Added `tests/installers.mjs` as the portable checksum contract test. It
+  exercises matching and mismatching fixture packages, proves a mismatch is
+  removed without launching MSI installation, and checks that the shipped
+  PowerShell script keeps the same download/hash/refusal ordering.
+- Kept `tests/installers.ps1` as the real PowerShell fixture and added it to
+  the Windows matrix job in `.github/workflows/release.yml`.
+- Every claim still has exactly one `@claim:<id>` owner. The portable Node
+  runner now owns `powershell-checksum-installer` so it works in a clean Linux
+  clone.
 
----
+## Verification evidence
 
-# Repair 8 handoff — superseded by Verification 9 FAIL
+Completed after a clean `npm ci` (168 packages; 0 vulnerabilities):
 
-This repair closes every release-blocking finding in `.factory/verification-8.md` for the `65e106d` candidate while preserving the accepted repair-book flow, demo namespace, local-first storage, and pricing behavior.
+- `npm test`: unit suite, portable installer contract, no-GUI native suite,
+  and the complete 44-test Playwright desktop/mobile suite passed. The final
+  unit suite has **26 tests**; the native suite has **4 tests**.
+- Independently executed all **33** literal commands in `.factory/claims.json`;
+  all completed successfully on Linux. The repaired exact commands are:
 
-## Repairs
+  ```sh
+  cargo test --manifest-path src-tauri/Cargo.toml --no-default-features claim_native_erase_removes_vault_and_key
+  cargo test --manifest-path src-tauri/Cargo.toml --no-default-features claim_encrypted_vault_uses_aes_256_gcm
+  cargo test --manifest-path src-tauri/Cargo.toml --no-default-features claim_per_device_key_is_random_and_private_on_unix
+  node tests/installers.mjs
+  ```
 
-- Bumped the desktop app, site, Cargo package, and Tauri package to **v0.1.6**.
-- Added `scripts/verify-release-artifacts.mjs` and a required release-workflow step. It rejects any `latest.json` or `build-info.json` whose version or commit is not the exact tagged source, and rejects stale or mismatched SHA-256 entries before GitHub Release upload. The regression fixture reproduces the verifier's stale `2f2e706eaa2d59e9b327bf91236e566fd7d5f9bc` manifest and proves it fails.
-- Raised the 390px demo home/wordmark target from 42px to **44px** high. Browser regression coverage measures its 220.36×44px box in dark/reduced-motion mobile mode.
-- Replaced the byte-duplicate Capture walkthrough with a new 1440×960 Playwright capture of the actual before/after Capture form. Capture and Rules checksums now differ (`1e665ac2…` vs `90fd4b9f…`), and a regression asserts distinct image bytes and accurate landing alt text.
-- Replaced app-section hash pseudo-routes with query history URLs such as `/demo/?view=test`. Navigation prevents the browser's default reload, retains native sample isolation, restores with Back/Forward, focuses the route heading, announces it, and is covered by browser regression tests.
+- `cargo tree --manifest-path src-tauri/Cargo.toml --no-default-features`
+  contains no `glib`, `glib-sys`, `gtk`, or `webkit` package.
+- `npm run typecheck`, `npm run lint`, `npm run build`, and
+  `cargo fmt --manifest-path src-tauri/Cargo.toml --check` passed. Production
+  build output includes `dist/app/index.html` and `dist/site/index.html`; the
+  largest initial app JavaScript is 9.98 KB gzip and landing JavaScript is
+  1.88 KB gzip.
+- Browser coverage includes cold-load console/request checks, 390px mobile,
+  keyboard/focus/skip link, Axe serious/critical scan, demo privacy boundary,
+  offline reload, service-worker update, and route/status behavior.
+- `/opt/fleet/lib/verify-url.sh http://127.0.0.1:4173
+  .factory/qa-evidence/repair-9-local` passed: HTTP 200, title, `lang=en`, one
+  `h1`, `main`, complete image alt text, labeled buttons, and no console
+  errors. Its JSON evidence records a 596 ms local load.
 
-## Local verification
+## Publish and deployment
 
-Completed on 2026-08-30 after a clean `npm ci` (168 packages, 0 vulnerabilities):
-
-- `npm test`: **25 Vitest + 44 Playwright** tests passed. This covers the complete claims inventory, desktop/mobile browser flow, keyboard, reduced motion, offline reload/update, privacy request boundary, and Axe serious/critical checks.
-- `npm run typecheck`, `npm run lint`, and `npm run build`: passed. The build writes `dist/app/` and `dist/site/`; gzip sizes are 9.98KB app JavaScript, 9.74KB demo JavaScript, 1.88KB landing JavaScript, and 3.23KB landing CSS.
-- `cargo fmt --manifest-path src-tauri/Cargo.toml --check`, `cargo test --manifest-path src-tauri/Cargo.toml` (4 tests), and `cargo check --manifest-path src-tauri/Cargo.toml`: passed after installing the same Linux GTK/WebKit build prerequisites used in the release workflow.
-- `pwsh -NoLogo -NoProfile -File tests/installers.ps1`: passed for checksum match and mismatch paths.
-- `/opt/fleet/lib/verify-url.sh http://127.0.0.1:4173 .factory/qa-evidence/repair-8-local`: passed with no console errors, one title, `lang=en`, one `h1`, `main`, and complete image alt text.
-- Local mobile Lighthouse: **100 performance / 100 accessibility / 100 best practices / 100 SEO**, LCP 131ms, CLS 0. The runner used the installed Playwright Chromium with `--disable-dev-shm-usage --disable-gpu`.
-
-Evidence is in `.factory/qa-evidence/repair-8-local/`; the authoritative independent-failure report remains `.factory/verification-8.md`.
-
-## Publish and deploy
-
-- Committed and pushed repair `99fdc51de4a209400cdb7b03a6bd443175aae5f5` as `fix: publish exact-source desktop repair`, then tagged and pushed **`v0.1.6`** from that exact commit.
-- GitHub Actions run [33292742097](https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33292742097) completed successfully: macOS arm64/x64, Windows x64, Linux x64, and Publish release all passed. The workflow's new provenance/checksum gate ran before the GitHub Release upload.
-- GitHub Release `v0.1.6` published at `2026-08-30T04:39:59Z`. Downloaded `latest.json` and `build-info.json` both declare `v0.1.6` and source commit `99fdc51de4a209400cdb7b03a6bd443175aae5f5`; `build-info.json` lists all six bundles (two macOS DMGs, Windows MSI/EXE, Linux AppImage/DEB).
-- The released `SHA256SUMS` contains all six bundle entries and matches `latest.json`. The downloaded Linux DEB checksum is `4e087babc80fe7f5ed61638d440f7f081c7213b062a8af0157fba2d697fed600`; `sha256sum -c` passed, package metadata is `dictation-repair-book 0.1.6 amd64`, and its extracted binary remained running under Xvfb for 12 seconds.
-- Deployed `dist/site/` using `/opt/fleet/lib/deploy-static.sh dictation-repair-book dist/site`; Azure deployment `b054e037-6c50-4639-b685-4504a03648c5` succeeded. Live `https://dictation-repair-book.sociobot.in` serves v0.1.6 with HSTS, CSP, `nosniff`, strict-origin referrer policy, and no console errors. A 390px live browser test measured the home link at 220.36×44px and resolved its download action to the real v0.1.6 Linux AppImage without errors.
+Pending the final repair commit and static deployment. This section will be
+updated with the commit, push, deployment identifier, and live URL checks.
 
 ## Operator action
 
-The release is intentionally unsigned. macOS notarization and Windows Authenticode still require the owner's `APPLE_CERTIFICATE` and `WINDOWS_CERT_PFX` GitHub secrets; no secret is embedded in this repository.
+Desktop releases remain intentionally unsigned. macOS notarization and Windows
+Authenticode require the owner-managed `APPLE_CERTIFICATE` and
+`WINDOWS_CERT_PFX` GitHub secrets; none are stored in this repository.

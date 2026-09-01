@@ -89,6 +89,21 @@ describe('static deployment guards', () => {
     const config = readFileSync(new URL('../vite.config.ts', import.meta.url), 'utf8');
     expect(config).toContain("'**/src-tauri/target/**'");
   });
+  it('keeps native privacy claims portable without Linux GUI development packages', () => {
+    const cargo = readFileSync(new URL('../src-tauri/Cargo.toml', import.meta.url), 'utf8');
+    const claims = JSON.parse(readFileSync(new URL('../.factory/claims.json', import.meta.url), 'utf8')) as { id: string; test: string }[];
+    const workflow = readFileSync(new URL('../.github/workflows/release.yml', import.meta.url), 'utf8');
+    expect(cargo).toContain('default = ["desktop"]');
+    expect(cargo).toContain('tauri = { version = "2", features = ["tray-icon"], optional = true }');
+    for (const id of ['native-erase', 'encrypted-vault', 'per-device-key']) {
+      expect(claims.find((claim) => claim.id === id)?.test).toContain('--no-default-features');
+    }
+    const tree = spawnSync('cargo', ['tree', '--manifest-path', 'src-tauri/Cargo.toml', '--no-default-features'], { cwd: new URL('..', import.meta.url).pathname, encoding: 'utf8' });
+    expect(tree.status, tree.stderr).toBe(0);
+    expect(tree.stdout).not.toMatch(/\bglib(?:-sys)?\b|\bgtk\b|\bwebkit\b/i);
+    expect(workflow).toContain("if: matrix.os == 'windows-latest'");
+    expect(workflow).toContain('run: ./tests/installers.ps1');
+  });
   it('@claim:checksum-installers refuses files that do not match SHA-256', () => {
     const powershell = readFileSync(new URL('../public/install.ps1', import.meta.url), 'utf8');
     const root = mkdtempSync(join(tmpdir(), 'drb-installer-'));

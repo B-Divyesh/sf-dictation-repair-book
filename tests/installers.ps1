@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
 
-# @claim:powershell-checksum-installer
+# The portable claim test lives in installers.mjs. This fixture still runs in Windows CI.
 
 $root = Split-Path -Parent $PSScriptRoot
 $installer = Join-Path $root "public/install.ps1"

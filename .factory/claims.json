@@ -115,8 +115,8 @@
     "id": "native-erase",
     "claim": "Native erase removes the encrypted vault, temporary vault file, and local key.",
     "where": "desktop Settings, privacy page, README",
-    "test": "cargo test --manifest-path src-tauri/Cargo.toml claim_native_erase_removes_vault_and_key",
-    "sandbox": "native Rust test creates all three private files in an isolated directory, erases them, and asserts the directory is empty"
+    "test": "cargo test --manifest-path src-tauri/Cargo.toml --no-default-features claim_native_erase_removes_vault_and_key",
+    "sandbox": "no-GUI native Rust test creates all three private files in an isolated directory, erases them, and asserts the directory is empty"
   },
   {
     "id": "license-backoff",
@@ -150,15 +150,15 @@
     "id": "encrypted-vault",
     "claim": "Native repair books use AES-256-GCM encryption at rest.",
     "where": "landing privacy section, privacy page, README",
-    "test": "cargo test --manifest-path src-tauri/Cargo.toml claim_encrypted_vault_uses_aes_256_gcm",
-    "sandbox": "native Rust test saves a full fixture through the production vault, rejects plaintext on disk, and loads the identical state"
+    "test": "cargo test --manifest-path src-tauri/Cargo.toml --no-default-features claim_encrypted_vault_uses_aes_256_gcm",
+    "sandbox": "no-GUI native Rust test saves a full fixture through the production vault, rejects plaintext on disk, and loads the identical state"
   },
   {
     "id": "per-device-key",
     "claim": "The native repair book uses a random 32-byte local key with mode 0600 on Unix.",
     "where": "README privacy section",
-    "test": "cargo test --manifest-path src-tauri/Cargo.toml claim_per_device_key_is_random_and_private_on_unix",
-    "sandbox": "native Rust test creates two fresh vault directories and compares keys and Unix permissions"
+    "test": "cargo test --manifest-path src-tauri/Cargo.toml --no-default-features claim_per_device_key_is_random_and_private_on_unix",
+    "sandbox": "no-GUI native Rust test creates two fresh vault directories and compares keys and Unix permissions"
   },
   {
     "id": "revoked-license-locks",
@@ -178,8 +178,8 @@
     "id": "powershell-checksum-installer",
     "claim": "The PowerShell install command verifies SHA-256 and refuses a mismatch before launching MSI installation.",
     "where": "landing install command and README",
-    "test": "pwsh -NoLogo -NoProfile -File tests/installers.ps1",
-    "sandbox": "PowerShell fixture mocks downloads and MSI launch for matching and mismatching package paths"
+    "test": "node tests/installers.mjs",
+    "sandbox": "portable Node fixture proves matching and mismatching package paths, then asserts the shipped PowerShell control flow removes a mismatch before MSI launch; Windows CI runs the real PowerShell fixture"
   },
   {
     "id": "release-matrix",

@@ -45,7 +45,19 @@ npm run typecheck
 npm run lint
 npm run build
 cargo test --manifest-path src-tauri/Cargo.toml
+node tests/installers.mjs
 ```
+
+The native privacy test target is intentionally GUI-free, so it also runs from
+a clean Linux clone without GTK or WebKit development metadata:
+
+```sh
+cargo test --manifest-path src-tauri/Cargo.toml --no-default-features
+```
+
+The portable Node installer test checks the same checksum refusal contract on
+Linux. The release workflow additionally runs `tests/installers.ps1` on its
+real Windows runner.
 
 `npm run build` creates `dist/app/` for the desktop webview and `dist/site/` for the static site deployment.
 
