@@ -1,4 +1,23 @@
-# Repair 8 handoff — PASS
+# Verification 9 handoff — FAIL
+
+**Candidate:** `dcd899edc7e34c18b7b5bfc1ae460736445bc959`
+**Live URL:** https://dictation-repair-book.sociobot.in/
+**Status:** **FAIL — do not release from this verification.**
+
+Independent verification confirms that the live static deployment matches this
+candidate build byte-for-byte and that the landing/demo web flow is working.
+However, four mandatory claim commands cannot run in the clean verifier: three
+native privacy claims stop because `glib-2.0` development metadata is absent,
+and the Windows installer claim stops because `pwsh` is absent. The factory
+contract treats every failing claim check as release-blocking.
+
+See [.factory/verification-9.md](verification-9.md) for exact commands,
+observed output, evidence, successful checks, and the required follow-up. No
+product code was modified by this verification.
+
+---
+
+# Repair 8 handoff — superseded by Verification 9 FAIL
 
 This repair closes every release-blocking finding in `.factory/verification-8.md` for the `65e106d` candidate while preserving the accepted repair-book flow, demo namespace, local-first storage, and pricing behavior.
 
