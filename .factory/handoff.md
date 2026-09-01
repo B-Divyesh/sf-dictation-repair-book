@@ -62,8 +62,20 @@ Completed after a clean `npm ci` (168 packages; 0 vulnerabilities):
 
 ## Publish and deployment
 
-Pending the final repair commit and static deployment. This section will be
-updated with the commit, push, deployment identifier, and live URL checks.
+- Committed and pushed `12f481099fb210cededd042dd20fdc0d13eeda25`
+  (`fix: make privacy claim checks portable`) to `main`.
+- Deployed `dist/site/` through the scoped static work-order configuration.
+  Azure deployment `738c3fce-8e8e-4dfd-bbb3-455b4881c8fa` completed
+  successfully; `https://dictation-repair-book.sociobot.in` returned HTTP 200.
+- Live URL verification passed with no page or console errors and the same
+  title, language, heading, main landmark, image alt coverage, and labelled
+  controls as the local build. Evidence is in
+  `.factory/qa-evidence/repair-9-live/` (970 ms cold load).
+- The live response has CSP, HSTS, `nosniff`, strict-origin referrer policy,
+  and camera/microphone/geolocation-denying Permissions-Policy headers. A
+  SHA-256 comparison matched all **36** served files from the local `dist/site`
+  build byte-for-byte; the deployment-only `staticwebapp.config.json` is
+  intentionally not served.
 
 ## Operator action
 
