@@ -1,0 +1,54 @@
+{
+  "/": {
+    "status": 200,
+    "title": "Dictation Repair Book — reusable dictation rules",
+    "lang": "en",
+    "h1": 1,
+    "main": 1,
+    "missingAlt": 0,
+    "seriousOrCritical": [],
+    "errors": []
+  },
+  "/demo/": {
+    "status": 200,
+    "title": "Approved rules — Demo — Dictation Repair Book",
+    "lang": "en",
+    "h1": 1,
+    "main": 1,
+    "missingAlt": 0,
+    "seriousOrCritical": [],
+    "errors": []
+  },
+  "/privacy/": {
+    "status": 200,
+    "title": "Privacy — Dictation Repair Book",
+    "lang": "en",
+    "h1": 1,
+    "main": 1,
+    "missingAlt": 0,
+    "seriousOrCritical": [],
+    "errors": []
+  },
+  "/terms/": {
+    "status": 200,
+    "title": "Terms — Dictation Repair Book",
+    "lang": "en",
+    "h1": 1,
+    "main": 1,
+    "missingAlt": 0,
+    "seriousOrCritical": [],
+    "errors": []
+  },
+  "/polish-three-missing-page": {
+    "status": 404,
+    "title": "Page not found — Dictation Repair Book",
+    "lang": "en",
+    "h1": 1,
+    "main": 1,
+    "missingAlt": 0,
+    "seriousOrCritical": [],
+    "errors": [
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ]
+  }
+}
