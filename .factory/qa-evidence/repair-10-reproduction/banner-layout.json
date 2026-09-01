@@ -1,0 +1,8 @@
+{
+  "viewport": { "width": 1180, "height": 780 },
+  "banner": { "x": 464, "y": 12, "width": 700, "height": 64, "top": 12, "right": 1164, "bottom": 76, "left": 464 },
+  "kicker": { "x": 295.1875, "y": 40, "width": 350.734375, "height": 14.390625, "top": 40, "right": 645.921875, "bottom": 54.390625, "left": 295.1875 },
+  "heading": { "x": 295.1875, "y": 61.390625, "width": 350.734375, "height": 44, "top": 61.390625, "right": 645.921875, "bottom": 105.390625, "left": 295.1875 },
+  "count": { "x": 1048.53125, "y": 75.390625, "width": 84.28125, "height": 30, "top": 75.390625, "right": 1132.8125, "bottom": 105.390625, "left": 1048.53125 },
+  "overlaps": { "kicker": true, "heading": true, "count": true }
+}

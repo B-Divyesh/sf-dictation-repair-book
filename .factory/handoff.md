@@ -1,77 +1,77 @@
-# Verification 10 handoff — FAIL
+# Repair 10 handoff — native layout and release identity
 
-**Candidate:** `3b25f03ad7f011a7132062de9df5e7e00039ab5e`
-**Live URL:** https://dictation-repair-book.sociobot.in/
-**Result:** **FAIL — release blocked.**
+**Verifier report:** `1b60a90aa5f5224102385025a7c6b7d36fb6342d`
+**Failed candidate:** `3b25f03ad7f011a7132062de9df5e7e00039ab5e`
+**Release:** `v0.1.7`
 
-## Release-blocking result
+## Release-blocking repairs
 
-The live static site matches the candidate build byte-for-byte, but its desktop
-downloads do not. Release `v0.1.6`, both release manifests, and the running
-Linux app identify commit `99fdc51de4a209400cdb7b03a6bd443175aae5f5`.
-Candidate `3b25f03ad7f011a7132062de9df5e7e00039ab5e` changes native source and the
-release workflow after that tag. No installable candidate artifact is
-published.
+- Reproduced the native sample-banner defect before changing code at the
+  configured 1180×780 window. Its `x=464, y=12, width=700, height=64`
+  rectangle intersected the page kicker, **Approved rules** heading, and
+  approved-rule count.
+- Moved the installed-app sample banner into the active page's document flow.
+  At the same 1180×780 viewport its bottom is now `y=104`; the kicker begins
+  at `y=136`. Exact rectangle checks report no overlap with any of the three
+  heading elements and no horizontal overflow.
+- Added a 1180×780 Playwright regression that enters native sample mode and
+  checks all three intersections. The existing 390 px demo and app checks
+  remain unchanged and pass.
+- Bumped all application versions to 0.1.7. Packaged webviews now retain the
+  full 40-character release commit as machine-readable app metadata while the
+  footer shows the tag plus the first 12 characters.
+- Added `scripts/verify-built-identity.mjs` and wired it into every release
+  matrix job after the Tauri build. The release fails unless the production
+  webview contains the exact release tag and full source commit.
+- Added `@claim:artifact-identity`, which builds a real production webview
+  with a fixture identity, accepts the exact commit, and rejects a stale one.
+  Existing manifest/source/checksum guards remain in place.
 
-A second defect appears after **Load sample repair book** in the installed app:
-at the default 1180×780 window, the fixed sample banner overlaps the kicker,
-the “Approved rules” heading, and the approved-rule count.
+Before/after evidence:
 
-## Verification summary
+- `.factory/qa-evidence/repair-10-reproduction/native-banner-overlap-before.png`
+- `.factory/qa-evidence/repair-10-reproduction/banner-layout.json`
+- `.factory/qa-evidence/repair-10-local/native-banner-1180x780-after.png`
+- `.factory/qa-evidence/repair-10-local/banner-layout.json`
 
-- Confirmed all 33 commands in `.factory/claims.json`; all passed.
-- Confirmed `npm test`: 26 unit checks, one portable installer contract, four
-  native checks, and 44 browser checks passed.
-- Confirmed typecheck, lint, Rust formatting, no-default-feature Rust check,
-  and the exact production build.
-- Confirmed all 36 live site files match `dist/site/` by SHA-256.
-- Confirmed cold first-read wording and the one-click sample action.
-- Confirmed live normal, empty, no-match, and invalid-import recovery paths.
-- Confirmed same-origin sample traffic, security and cache headers, offline
-  reload, service-worker update, 404 handling, 390px layout, keyboard focus,
-  reduced motion, and dark appearance.
-- Confirmed no serious or critical Axe findings on all public routes at desktop
-  and 390px.
-- Confirmed Lighthouse mobile: 100 performance, 100 accessibility, 100 best
-  practices, 100 SEO; LCP 1.2 s, total blocking time 0 ms, CLS 0.
-- Confirmed release assets exist for macOS, Windows, and Linux. The downloaded
-  Linux DEB matches `SHA256SUMS`, starts, loads its in-memory sample, and applies
-  the Kubernetes rule without creating a vault.
+## Clean local verification
 
-Full evidence and exact details are in
-[verification-10.md](verification-10.md) and
-[`verification-artifacts-10/`](verification-artifacts-10/).
+Completed on 2026-09-01:
 
-## How to reproduce
+- `npm ci`: 168 packages; 0 vulnerabilities.
+- Every literal command in `.factory/claims.json`: **34/34 passed**
+  independently in 163.8 seconds.
+- `npm test`: 27 Vitest checks, portable Windows installer contract, four
+  no-GUI Rust tests, and **45/45 Playwright checks passed**.
+- `npm run typecheck`, `npm run lint`,
+  `cargo fmt --manifest-path src-tauri/Cargo.toml --check`, and
+  `cargo check --manifest-path src-tauri/Cargo.toml --no-default-features`
+  passed.
+- `npm run build` produced `dist/app/` and `dist/site/`. Initial app JS is
+  10.02 KB gzip and CSS is 4.05 KB gzip; landing JS is 1.88 KB gzip plus the
+  0.44 KB preload helper and CSS is 3.23 KB gzip.
+- `/opt/fleet/lib/verify-url.sh http://127.0.0.1:4173
+  .factory/qa-evidence/repair-10-local/verify-url` passed in 653 ms: HTTP 200,
+  title, `lang=en`, one `h1`, `main`, image alternatives, labelled buttons,
+  and no console errors.
+- Lighthouse 12.8.2 mobile: performance 100, accessibility 100, best
+  practices 100, SEO 100; FCP 1.0 s, LCP 1.5 s, total blocking time 0 ms,
+  CLS 0, speed index 1.0 s.
+- Browser coverage includes 1440×900 and 1366×768 desktop, the exact native
+  1180×780 window, 390×844 mobile, dark mode, reduced motion, keyboard-only
+  use, focus, touch targets, serious/critical Axe scans, same-origin privacy,
+  offline demo reload, service-worker update, recovery errors, and 404 status.
 
-```sh
-npm ci
-npm test
-npm run typecheck
-npm run lint
-cargo fmt --manifest-path src-tauri/Cargo.toml --check
-cargo check --manifest-path src-tauri/Cargo.toml --no-default-features
-npm run build
-```
+## Publication and deployment
 
-Compare the requested source with the published build identity:
+The repair source is prepared for tag `v0.1.7`. The tag-triggered GitHub
+workflow builds two macOS DMGs, Windows MSI/EXE, Linux AppImage/DEB, then
+publishes `SHA256SUMS`, `latest.json`, and `build-info.json`. Remote workflow,
+downloaded-artifact, deployment, response-header, and live identity evidence
+will be recorded here after publication.
 
-```sh
-git rev-parse HEAD
-git rev-parse v0.1.6^{commit}
-curl -fsSL https://github.com/B-Divyesh/sf-dictation-repair-book/releases/download/v0.1.6/build-info.json
-```
+## Known gaps and operator action
 
-## Required next steps
-
-1. Publish all desktop packages from the candidate commit and update release
-   manifests to that exact commit.
-2. Move the native sample banner out of the active heading area at the default
-   window size.
-3. Run independent verification again against the updated candidate.
-
-## Operator action
-
-Current desktop builds are intentionally unsigned. macOS notarization and
-Windows Authenticode still require owner-managed signing credentials; none are
-stored in this repository.
+The builds are intentionally unsigned. macOS notarization and Windows
+Authenticode still require owner-managed `APPLE_CERTIFICATE` and
+`WINDOWS_CERT_PFX` GitHub secrets. No signing secret is stored here.
