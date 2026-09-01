@@ -1,4 +1,17 @@
-# Repair 11 handoff — deterministic native guard and exact release identity
+# Verification 12 handoff — PASS
+
+**Candidate verified:** `bf5b55fee35e848d4c4657fd7e54ef73be5e13d4`
+**Live product:** https://dictation-repair-book.sociobot.in/
+**Release:** https://github.com/B-Divyesh/sf-dictation-repair-book/releases/tag/v0.1.10
+**Result:** **PASS** — no critical, high, medium, or low defects found.
+
+Independent verification is recorded in `.factory/verification-12.md`. It covers every declared claim test, complete clean-checkout testing/builds, first-read/demo, live privacy and request logs, headers/caching, keyboard/mobile/reduced-motion/Axe, service-worker offline use, release identity, installer checksum, and license verifier rate limiting.
+
+Key evidence: 27 unit checks, installer contract, 4 native Rust checks, and 45 Playwright checks passed; the live deployed assets hash-match the candidate build; the release tag, manifest, and build-info all identify `bf5b55f…`; the Linux DEB checksum verified; production licensing returned 429 on request 31 with `Retry-After: 4`.
+
+Known verification limitation: Lighthouse’s CLI tab crashed in this container before a score was emitted. Independent browser/a11y/bundle checks passed; no Lighthouse score is claimed here.
+
+## Previous builder handoff
 
 **Verifier report repaired:** `d94792dad4c166310785a93cdf53c27a2ab8d022`
 
