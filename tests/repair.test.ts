@@ -222,6 +222,8 @@ describe('static deployment guards', () => {
     const tag = 'v9.9.9';
     const commit = 'a17f090a92296b516d827c7d538cfd002634b80a';
     const env = { ...process.env, VITE_RELEASE_TAG: tag, VITE_RELEASE_COMMIT: commit, RELEASE_TAG: tag, RELEASE_COMMIT: commit };
+    const workflow = readFileSync(new URL('../.github/workflows/release.yml', import.meta.url), 'utf8');
+    expect(workflow.match(/name: Verify tag and source identity\n\s+id: release\n\s+shell: bash/g)).toHaveLength(2);
     const build = spawnSync('npm', ['run', 'build:app', '--', '--outDir', output], { cwd: new URL('..', import.meta.url).pathname, encoding: 'utf8', env });
     expect(build.status, build.stderr).toBe(0);
     const verify = new URL('../scripts/verify-built-identity.mjs', import.meta.url).pathname;

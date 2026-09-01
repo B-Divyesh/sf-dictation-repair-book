@@ -6,7 +6,7 @@ const tag = process.env.RELEASE_TAG;
 const commit = process.env.RELEASE_COMMIT?.toLowerCase();
 
 if (!tag || !/^v(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)$/.test(tag)) {
-  throw new Error('RELEASE_TAG must be a stable version such as v0.1.7');
+  throw new Error('RELEASE_TAG must be a stable version such as v0.1.8');
 }
 if (!commit || !/^[a-f0-9]{40}$/.test(commit)) {
   throw new Error('RELEASE_COMMIT must name the exact 40-character source commit');

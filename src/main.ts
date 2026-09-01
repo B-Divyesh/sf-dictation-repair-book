@@ -73,7 +73,7 @@ function chrome(content: string, title: string, kicker: string) {
       ${notice ? `<div class="notice" role="status">${esc(notice)}${lastRemoved ? ' <button data-action="undo-delete">Undo</button>' : ''}</div>` : ''}
       ${content}
     </main>
-    ${isDemo() ? `<footer class="demo-site-footer"><p>Private rules for repaired dictation text.</p><nav aria-label="Legal"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav><small>v0.1.7 · Built by Param Factory</small></footer>` : ''}
+    ${isDemo() ? `<footer class="demo-site-footer"><p>Private rules for repaired dictation text.</p><nav aria-label="Legal"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav><small>v0.1.8 · Built by Param Factory</small></footer>` : ''}
   </div>`;
 }
 

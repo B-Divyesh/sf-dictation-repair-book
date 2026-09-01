@@ -47,6 +47,7 @@ jobs:
           cache: npm
       - name: Verify tag and source identity
         id: release
+        shell: bash
         env:
           RELEASE_TAG: ${{ inputs.version || github.ref_name }}
         run: |
@@ -96,6 +97,7 @@ jobs:
           node-version: 22
       - name: Verify tag and source identity
         id: release
+        shell: bash
         env:
           RELEASE_TAG: ${{ inputs.version || github.ref_name }}
         run: |

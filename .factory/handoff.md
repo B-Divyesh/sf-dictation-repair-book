@@ -2,7 +2,7 @@
 
 **Verifier report:** `1b60a90aa5f5224102385025a7c6b7d36fb6342d`
 **Failed candidate:** `3b25f03ad7f011a7132062de9df5e7e00039ab5e`
-**Release:** `v0.1.7`
+**Release:** `v0.1.8`
 
 ## Release-blocking repairs
 
@@ -17,7 +17,7 @@
 - Added a 1180×780 Playwright regression that enters native sample mode and
   checks all three intersections. The existing 390 px demo and app checks
   remain unchanged and pass.
-- Bumped all application versions to 0.1.7. Packaged webviews now retain the
+- Bumped all application versions to 0.1.8. Packaged webviews now retain the
   full 40-character release commit as machine-readable app metadata while the
   footer shows the tag plus the first 12 characters.
 - Added `scripts/verify-built-identity.mjs` and wired it into every release
@@ -40,7 +40,7 @@ Completed on 2026-09-01:
 
 - `npm ci`: 168 packages; 0 vulnerabilities.
 - Every literal command in `.factory/claims.json`: **34/34 passed**
-  independently in 163.8 seconds.
+  independently against the final 0.1.8 source in 145.3 seconds.
 - `npm test`: 27 Vitest checks, portable Windows installer contract, four
   no-GUI Rust tests, and **45/45 Playwright checks passed**.
 - `npm run typecheck`, `npm run lint`,
@@ -51,7 +51,7 @@ Completed on 2026-09-01:
   10.02 KB gzip and CSS is 4.05 KB gzip; landing JS is 1.88 KB gzip plus the
   0.44 KB preload helper and CSS is 3.23 KB gzip.
 - `/opt/fleet/lib/verify-url.sh http://127.0.0.1:4173
-  .factory/qa-evidence/repair-10-local/verify-url` passed in 653 ms: HTTP 200,
+  .factory/qa-evidence/repair-10-local/verify-url` passed in 693 ms: HTTP 200,
   title, `lang=en`, one `h1`, `main`, image alternatives, labelled buttons,
   and no console errors.
 - Lighthouse 12.8.2 mobile: performance 100, accessibility 100, best
@@ -64,7 +64,13 @@ Completed on 2026-09-01:
 
 ## Publication and deployment
 
-The repair source is prepared for tag `v0.1.7`. The tag-triggered GitHub
+The first publication attempt (`v0.1.7`, run `33554922321`) safely stopped
+before its publish job: the Windows runner exposed that its default PowerShell
+shell did not populate the Bash-style `GITHUB_OUTPUT` assignment. Linux and
+both macOS jobs passed their identity checks. Both source-identity steps now
+declare Bash explicitly, and the artifact-identity test locks that requirement.
+
+The repaired source is prepared for tag `v0.1.8`. The tag-triggered GitHub
 workflow builds two macOS DMGs, Windows MSI/EXE, Linux AppImage/DEB, then
 publishes `SHA256SUMS`, `latest.json`, and `build-info.json`. Remote workflow,
 downloaded-artifact, deployment, response-header, and live identity evidence
