@@ -86,4 +86,4 @@ The headline names the job, the next sentence names the audience, and **Try it w
 
 Labels are concrete verbs or names: **Try it with sample data**, **Download for your computer**, **Copy command**, **Buy once — $12**, **Enter license token**, and **Verify license**. No audited landing sentence exceeds 22 words or uses a banned marketing word. The checkout amount is consistently `$12`; `@claim:checkout-price` checks the live session when available and its recorded read-only response during checkout-service outages.
 
-The catalog description is 92 characters and starts with the verb **Turn**: “Turn saved dictation corrections into private rules you can inspect, test, export, or erase.”
+The catalog description is 79 characters and starts with the verb **Turn**: “Turn dictation edits into private rules you can review, test, export, or erase.”

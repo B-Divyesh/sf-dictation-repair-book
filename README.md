@@ -44,8 +44,7 @@ npm test
 npm run typecheck
 npm run lint
 npm run build
-cargo test --manifest-path src-tauri/Cargo.toml
-pwsh -NoLogo -NoProfile -File tests/installers.ps1
+cargo test --manifest-path src-tauri/Cargo.toml --no-default-features
 ```
 
 The native privacy test target is intentionally GUI-free, so it also runs from
@@ -55,10 +54,9 @@ a clean Linux clone without GTK or WebKit development metadata:
 cargo test --manifest-path src-tauri/Cargo.toml --no-default-features
 ```
 
-The PowerShell installer claim runs the shipped `install.ps1` through matching
-and mismatching checksum fixtures. Install PowerShell 7 before running the
-full installer test on Linux; the release workflow runs the same fixture on
-its Windows runner.
+`npm test` runs a portable structural check of the PowerShell installer and
+its required CI wiring. Windows CI runs `npm run test:installer-windows`
+against the shipped script with matching, mismatching, and missing checksums.
 
 `npm run build` creates `dist/app/` for the desktop webview and `dist/site/` for the static site deployment.
 

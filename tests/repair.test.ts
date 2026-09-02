@@ -104,7 +104,7 @@ describe('static deployment guards', () => {
     expect(elapsedMs).toBeLessThan(1_000);
     expect(readFileSync(new URL('../scripts/verify-native-portability.mjs', import.meta.url), 'utf8')).not.toContain("spawnSync('cargo'");
     expect(workflow).toContain("if: matrix.os == 'windows-latest'");
-    expect(workflow).toContain('run: ./tests/installers.ps1');
+    expect(workflow).toContain('run: npm run test:installer-windows');
   });
   it('@claim:checksum-installers refuses files that do not match SHA-256', () => {
     const powershell = readFileSync(new URL('../public/install.ps1', import.meta.url), 'utf8');

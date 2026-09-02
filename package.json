@@ -1,6 +1,6 @@
 {
   "name": "dictation-repair-book",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "private": true,
   "type": "module",
   "scripts": {
@@ -11,7 +11,8 @@
     "build": "npm run build:app && npm run build:site",
     "test": "npm run test:unit && npm run test:installer-contract && npm run test:native && npm run test:e2e",
     "test:unit": "vitest run",
-    "test:installer-contract": "node tests/installers.mjs && pwsh -NoLogo -NoProfile -File tests/installers.ps1",
+    "test:installer-contract": "node tests/installers.mjs",
+    "test:installer-windows": "pwsh -NoLogo -NoProfile -File tests/installers.ps1",
     "test:native": "cargo test --manifest-path src-tauri/Cargo.toml --no-default-features",
     "test:e2e": "node scripts/run-e2e.mjs",
     "typecheck": "tsc --noEmit",
