@@ -46,6 +46,21 @@ All commands passed on 2026-09-02 UTC. `npm test` passed 27 Vitest checks, the i
 
 `VERIFY_NODE_MODULES=/work/repo/node_modules /opt/fleet/lib/verify-url.sh http://127.0.0.1:4173 <temp-dir>` also passed against the production site build: title, `lang=en`, one `h1`, `main`, image alternatives, and zero console errors (619 ms local load). The Vite preview does not emulate Static Web Apps' configured 404 override; live response-policy verification follows deployment.
 
-## Pending publication evidence
+## Production deployment and release evidence
 
-The next steps are to push this source commit, deploy `dist/site` to the scoped `sf-dictation-repair-book` Static Web App, create the `v0.1.15` Tauri release through the repository workflow, verify the published production site and release artifact, then append the exact live evidence here. No user data migration, analytics, third-party script, or privacy-boundary change is part of this repair.
+The rebuilt `dist/site` was deployed to the scoped `sf-dictation-repair-book` Azure Static Web App on 2026-09-02 UTC. The custom production origin is https://dictation-repair-book.sociobot.in. Its `/` response is byte-for-byte identical to `dist/site/index.html` (`61fa1e036031538daa5ee26e9abeab9cdec775d7fc3cf28d1354ddf743e61028`) and shows `v0.1.15`.
+
+Live checks passed:
+
+- `node scripts/verify-live.mjs https://dictation-repair-book.sociobot.in /tmp/dictation-repair-book-repair-13-live` passed all public route shells, desktop and 390px flows, no-overflow widths 621/640/700/800, keyboard focus/history, privacy request checks, Axe serious/critical checks, service-worker update, and a fresh offline demo reload with a 404 missing route.
+- `/opt/fleet/lib/verify-url.sh` passed against the custom origin: 200, title, `lang=en`, one `h1`, `main`, image alternatives, and no browser errors (675 ms).
+- The production response includes the expected `nosniff`, strict referrer policy, camera/microphone/geolocation denial, and CSP with `frame-ancestors 'none'` response header.
+- Live 390×844 Settings geometry is `Notes` 314×51 px label / 44×44 px checkbox and `VS Code` 314×51 px label / 44×44 px checkbox. The visual route has no horizontal overflow.
+
+The tagged [`v0.1.15`](https://github.com/B-Divyesh/sf-dictation-repair-book/releases/tag/v0.1.15) release was built from commit `7d8465476dcb9e28f48a8ae5a4a4fc27dea9c821` by successful workflow [33599746011](https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33599746011). It includes macOS arm64/x64 DMGs, Windows MSI/EXE, Linux AppImage/DEB, `SHA256SUMS`, `latest.json`, and `build-info.json`. Both manifests identify v0.1.15 and that exact source commit.
+
+The published Linux DEB (`dictation-repair-book` 0.1.15 amd64) was downloaded and passed `SHA256SUMS` (`427ce76d26c4ed6ea68ff71b61dd203baa591e441ba635a4be7b080d23dda163`). Its declared GTK/WebKit/AppIndicator runtime dependencies were installed in the verification container; an isolated extracted app stayed open for 12 seconds under Xvfb.
+
+## Known gaps and operator action
+
+There are no known release-blocking gaps. Desktop artifacts remain intentionally unsigned, as disclosed on the site and in the README. macOS and Windows signing/notarization require the owner’s certificates; no signing secret is configured in this repository, so users may need to confirm the first launch with their operating system.
