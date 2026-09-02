@@ -1,31 +1,62 @@
-# Polish 5 handoff — PASS
+# Verification 15 handoff — PASS
 
-Repaired review base `b67ff87c66543a934b59032fb6d10650dec429a8` in product commits `f1529d7`, `0c4ed42`, and release preparation `4a973dc`. The final product release is `v0.1.12` at `4a973dcb3345047965240e2494f578cd27aa1f16`.
+Independent QA passed candidate
+`eb5106cdd9a3012fb90f90127ef1d2ee6182fdc2` at
+<https://dictation-repair-book.sociobot.in> on 2026-09-02 UTC.
 
-## Done
+## What was verified
 
-- Made every GitHub and Sociobot checkout link visibly identify its off-site destination. This covers the landing’s initial, resolved, and fallback download links; checkout; source; legal issue links; and both desktop-app checkout actions.
-- Added exact-name regression checks at 1440×900 and 390×844 for landing GitHub/checkout links, legal GitHub links, and the desktop checkout link.
-- Preserved all prior demo isolation, routing/focus, service-worker 404, native vault, privacy, installer, release, accessibility, copy, and mobile repairs. The complete finding map is in `.factory/polish-5.md`.
-- Updated the verb-first catalog description and copy audit.
-- Published [v0.1.12](https://github.com/B-Divyesh/sf-dictation-repair-book/releases/tag/v0.1.12): macOS arm64/x64 DMGs, Windows MSI/EXE, Linux AppImage/DEB, `SHA256SUMS`, `latest.json`, and `build-info.json`. The release workflow passed all four builders; a downloaded Linux DEB matched its published checksum.
-- Built and deployed the matching `dist/site` to the product-only Static Web App `sf-dictation-repair-book`; the current live URL is <https://dictation-repair-book.sociobot.in> and visibly reports `v0.1.12`.
+- All 34 `.factory/claims.json` commands passed when run separately before the
+  broader QA.
+- The cold first screen plainly says what the product does, who it serves, and
+  presents **Try it with sample data** as a one-click isolated demo.
+- `npm ci`, `npm test`, typecheck, lint, the exact production build, Rust check,
+  Rust formatting, native-portability check, and the real PowerShell installer
+  tests passed.
+- The live product passed desktop and 390 px mobile flows, keyboard and focus
+  checks, light/dark contrast checks, reduced motion, serious/critical Axe,
+  console/page-error checks, malformed-input recovery, export/import, offline
+  reload, service-worker update, privacy request logging, and security-header
+  inspection.
+- Fresh mobile Lighthouse scored 100 in Performance, Accessibility, Best
+  Practices, and SEO. LCP was 1,096 ms, TBT 8 ms, and CLS 0.
+- All 36 live deployable files match the candidate production build exactly.
+  Candidate changes after release tag `v0.1.12` affect only `.factory/` files.
+- GitHub release v0.1.12 has all six required installers and three metadata
+  files. A fresh Linux DEB matched `SHA256SUMS`, declared its runtime
+  dependencies, launched under Xvfb, and loaded the native sample repair book.
+- The Sociobot license verification endpoint allowed 30 requests from one
+  client; request 31 returned 429 with `Retry-After: 4`.
 
-## Verified
+## Defects
 
-- Fresh clone at `v0.1.12`: ran every one of the 34 `.factory/claims.json` commands separately. All passed.
-- Fresh clone full gate at `v0.1.12`: `npm test` (48 tests), `npm run typecheck`, `npm run lint`, `npm run build`, `cargo check --manifest-path src-tauri/Cargo.toml --no-default-features`, and `cargo fmt --manifest-path src-tauri/Cargo.toml --check` all passed.
-- Cold production check: `node scripts/verify-live.mjs https://dictation-repair-book.sociobot.in .factory/qa-evidence/polish-5/live` passed. It verifies valid route 200s, an actual 404, metadata, semantic shell, alt text, console, desktop/mobile Axe, demo isolation, Back/Forward focus/announcement, and offline route behavior.
-- Exact production link check passed at desktop and phone widths. See `.factory/qa-evidence/polish-5/live/external-links.json` and the matching full-page captures.
-- Lighthouse mobile: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1,056 ms, CLS 0, TBT 31 ms (`.factory/qa-evidence/polish-5/live/lighthouse-mobile.json`).
-- Release evidence is `.factory/qa-evidence/polish-5/release-v0.1.12.json`; the successful run is [33583559409](https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33583559409).
+- **Low — DRB-QA-15-01:** the demo Settings view has horizontal page overflow
+  between 621 and about 725 CSS px because its two-column layout resumes above
+  the 620 px phone breakpoint. At 640 px, `scrollWidth` is 726 px. The required
+  390 px mobile and desktop layouts pass and all content remains reachable.
+- No critical, high, or medium defects.
 
-## How to run
+## Evidence and rerun
 
-`npm ci && npm test && npm run typecheck && npm run lint && npm run build`
+The complete report is `.factory/verification-15.md`. Fresh screenshots and
+machine-readable results are in `.factory/verification-artifacts-15/`.
 
-For the installed-app release path, use the existing tag-triggered `.github/workflows/release.yml`; current builds are unsigned as disclosed on the site. The static landing deploy input is `dist/site` plus `public/staticwebapp.config.json`.
+```sh
+npm ci
+npm test
+npm run typecheck
+npm run lint
+npm run build
+cargo check --manifest-path src-tauri/Cargo.toml --no-default-features
+cargo fmt --manifest-path src-tauri/Cargo.toml --check
+node scripts/verify-live.mjs https://dictation-repair-book.sociobot.in .factory/verification-artifacts-15/live
+```
 
-## Known gaps
+`npm run test:installer-windows` also passed with a temporary PowerShell 7.5.2
+runtime because `pwsh` was not included in the base QA image.
 
-None. No prior review finding remains unresolved.
+## Next step
+
+Adjust the Settings responsive breakpoint or shrink its columns so the narrow
+621–725 px range does not require horizontal scrolling. No deployment or
+operator action is required for this PASS.

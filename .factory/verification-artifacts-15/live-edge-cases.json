@@ -1,0 +1,309 @@
+{
+  "desktop": {
+    "invalidNotice": "I could not isolate a changed term. Include one complete before and after phrase.",
+    "invalidProposalCount": 0,
+    "proposal": {
+      "heard": "post grass",
+      "intended": "PostgreSQL"
+    },
+    "approvedNotice": "Rule approved in this local browser preview.",
+    "normalOutput": "PostgreSQL and Kubernetes",
+    "normalSummary": "2 rules applied: Kubernetes, PostgreSQL",
+    "boundaryOutput": "Niamh Niamh neemish",
+    "noMatchOutput": "ordinary sentence",
+    "noMatchSummary": "No matching approved terms.",
+    "importNotice": "That file is not a valid Dictation Repair Book backup. Your current book was not changed.",
+    "preservedAfterBadImport": 1,
+    "settingsHeadingFocused": true,
+    "focusStyle": {
+      "outline": "rgb(159, 41, 54) none 0px",
+      "outlineColor": "rgb(159, 41, 54)",
+      "outlineWidth": "0px",
+      "outlineOffset": "0px"
+    },
+    "deleteNotice": "Deleted rule “post grass → PostgreSQL”.\nUndo",
+    "undoNotice": "Rule restored.",
+    "restored": 1,
+    "serious": [],
+    "requestCount": 5,
+    "externalRequests": [],
+    "failed": [],
+    "badResponses": [],
+    "errors": []
+  },
+  "mobile": {
+    "views": {
+      "rules": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "undersized": [],
+        "moving": [
+          {
+            "tag": "HTML",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "HEAD",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "META",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "META",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "META",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "META",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "LINK",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "LINK",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "LINK",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "META",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          }
+        ],
+        "serious": []
+      },
+      "capture": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "undersized": [],
+        "moving": [
+          {
+            "tag": "HTML",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "HEAD",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "META",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "META",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "META",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "META",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "LINK",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "LINK",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "LINK",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "META",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          }
+        ],
+        "serious": []
+      },
+      "test": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "undersized": [],
+        "moving": [
+          {
+            "tag": "HTML",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "HEAD",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "META",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "META",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "META",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "META",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "LINK",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "LINK",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "LINK",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "META",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          }
+        ],
+        "serious": []
+      },
+      "settings": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "undersized": [
+          {
+            "label": "INPUT",
+            "w": 24,
+            "h": 24
+          },
+          {
+            "label": "INPUT",
+            "w": 24,
+            "h": 24
+          },
+          {
+            "label": "INPUT",
+            "w": 32,
+            "h": 48
+          }
+        ],
+        "moving": [
+          {
+            "tag": "HTML",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "HEAD",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "META",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "META",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "META",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "META",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "LINK",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "LINK",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "LINK",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          },
+          {
+            "tag": "META",
+            "animation": "1e-05s",
+            "transition": "1e-05s"
+          }
+        ],
+        "serious": []
+      }
+    },
+    "errors": []
+  },
+  "zoom200": {
+    "scrollWidth": 726,
+    "clientWidth": 640,
+    "h1Visible": true,
+    "navVisible": true
+  },
+  "serviceWorker": {
+    "update": {
+      "scope": "https://dictation-repair-book.sociobot.in/",
+      "active": "https://dictation-repair-book.sociobot.in/sw.js",
+      "controller": "https://dictation-repair-book.sociobot.in/sw.js",
+      "cacheKeys": [
+        "drb-site-v7"
+      ]
+    },
+    "offline": {
+      "status": 200,
+      "sample": true,
+      "controller": true
+    },
+    "errors": []
+  }
+}
