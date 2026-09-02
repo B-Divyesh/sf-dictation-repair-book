@@ -53,7 +53,7 @@ test('desktop checkout link names Sociobot on desktop and mobile', async ({ page
 });
 
 test('web preview identifies its release version without exposing book data', async ({ page }) => {
-  await expect(page.getByText('v0.1.14 · local preview', { exact: true })).toBeVisible();
+  await expect(page.getByText('v0.1.15 · local preview', { exact: true })).toBeVisible();
 });
 
 test('native sample banner clears every rules heading element at the exact 1180x780 default window', async ({ page }) => {

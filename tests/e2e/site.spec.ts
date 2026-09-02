@@ -546,6 +546,31 @@ test('demo Rules and Settings fit 390px and primary touch targets are at least 4
   expect(results.violations.filter((violation) => ['serious', 'critical'].includes(violation.impact || ''))).toEqual([]);
 });
 
+test('Settings opt-in labels and native checkboxes keep 44px mobile hit areas', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/demo/?demo=1&view=settings');
+
+  for (const name of ['Notes', 'VS Code']) {
+    const checkbox = page.getByRole('checkbox', { name, exact: true });
+    const label = checkbox.locator('xpath=..');
+    const [checkboxBox, labelBox] = await Promise.all([checkbox.boundingBox(), label.boundingBox()]);
+
+    expect(checkboxBox, `${name} checkbox`).not.toBeNull();
+    expect(labelBox, `${name} label`).not.toBeNull();
+    expect(checkboxBox!.width, `${name} checkbox width`).toBeGreaterThanOrEqual(44);
+    expect(checkboxBox!.height, `${name} checkbox height`).toBeGreaterThanOrEqual(44);
+    expect(labelBox!.width, `${name} label width`).toBeGreaterThanOrEqual(44);
+    expect(labelBox!.height, `${name} label height`).toBeGreaterThanOrEqual(44);
+  }
+
+  const notes = page.getByRole('checkbox', { name: 'Notes', exact: true });
+  await notes.focus();
+  await page.keyboard.press('Space');
+  await expect(notes).not.toBeChecked();
+  await page.getByText('Notes', { exact: true }).click();
+  await expect(notes).toBeChecked();
+});
+
 test('keyboard navigation operates app sections and shows focus', async ({ page }) => {
   await page.goto('/demo/');
   await page.getByRole('link', { name: 'Settings' }).focus();
