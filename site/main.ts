@@ -68,14 +68,14 @@ async function resolveDownload(): Promise<boolean> {
     const asset = release.assets.find((item) => item.name === filenames[key]);
     if (!asset?.browser_download_url || !release.assets.some((item) => item.name === 'latest.json')) throw new Error();
     button.href = asset.browser_download_url;
-    button.textContent = `Download for ${labels[key]}`;
+    button.textContent = `Download ${labels[key]} on GitHub (opens GitHub)`;
     note.textContent = `${release.tag_name} · checksum published · unsigned build`;
     button.dataset.releaseReady = 'true';
     status.hidden = true;
     return true;
   } catch {
     button.href = releasePage;
-    button.textContent = 'Open the releases page';
+    button.textContent = 'Open releases page on GitHub (opens GitHub)';
     button.dataset.releaseUnavailable = 'true';
     note.textContent = 'Downloads are being published.';
     status.hidden = false;
@@ -89,7 +89,7 @@ download.addEventListener('click', async (event) => {
   if (download.dataset.releaseReady === 'true' || download.dataset.releaseUnavailable === 'true') return;
   event.preventDefault();
   download.setAttribute('aria-busy', 'true');
-  download.textContent = 'Checking available download…';
+  download.textContent = 'Checking GitHub downloads…';
   await resolveDownload();
   download.removeAttribute('aria-busy');
 });

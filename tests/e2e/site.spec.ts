@@ -5,7 +5,7 @@ test('landing page is accessible and keeps a usable download fallback', async ({
   await page.goto('/');
   await expect(page).toHaveTitle(/Dictation Repair Book/);
   await expect(page.locator('h1')).toHaveCount(1);
-  await expect(page.getByRole('link', { name: /download for your computer/i })).toHaveAttribute('href', /releases\/latest$/);
+  await expect(page.getByRole('link', { name: 'Download latest build on GitHub (opens GitHub)' })).toHaveAttribute('href', /releases\/latest$/);
   const results = await new AxeBuilder({ page: page as never }).analyze();
   expect(results.violations.filter((v) => ['serious', 'critical'].includes(v.impact || ''))).toEqual([]);
 });
@@ -52,10 +52,10 @@ test('@claim:on-demand-release-lookup download lookup uses the GitHub API only a
   await page.goto('/');
   expect(calls).toBe(0);
 
-  await page.getByRole('link', { name: /download for your computer/i }).click();
+  await page.getByRole('link', { name: 'Download latest build on GitHub (opens GitHub)' }).click();
 
   expect(calls).toBe(1);
-  await expect(page.getByRole('link', { name: 'Open the releases page' })).toHaveAttribute('href', /github\.com\/B-Divyesh\/sf-dictation-repair-book\/releases\/latest$/);
+  await expect(page.getByRole('link', { name: 'Open releases page on GitHub (opens GitHub)' })).toHaveAttribute('href', /github\.com\/B-Divyesh\/sf-dictation-repair-book\/releases\/latest$/);
   await expect(page.locator('#platform-note')).toHaveText('Downloads are being published.');
   await expect(page.locator('#release-status')).toHaveText('No published installer was found. Check the releases page shortly.');
 });
@@ -78,13 +78,13 @@ test('download lookup uses cached GitHub API metadata and exposes only a release
     });
   });
   await page.goto('/');
-  await page.getByRole('link', { name: /download for your computer/i }).click();
-  const assetLink = page.getByRole('link', { name: /^Download for (Linux AppImage|Windows|macOS \(Apple silicon\)|macOS \(Intel\))$/ });
+  await page.getByRole('link', { name: 'Download latest build on GitHub (opens GitHub)' }).click();
+  const assetLink = page.getByRole('link', { name: /^Download (Linux AppImage|Windows|macOS \(Apple silicon\)|macOS \(Intel\)) on GitHub \(opens GitHub\)$/ });
   await expect(assetLink).toHaveAttribute('href', new RegExp(`${assetBase}/Dictation-Repair-Book-(linux-x64\\.AppImage|windows-x64\\.msi|macos-(arm64|x64)\\.dmg)$`));
   expect(calls).toBe(1);
 
   await page.reload();
-  await page.getByRole('link', { name: /download for your computer/i }).click();
+  await page.getByRole('link', { name: 'Download latest build on GitHub (opens GitHub)' }).click();
   await expect(assetLink).toHaveAttribute('href', new RegExp(`${assetBase}/Dictation-Repair-Book-(linux-x64\\.AppImage|windows-x64\\.msi|macos-(arm64|x64)\\.dmg)$`));
   expect(calls).toBe(1);
 });
@@ -102,6 +102,42 @@ test('landing page fits a 390px phone', async ({ page }) => {
     const box = await link.boundingBox();
     expect(box!.height).toBeGreaterThanOrEqual(44);
     expect(box!.width).toBeGreaterThanOrEqual(44);
+  }
+});
+
+test('GitHub and checkout links disclose their external destination on desktop and mobile', async ({ page }) => {
+  const expectedLandingLinks = [
+    ['Download latest build on GitHub (opens GitHub)', /github\.com\/B-Divyesh\/sf-dictation-repair-book\/releases\/latest$/],
+    ['Buy $12 license on Sociobot checkout (opens Sociobot checkout)', /api\.sociobot\.in\/api\/v1\/products\/dictation-repair-book\/checkout$/],
+    ['Source on GitHub (opens GitHub)', /github\.com\/B-Divyesh\/sf-dictation-repair-book$/]
+  ] as const;
+
+  for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    for (const [name, href] of expectedLandingLinks) {
+      await expect(page.getByRole('link', { name, exact: true }), `${viewport.width}px ${name}`).toHaveAttribute('href', href);
+    }
+
+    const disclosures = await page.locator('a[href]').evaluateAll((links) => links
+      .map((link) => ({ href: (link as HTMLAnchorElement).href, text: (link.textContent || '').replace(/\s+/g, ' ').trim() }))
+      .filter((link) => /github\.com|api\.sociobot\.in\/api\/v1\/products\/[^/]+\/checkout/.test(link.href)));
+    expect(disclosures).toEqual(expect.arrayContaining([
+      expect.objectContaining({ text: 'Download latest build on GitHub (opens GitHub)' }),
+      expect.objectContaining({ text: 'Buy $12 license on Sociobot checkout (opens Sociobot checkout)' }),
+      expect.objectContaining({ text: 'Source on GitHub (opens GitHub)' })
+    ]));
+    expect(disclosures.every((link) => link.href.includes('github.com')
+      ? /on GitHub \(opens GitHub\)$/.test(link.text)
+      : /on Sociobot checkout \(opens Sociobot checkout\)$/.test(link.text))).toBe(true);
+  }
+
+  for (const [path, name] of [
+    ['/privacy/', 'public issue tracker on GitHub (opens GitHub)'],
+    ['/terms/', 'project issue tracker on GitHub (opens GitHub)']
+  ] as const) {
+    await page.goto(path);
+    await expect(page.getByRole('link', { name, exact: true })).toHaveAttribute('href', /github\.com\/B-Divyesh\/sf-dictation-repair-book\/issues$/);
   }
 });
 
@@ -316,7 +352,7 @@ test('@claim:free-book keeps the first 25 approved rules free', async ({ page })
   await page.getByLabel('What you meant').fill('deploy kube');
   await page.getByRole('button', { name: /Propose a rule/ }).click();
   await expect(page.getByText('Free book full.')).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Unlock unlimited' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Unlock unlimited on Sociobot checkout (opens Sociobot checkout)' })).toBeVisible();
   await expect(page.getByText(/\$12 once/)).toBeVisible();
   await page.evaluate(() => {
     localStorage.setItem('sb_license:dictation-repair-book', 'valid-license');
