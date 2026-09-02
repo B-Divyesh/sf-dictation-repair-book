@@ -89,15 +89,27 @@ try {
     await page.goBack();
     const defaultRulesHeading = page.getByRole('heading', { name: 'Approved rules' });
     await page.waitForFunction(() => document.activeElement?.tagName === 'H1' && document.activeElement.textContent?.includes('Approved rules'));
-    assert(new URL(page.url()).search === '?demo=1', `Back restored ${page.url()}, not the default demo URL`);
-    assert(await defaultRulesHeading.evaluate((node) => node === document.activeElement), 'Back did not focus the default Rules heading');
-    assert(await page.locator('#route-announcement').innerText() === 'Approved rules', 'Back did not announce the default Rules view');
+    const backState = {
+      url: page.url(),
+      heading: await defaultRulesHeading.innerText(),
+      focused: await defaultRulesHeading.evaluate((node) => node === document.activeElement),
+      announcement: await page.locator('#route-announcement').innerText()
+    };
+    assert(new URL(backState.url).search === '?demo=1', `Back restored ${backState.url}, not the default demo URL`);
+    assert(backState.focused, 'Back did not focus the default Rules heading');
+    assert(backState.announcement === 'Approved rules', 'Back did not announce the default Rules view');
     await page.goForward();
     const forwardTestHeading = page.getByRole('heading', { name: 'Test your repair book' });
     await page.waitForFunction(() => document.activeElement?.tagName === 'H1' && document.activeElement.textContent?.includes('Test your repair book'));
-    assert(new URL(page.url()).search === '?demo=1&view=test', `Forward restored ${page.url()}, not Test`);
-    assert(await forwardTestHeading.evaluate((node) => node === document.activeElement), 'Forward did not focus the Test heading');
-    assert(await page.locator('#route-announcement').innerText() === 'Test your repair book', 'Forward did not announce Test');
+    const forwardState = {
+      url: page.url(),
+      heading: await forwardTestHeading.innerText(),
+      focused: await forwardTestHeading.evaluate((node) => node === document.activeElement),
+      announcement: await page.locator('#route-announcement').innerText()
+    };
+    assert(new URL(forwardState.url).search === '?demo=1&view=test', `Forward restored ${forwardState.url}, not Test`);
+    assert(forwardState.focused, 'Forward did not focus the Test heading');
+    assert(forwardState.announcement === 'Test your repair book', 'Forward did not announce Test');
 
     await page.goto(`${origin}/demo/?view=test`, { waitUntil: 'networkidle' });
     const testHeading = page.getByRole('heading', { name: 'Test your repair book' });
@@ -118,7 +130,7 @@ try {
     await page.getByRole('link', { name: 'Start for real' }).click();
     assert(await page.evaluate(() => localStorage.getItem('demo:drb_web_preview_state')) === null, 'Start for real retained demo data');
     assert(await page.evaluate(() => localStorage.getItem('drb_web_preview_state')) === sentinel, 'Start for real changed real preview data');
-    report.desktop = { hero, foreignDemoRequests, errors, finalUrl: page.url() };
+    report.desktop = { hero, history: { back: backState, forward: forwardState }, foreignDemoRequests, errors, finalUrl: page.url() };
     assert(errors.length === 0, `desktop flow logged ${errors.join(' | ')}`);
     await context.close();
   }

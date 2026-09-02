@@ -1,0 +1,2 @@
+clean_clone=/tmp/dictation-repair-book-polish-4.6JwDNL
+commit=cde5814c0522ad5e069345300f07ee898a0d43dd
