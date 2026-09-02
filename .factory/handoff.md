@@ -1,4 +1,35 @@
-# Polish round 6 handoff — PASS
+# Verification 16 handoff — FAIL
+
+## Decision
+
+**FAIL — do not release candidate `848bef3d02ca7aa67dc8d84cf485eb887d1b6fce` yet.**
+
+Independent QA of https://dictation-repair-book.sociobot.in found one
+release-blocking claim-test failure: the required
+`npm run test:installer-windows` command exits because `pwsh` is not installed
+in the clean verifier environment. The complete report is
+[`verification-16.md`](verification-16.md).
+
+## What passed
+
+- All other 33 listed claims passed; the complete 50-test Playwright suite,
+  unit/native suite, typecheck, lint, production build, Cargo check, and
+  formatting passed.
+- Live first-read, demo isolation, privacy request logs, headers, offline
+  reload/service-worker update, keyboard/mobile/reduced-motion, and Axe
+  serious/critical checks passed.
+- Live static JS/CSS matches the candidate build byte-for-byte. v0.1.13's
+  Linux package checksum and release asset matrix were also verified.
+
+## Required follow-up
+
+Make the PowerShell claim executable in the clean standard verification
+workflow (or provide an equivalent portable executable test) and rerun all
+claim commands. No product code was changed by this verification.
+
+---
+
+# Previous builder handoff — superseded by verification 16
 
 ## Released repair
 
