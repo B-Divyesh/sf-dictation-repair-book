@@ -82,5 +82,14 @@
       "name": "project issue tracker on GitHub (opens GitHub)",
       "href": "https://github.com/B-Divyesh/sf-dictation-repair-book/issues"
     }
-  ]
+  ],
+  "resolvedDownload": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "name": "Download Linux AppImage on GitHub (opens GitHub)",
+    "href": "https://github.com/B-Divyesh/sf-dictation-repair-book/releases/download/v0.1.12/Dictation-Repair-Book-linux-x64.AppImage",
+    "consoleErrors": []
+  }
 }
