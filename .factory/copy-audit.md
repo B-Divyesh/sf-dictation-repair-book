@@ -1,6 +1,6 @@
-# Copy audit — polish round 4
+# Copy audit — polish round 5
 
-Reviewed 2026-09-02. This is the complete visitor-facing sentence and heading audit for the landing page. Menu labels, button labels, command strings, version text, and the product name are labels rather than sentences; they are included in the final label check below. **Rule** means one saved replacement. **Repair book** means the saved collection. “Whisper vocabulary prompt” is only the name of that export format.
+Reviewed 2026-09-02. This is the complete visitor-facing sentence and heading audit for the landing page. Menu labels, button labels, command strings, version text, and the product name are labels rather than sentences; they are included in the final label check below. **Rule** means one saved replacement. **Repair book** means the saved collection. “Whisper vocabulary prompt” is only the name of that export format. Every GitHub and Sociobot checkout link visibly names its off-site destination.
 
 ## Landing sentences and headings
 
@@ -84,6 +84,6 @@ The headline names the job, the next sentence names the audience, and **Try it w
 | Sample workspace | sample repair book | Isolated demo only. |
 | Whisper format | Whisper vocabulary prompt | Export-format name only. |
 
-Labels are concrete verbs or names: **Try it with sample data**, **Download for your computer**, **Copy command**, **Buy once — $12**, **Enter license token**, and **Verify license**. No audited landing sentence exceeds 22 words or uses a banned marketing word. The checkout amount is consistently `$12`; `@claim:checkout-price` checks the live session when available and its recorded read-only response during checkout-service outages.
+Labels are concrete verbs or names: **Try it with sample data**, **Download latest build on GitHub (opens GitHub)**, **Copy command**, **Buy $12 license on Sociobot checkout (opens Sociobot checkout)**, **Enter license token**, and **Verify license**. Footer and legal GitHub links likewise say **(opens GitHub)**. No audited landing sentence exceeds 22 words or uses a banned marketing word. The checkout amount is consistently `$12`; `@claim:checkout-price` checks the live session when available and its recorded read-only response during checkout-service outages.
 
-The catalog description is 79 characters and starts with the verb **Turn**: “Turn dictation edits into private rules you can review, test, export, or erase.”
+The catalog description is 85 characters and starts with the verb **Turn**: “Turn dictation corrections into private rules you can review, test, export, or erase.”

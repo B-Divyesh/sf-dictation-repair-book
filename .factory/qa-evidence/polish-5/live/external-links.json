@@ -1,0 +1,85 @@
+{
+  "base": "https://dictation-repair-book.sociobot.in",
+  "viewports": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "links": [
+        {
+          "name": "Download latest build on GitHub (opens GitHub)",
+          "href": "https://github.com/B-Divyesh/sf-dictation-repair-book/releases/latest"
+        },
+        {
+          "name": "Buy $12 license on Sociobot checkout (opens Sociobot checkout)",
+          "href": "https://api.sociobot.in/api/v1/products/dictation-repair-book/checkout"
+        },
+        {
+          "name": "Source on GitHub (opens GitHub)",
+          "href": "https://github.com/B-Divyesh/sf-dictation-repair-book"
+        }
+      ],
+      "external": [
+        {
+          "href": "https://github.com/B-Divyesh/sf-dictation-repair-book/releases/latest",
+          "text": "Download latest build on GitHub (opens GitHub)"
+        },
+        {
+          "href": "https://api.sociobot.in/api/v1/products/dictation-repair-book/checkout",
+          "text": "Buy $12 license on Sociobot checkout (opens Sociobot checkout)"
+        },
+        {
+          "href": "https://github.com/B-Divyesh/sf-dictation-repair-book",
+          "text": "Source on GitHub (opens GitHub)"
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "links": [
+        {
+          "name": "Download latest build on GitHub (opens GitHub)",
+          "href": "https://github.com/B-Divyesh/sf-dictation-repair-book/releases/latest"
+        },
+        {
+          "name": "Buy $12 license on Sociobot checkout (opens Sociobot checkout)",
+          "href": "https://api.sociobot.in/api/v1/products/dictation-repair-book/checkout"
+        },
+        {
+          "name": "Source on GitHub (opens GitHub)",
+          "href": "https://github.com/B-Divyesh/sf-dictation-repair-book"
+        }
+      ],
+      "external": [
+        {
+          "href": "https://github.com/B-Divyesh/sf-dictation-repair-book/releases/latest",
+          "text": "Download latest build on GitHub (opens GitHub)"
+        },
+        {
+          "href": "https://api.sociobot.in/api/v1/products/dictation-repair-book/checkout",
+          "text": "Buy $12 license on Sociobot checkout (opens Sociobot checkout)"
+        },
+        {
+          "href": "https://github.com/B-Divyesh/sf-dictation-repair-book",
+          "text": "Source on GitHub (opens GitHub)"
+        }
+      ]
+    }
+  ],
+  "legal": [
+    {
+      "path": "/privacy/",
+      "name": "public issue tracker on GitHub (opens GitHub)",
+      "href": "https://github.com/B-Divyesh/sf-dictation-repair-book/issues"
+    },
+    {
+      "path": "/terms/",
+      "name": "project issue tracker on GitHub (opens GitHub)",
+      "href": "https://github.com/B-Divyesh/sf-dictation-repair-book/issues"
+    }
+  ]
+}
