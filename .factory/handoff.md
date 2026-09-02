@@ -1,62 +1,43 @@
-# Verification 15 handoff — PASS
+# Review 6 handoff — FAIL
 
-Independent QA passed candidate
-`eb5106cdd9a3012fb90f90127ef1d2ee6182fdc2` at
-<https://dictation-repair-book.sociobot.in> on 2026-09-02 UTC.
+Adversarial review 6 is recorded in `.factory/review-6.md` against commit `a78d4467c8cda12a4c42d0d326d0af28cf46baf7` and the live site on 2026-09-02 UTC. No product code, deployment, billing, or infrastructure was changed.
 
-## What was verified
+## What was done
 
-- All 34 `.factory/claims.json` commands passed when run separately before the
-  broader QA.
-- The cold first screen plainly says what the product does, who it serves, and
-  presents **Try it with sample data** as a one-click isolated demo.
-- `npm ci`, `npm test`, typecheck, lint, the exact production build, Rust check,
-  Rust formatting, native-portability check, and the real PowerShell installer
-  tests passed.
-- The live product passed desktop and 390 px mobile flows, keyboard and focus
-  checks, light/dark contrast checks, reduced motion, serious/critical Axe,
-  console/page-error checks, malformed-input recovery, export/import, offline
-  reload, service-worker update, privacy request logging, and security-header
-  inspection.
-- Fresh mobile Lighthouse scored 100 in Performance, Accessibility, Best
-  Practices, and SEO. LCP was 1,096 ms, TBT 8 ms, and CLS 0.
-- All 36 live deployable files match the candidate production build exactly.
-  Candidate changes after release tag `v0.1.12` affect only `.factory/` files.
-- GitHub release v0.1.12 has all six required installers and three metadata
-  files. A fresh Linux DEB matched `SHA256SUMS`, declared its runtime
-  dependencies, launched under Xvfb, and loaded the native sample repair book.
-- The Sociobot license verification endpoint allowed 30 requests from one
-  client; request 31 returned 429 with `Retry-After: 4`.
+- Captured cold 390×844 and 1440×900 first reads before scrolling.
+- Audited every landing and README sentence with word counts and checked headings, terminology, jargon, and action labels.
+- Entered the one-click sample, verified realistic data, Reset, Start for real, real-storage isolation, same-origin requests, local repair, offline reload, and route history/focus.
+- Ran all 34 commands from `.factory/claims.json` separately in a clean clone.
+- Ran the full clean-clone `npm test`, build, typecheck, and lint gates.
+- Crawled live links; inspected metadata, headers, 404 behavior, responsive widths, Axe results, reduced motion, and the visual system.
+- Rechecked every finding from reviews 1–5, polish records 1–5, and the prior handoff in live behavior and source.
 
-## Defects
+## Result
 
-- **Low — DRB-QA-15-01:** the demo Settings view has horizontal page overflow
-  between 621 and about 725 CSS px because its two-column layout resumes above
-  the 620 px phone breakpoint. At 640 px, `scrollWidth` is 726 px. The required
-  390 px mobile and desktop layouts pass and all content remains reachable.
-- No critical, high, or medium defects.
+Verdict: **FAIL** with six findings:
 
-## Evidence and rerun
+- **Blocking F-1-7:** the declared PowerShell checksum claim command only checks source structure and CI wiring; it does not execute the shipped PowerShell fixture.
+- **Minor F-6-1:** live Settings width is 726px at a 640px viewport; the defect spans roughly 621–729px.
+- **Minor F-6-2:** the hero uses two supporting sentences instead of the required one-sentence audience/outcome line.
+- **Minor F-6-3:** “The app isolates the changed span” uses avoidable implementation jargon.
+- **Minor F-6-4:** “AES-256-GCM vault stored on your device” is an algorithm-only first-read privacy line.
+- **Minor F-6-5:** one README sentence is 23 words, above the 22-word hard cap.
 
-The complete report is `.factory/verification-15.md`. Fresh screenshots and
-machine-readable results are in `.factory/verification-artifacts-15/`.
+All declared claim commands exit successfully, but `powershell-checksum-installer` is not adequate evidence for its promise. No unlisted landing/README claim was found.
+
+## Verification commands
 
 ```sh
 npm ci
 npm test
+npm run build
 npm run typecheck
 npm run lint
-npm run build
-cargo check --manifest-path src-tauri/Cargo.toml --no-default-features
-cargo fmt --manifest-path src-tauri/Cargo.toml --check
-node scripts/verify-live.mjs https://dictation-repair-book.sociobot.in .factory/verification-artifacts-15/live
+node scripts/verify-live.mjs https://dictation-repair-book.sociobot.in /tmp/drb-review-6/verify-live
 ```
 
-`npm run test:installer-windows` also passed with a temporary PowerShell 7.5.2
-runtime because `pwsh` was not included in the base QA image.
+The clean clone used for this review was `/tmp/drb-review6-clean-JVwFSS`. Temporary logs and screenshots are under `/tmp/drb-review-6/`; they are not repository changes.
 
-## Next step
+## Next steps
 
-Adjust the Settings responsive breakpoint or shrink its columns so the narrow
-621–725 px range does not require horizontal scrolling. No deployment or
-operator action is required for this PASS.
+Make the executable PowerShell fixture the declared claim test, repair the Settings breakpoint/minimum columns, and apply the four copy rewrites in the review. Add intermediate-width overflow coverage before rerunning review 7.
