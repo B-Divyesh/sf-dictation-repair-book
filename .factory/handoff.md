@@ -18,7 +18,7 @@
 - Live route, console, semantic, Axe, mobile, reduced-motion, privacy, and offline checks passed. `/`, `/demo/`, `/privacy/`, and `/terms/` return 200; the designed missing route returns 404. Evidence and screenshots: `.factory/qa-evidence/polish-4/live/`.
 - `/opt/fleet/lib/verify-url.sh` passed with no console errors, one h1, `lang=en`, a main landmark, and complete image alt text.
 - Live mobile Lighthouse: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1.1 s, CLS 0, TBT 0 ms. Evidence: `.factory/qa-evidence/polish-4/lighthouse-live-mobile.json`.
-- The live demo JavaScript hash matches the deployed local build. GitHub main points to `cde5814`. The v0.1.10 release still exposes all required platform artifacts, and its Linux DEB matches the published SHA-256 checksum.
+- The live demo JavaScript hash matches the deployed local build. GitHub main contains repair commit `cde5814` and its retained evidence. The v0.1.10 release still exposes all required platform artifacts, and its Linux DEB matches the published SHA-256 checksum.
 
 ## Run locally
 
