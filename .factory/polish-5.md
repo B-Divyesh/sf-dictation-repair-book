@@ -1,6 +1,6 @@
 # Polish round 5 — PASS
 
-Repair base: `b67ff87c66543a934b59032fb6d10650dec429a8` (review 5). Product changes are `f1529d7` and `0c4ed42`. The freshly built static site was published to `https://dictation-repair-book.sociobot.in` from the product-scoped Static Web App on 2026-09-02 UTC. Final live evidence is in `.factory/qa-evidence/polish-5/live/`.
+Repair base: `b67ff87c66543a934b59032fb6d10650dec429a8` (review 5). Product changes are `f1529d7`, `0c4ed42`, and release preparation `4a973dc`; tagged release `v0.1.12` is source commit `4a973dcb3345047965240e2494f578cd27aa1f16`. The freshly built static site was published to `https://dictation-repair-book.sociobot.in` from the product-scoped Static Web App on 2026-09-02 UTC. Final live evidence is in `.factory/qa-evidence/polish-5/live/`.
 
 | Finding | Change made or retained repair | Evidence |
 | --- | --- | --- |
@@ -51,10 +51,11 @@ Repair base: `b67ff87c66543a934b59032fb6d10650dec429a8` (review 5). Product chan
 
 ## Verification
 
-- A fresh clone at repair commit `0c4ed42` ran all 34 commands declared in `.factory/claims.json` separately, then passed `npm test` (48 browser/unit/native tests), `npm run typecheck`, `npm run lint`, `npm run build`, `cargo check --manifest-path src-tauri/Cargo.toml --no-default-features`, and `cargo fmt --manifest-path src-tauri/Cargo.toml --check`.
+- A fresh clone at final tag `v0.1.12` (`4a973dcb3345047965240e2494f578cd27aa1f16`) ran all 34 commands declared in `.factory/claims.json` separately, then passed `npm test` (48 browser/unit/native tests), `npm run typecheck`, `npm run lint`, `npm run build`, `cargo check --manifest-path src-tauri/Cargo.toml --no-default-features`, and `cargo fmt --manifest-path src-tauri/Cargo.toml --check`.
 - Production build sizes remain small: landing JavaScript is 1.90 KB gzip and the desktop webview’s main JavaScript is 10.04 KB gzip.
 - `scripts/verify-live.mjs` passed cold against production. It recorded 200s for `/`, `/demo/`, `/privacy/`, and `/terms/`; a designed 404 for an unknown route; no serious/critical Axe findings; no console errors on valid routes; isolated demo storage; correct history/focus; and offline demo/404 status preservation.
 - A dedicated cold-live exact-label check passed at 1440×900 and 390×844. It recorded the three landing links and both GitHub issue links in `live/external-links.json`.
 - Mobile Lighthouse report: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1,056 ms, CLS 0, TBT 31 ms. See `live/lighthouse-mobile.json`.
+- The tag-triggered release workflow passed all four platform builds and published v0.1.12’s six installers, `SHA256SUMS`, `latest.json`, and `build-info.json`. A downloaded Linux DEB matched its published SHA-256. See `release-v0.1.12.json`.
 
 No review finding remains open.

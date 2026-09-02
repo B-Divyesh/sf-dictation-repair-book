@@ -1,0 +1,24 @@
+{
+  "tag": "v0.1.12",
+  "commit": "4a973dcb3345047965240e2494f578cd27aa1f16",
+  "release_url": "https://github.com/B-Divyesh/sf-dictation-repair-book/releases/tag/v0.1.12",
+  "workflow_url": "https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33583559409",
+  "workflow_conclusion": "success",
+  "assets": [
+    "Dictation-Repair-Book-linux-x64.AppImage",
+    "Dictation-Repair-Book-linux-x64.deb",
+    "Dictation-Repair-Book-macos-arm64.dmg",
+    "Dictation-Repair-Book-macos-x64.dmg",
+    "Dictation-Repair-Book-windows-x64.exe",
+    "Dictation-Repair-Book-windows-x64.msi",
+    "SHA256SUMS",
+    "latest.json",
+    "build-info.json"
+  ],
+  "linux_deb_sha256": {
+    "filename": "Dictation-Repair-Book-linux-x64.deb",
+    "expected": "6e921896203db4e408a65e4f6e34f3a54833a4846d3e72d917335ec97d497c64",
+    "actual": "6e921896203db4e408a65e4f6e34f3a54833a4846d3e72d917335ec97d497c64",
+    "match": true
+  }
+}

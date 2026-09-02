@@ -1,5 +1,6 @@
 {
   "base": "https://dictation-repair-book.sociobot.in",
+  "version": "PRIVATE DESKTOP APP / v0.1.12",
   "viewports": [
     {
       "viewport": {

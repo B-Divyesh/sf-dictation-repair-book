@@ -1,6 +1,6 @@
 {
   "base": "https://dictation-repair-book.sociobot.in",
-  "checkedAt": "2026-09-02T02:25:09.968Z",
+  "checkedAt": "2026-09-02T02:40:47.503Z",
   "routes": {
     "/": {
       "status": 200,
