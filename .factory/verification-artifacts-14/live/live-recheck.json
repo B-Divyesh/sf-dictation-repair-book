@@ -1,0 +1,128 @@
+{
+  "base": "https://dictation-repair-book.sociobot.in",
+  "checkedAt": "2026-09-02T01:29:02.626Z",
+  "routes": {
+    "/": {
+      "status": 200,
+      "title": "Dictation Repair Book — reusable dictation rules",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "seriousOrCritical": [],
+      "errors": []
+    },
+    "/demo/": {
+      "status": 200,
+      "title": "Approved rules — Demo — Dictation Repair Book",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "seriousOrCritical": [],
+      "errors": []
+    },
+    "/privacy/": {
+      "status": 200,
+      "title": "Privacy — Dictation Repair Book",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "seriousOrCritical": [],
+      "errors": []
+    },
+    "/terms/": {
+      "status": 200,
+      "title": "Terms — Dictation Repair Book",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "seriousOrCritical": [],
+      "errors": []
+    },
+    "/polish-four-missing-page": {
+      "status": 404,
+      "title": "Page not found — Dictation Repair Book",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "missingAlt": 0,
+      "seriousOrCritical": [],
+      "errors": [
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ]
+    }
+  },
+  "desktop": {
+    "hero": {
+      "h1": "Turn dictation corrections into reusable rules.",
+      "audience": "For dictation users with names, medications, code terms, or workplace jargon. Turn explicit corrections into rules you can inspect and reuse.",
+      "action": {
+        "x": 57.59375,
+        "y": 557.703125,
+        "width": 253.671875,
+        "height": 52
+      },
+      "result": {
+        "x": 57.59375,
+        "y": 621.703125,
+        "width": 524.390625,
+        "height": 18.1875
+      },
+      "facts": {
+        "x": 57.59375,
+        "y": 651.890625,
+        "width": 453.9375,
+        "height": 80.75
+      }
+    },
+    "history": {
+      "back": {
+        "url": "https://dictation-repair-book.sociobot.in/demo/?demo=1",
+        "heading": "Approved rules",
+        "focused": true,
+        "announcement": "Approved rules"
+      },
+      "forward": {
+        "url": "https://dictation-repair-book.sociobot.in/demo/?demo=1&view=test",
+        "heading": "Test your repair book",
+        "focused": true,
+        "announcement": "Test your repair book"
+      }
+    },
+    "foreignDemoRequests": [],
+    "errors": [],
+    "finalUrl": "https://dictation-repair-book.sociobot.in/"
+  },
+  "mobile": {
+    "landing": {
+      "width": [
+        390,
+        390
+      ],
+      "facts": {
+        "x": 18,
+        "y": 535.875,
+        "width": 354,
+        "height": 71.1875
+      },
+      "axe": []
+    },
+    "demo": {
+      "width": [
+        390,
+        390
+      ],
+      "overlap": false,
+      "reducedScroll": "auto"
+    },
+    "demoAxe": [],
+    "errors": []
+  },
+  "offline": {
+    "demoStatus": 200,
+    "missingStatus": 404
+  }
+}
