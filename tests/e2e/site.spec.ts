@@ -24,6 +24,17 @@ test('the sample action and its result stay inside the first desktop viewport', 
   }
 });
 
+test('landing uses one plain audience-and-outcome sentence', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('.hero-copy > .lede')).toHaveText(
+    'For dictation users with uncommon names, medications, code terms, or workplace jargon, this turns explicit corrections into reusable rules.'
+  );
+  await expect(page.getByText('The app finds the changed words.')).toBeVisible();
+  await expect(page.getByText('The native app encrypts the repair-book file before saving it on your device.')).toBeVisible();
+  await expect(page.getByText('The app isolates the changed span.')).toHaveCount(0);
+  await expect(page.getByText('AES-256-GCM vault stored on your device.')).toHaveCount(0);
+});
+
 test('cold landing load has no failed requests or console errors before download intent', async ({ page }) => {
   const failed: string[] = [];
   const responses: string[] = [];
@@ -265,6 +276,20 @@ test('Settings uses a complete sequential heading outline', async ({ page }) => 
 
   const results = await new AxeBuilder({ page: page as never }).analyze();
   expect(results.violations.filter((violation) => violation.id === 'heading-order')).toEqual([]);
+});
+
+test('every demo route fits through the Settings breakpoint', async ({ page }) => {
+  for (const width of [621, 640, 700, 800]) {
+    await page.setViewportSize({ width, height: 844 });
+    for (const view of ['capture', 'rules', 'test', 'settings']) {
+      await page.goto(`/demo/?demo=1&view=${view}`);
+      const layout = await page.evaluate(() => ({
+        scrollWidth: document.documentElement.scrollWidth,
+        clientWidth: document.documentElement.clientWidth
+      }));
+      expect(layout.scrollWidth, `${width}px ${view} route`).toBe(layout.clientWidth);
+    }
+  }
 });
 
 test('demo banner does not cover the active heading on a 390px phone', async ({ page }) => {

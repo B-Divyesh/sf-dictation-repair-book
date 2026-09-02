@@ -178,8 +178,8 @@
     "id": "powershell-checksum-installer",
     "claim": "The PowerShell install command verifies SHA-256 and refuses a mismatch before launching MSI installation.",
     "where": "landing install command and README",
-    "test": "npm run test:installer-contract",
-    "sandbox": "portable source and CI-wiring guard checks the shipped checksum-before-launch control flow; Windows CI executes tests/installers.ps1 with matching, mismatching, and missing-checksum downloads"
+    "test": "npm run test:installer-windows",
+    "sandbox": "PowerShell executes tests/installers.ps1 against the shipped installer with matching, mismatching, and missing-checksum downloads"
   },
   {
     "id": "release-matrix",

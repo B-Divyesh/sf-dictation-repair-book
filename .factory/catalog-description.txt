@@ -1,1 +1,1 @@
-Turn dictation corrections into private rules you can review, test, export, or erase.
+Turn dictation corrections into reusable rules you can review, test, export, or erase.

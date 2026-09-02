@@ -9,7 +9,6 @@ const packageJson = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'))
 const releaseWorkflow = readFileSync(join(root, '.github/workflows/release.yml'), 'utf8');
 const qualityWorkflow = readFileSync(join(root, '.github/workflows/quality.yml'), 'utf8');
 
-// @claim:powershell-checksum-installer
 function assertPowerShellStructure() {
   for (const expression of [
     'Invoke-WebRequest "$base/$file" -OutFile $target',
@@ -45,4 +44,4 @@ function assertPowerShellStructure() {
 }
 
 assertPowerShellStructure();
-console.log('Portable PowerShell installer contract passed; Windows CI executes the match, mismatch, and missing-checksum paths.');
+console.log('Portable PowerShell installer structure and CI wiring check passed.');

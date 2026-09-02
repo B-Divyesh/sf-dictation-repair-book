@@ -47,16 +47,16 @@ npm run build
 cargo test --manifest-path src-tauri/Cargo.toml --no-default-features
 ```
 
-The native privacy test target is intentionally GUI-free, so it also runs from
-a clean Linux clone without GTK or WebKit development metadata:
+The native privacy tests do not need a graphical interface. They run from a
+clean Linux clone without GTK or WebKit development metadata:
 
 ```sh
 cargo test --manifest-path src-tauri/Cargo.toml --no-default-features
 ```
 
 `npm test` runs a portable structural check of the PowerShell installer and
-its required CI wiring. Windows CI runs `npm run test:installer-windows`
-against the shipped script with matching, mismatching, and missing checksums.
+its required CI wiring. Run `npm run test:installer-windows` in PowerShell to
+execute the shipped script with matching, mismatching, and missing checksums.
 
 `npm run build` creates `dist/app/` for the desktop webview and `dist/site/` for the static site deployment.
 

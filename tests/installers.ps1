@@ -1,8 +1,8 @@
 $ErrorActionPreference = "Stop"
 
-# This executable companion invokes the shipped PowerShell installer on Windows
-# CI. The portable claim gate also verifies that both Windows workflows require
-# this fixture.
+# @claim:powershell-checksum-installer
+# This executable fixture invokes the shipped PowerShell installer with isolated
+# matching, mismatching, and missing-checksum downloads.
 
 $root = Split-Path -Parent $PSScriptRoot
 $installer = Join-Path $root "public/install.ps1"

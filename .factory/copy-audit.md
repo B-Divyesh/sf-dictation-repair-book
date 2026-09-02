@@ -1,4 +1,4 @@
-# Copy audit — polish round 5
+# Copy audit — polish round 6
 
 Reviewed 2026-09-02. This is the complete visitor-facing sentence and heading audit for the landing page. Menu labels, button labels, command strings, version text, and the product name are labels rather than sentences; they are included in the final label check below. **Rule** means one saved replacement. **Repair book** means the saved collection. “Whisper vocabulary prompt” is only the name of that export format. Every GitHub and Sociobot checkout link visibly names its off-site destination.
 
@@ -7,8 +7,7 @@ Reviewed 2026-09-02. This is the complete visitor-facing sentence and heading au
 | Text | Words | Result |
 | --- | ---: | --- |
 | Turn dictation corrections into reusable rules. | 6 | Pass |
-| For dictation users with names, medications, code terms, or workplace jargon. | 11 | Pass |
-| Turn explicit corrections into rules you can inspect and reuse. | 10 | Pass |
+| For dictation users with uncommon names, medications, code terms, or workplace jargon, this turns explicit corrections into reusable rules. | 19 | Pass |
 | Opens a separate sample repair book. | 6 | Pass |
 | Nothing enters your real book. | 5 | Pass |
 | No audio or account. | 4 | Pass |
@@ -27,7 +26,7 @@ Reviewed 2026-09-02. This is the complete visitor-facing sentence and heading au
 | Copy the original dictation and your corrected sentence. | 8 | Pass |
 | Capture happens only when you click. | 6 | Pass |
 | Inspect the proposal | 3 | Pass |
-| The app isolates the changed span. | 6 | Pass |
+| The app finds the changed words. | 6 | Pass |
 | Approve it, or discard it without saving anything. | 8 | Pass |
 | Reuse your book | 3 | Pass |
 | Repair clipboard text, export portable CSV/JSON, or copy a Whisper vocabulary prompt. | 12 | Pass |
@@ -38,7 +37,7 @@ Reviewed 2026-09-02. This is the complete visitor-facing sentence and heading au
 | Keep a portable copy or remove local data. | 9 | Pass |
 | How the app stores your repair book | 8 | Pass |
 | The desktop app encrypts the repair book on your device. | 10 | Pass |
-| AES-256-GCM vault stored on your device. | 6 | Pass |
+| The native app encrypts the repair-book file before saving it on your device. | 13 | Pass |
 | Name and enable each application yourself. | 6 | Pass |
 | The app does not record typing, read other fields, or keep audio. | 13 | Pass |
 | Export anytime. | 2 | Pass |
@@ -72,7 +71,17 @@ Reviewed 2026-09-02. This is the complete visitor-facing sentence and heading au
 
 ## First-screen check
 
-The headline names the job, the next sentence names the audience, and **Try it with sample data** is the first action. The primary action’s explanation and all three facts are visible at 390×844. `landing page fits a 390px phone` measures the fact block.
+The headline names the job. One 19-word supporting sentence names the audience and outcome. **Try it with sample data** is the first action. The primary action’s explanation and all three facts are visible at 390×844. `landing page fits a 390px phone` measures the fact block.
+
+## README sentence cap
+
+The README was rechecked with the same whitespace-separated word count. No sentence exceeds 22 words. The previous 23-word native-test sentence is now two sentences:
+
+| Text | Words | Result |
+| --- | ---: | --- |
+| The native privacy tests do not need a graphical interface. | 10 | Pass |
+| They run from a clean Linux clone without GTK or WebKit development metadata. | 13 | Pass |
+| Run `npm run test:installer-windows` in PowerShell to execute the shipped script with matching, mismatching, and missing checksums. | 16 | Pass |
 
 ## Terminology and labels
 
@@ -86,4 +95,4 @@ The headline names the job, the next sentence names the audience, and **Try it w
 
 Labels are concrete verbs or names: **Try it with sample data**, **Download latest build on GitHub (opens GitHub)**, **Copy command**, **Buy $12 license on Sociobot checkout (opens Sociobot checkout)**, **Enter license token**, and **Verify license**. Footer and legal GitHub links likewise say **(opens GitHub)**. No audited landing sentence exceeds 22 words or uses a banned marketing word. The checkout amount is consistently `$12`; `@claim:checkout-price` checks the live session when available and its recorded read-only response during checkout-service outages.
 
-The catalog description is 85 characters and starts with the verb **Turn**: “Turn dictation corrections into private rules you can review, test, export, or erase.”
+The catalog description is 86 characters and starts with the verb **Turn**: “Turn dictation corrections into reusable rules you can review, test, export, or erase.”

@@ -167,6 +167,12 @@ textarea { resize:vertical; font:600 16px/1.6 ui-monospace,"SFMono-Regular",Cons
   .proposal-panel { position:static; }
   .test-layout { grid-template-columns:1fr; }
 }
+/* The compact rail leaves too little usable width for Settings' two columns
+   below 800px. Keep its paired controls in one readable column until both
+   minimum columns and their ledger gap fit without side scrolling. */
+@media (min-width:621px) and (max-width:799px) {
+  .settings-section { min-width:0; grid-template-columns:minmax(0,1fr); gap:16px; }
+}
 @media (max-width:620px) {
   body { padding-bottom:calc(68px + env(safe-area-inset-bottom)); }
   .app-shell { display:block;min-height:auto; }
