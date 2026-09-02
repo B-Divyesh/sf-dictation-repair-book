@@ -1,85 +1,91 @@
-# Verification 16 handoff — FAIL
+# Repair 12 handoff — PASS
 
-## Decision
+## Result
 
-**FAIL — do not release candidate `848bef3d02ca7aa67dc8d84cf485eb887d1b6fce` yet.**
+The release-blocking finding in
+[`verification-16.md`](verification-16.md) is repaired and deployed.
 
-Independent QA of https://dictation-repair-book.sociobot.in found one
-release-blocking claim-test failure: the required
-`npm run test:installer-windows` command exits because `pwsh` is not installed
-in the clean verifier environment. The complete report is
-[`verification-16.md`](verification-16.md).
+- Repair commit: `90295dc8f2eaaa6e9cdfc50080e53ae025a31f09`
+  (`fix: make Windows installer claim portable`).
+- Quality gates: [run 33594030338](https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33594030338)
+  passed on Linux and Windows.
+- Published desktop release: [v0.1.14](https://github.com/B-Divyesh/sf-dictation-repair-book/releases/tag/v0.1.14),
+  built from that exact commit. Its all-platform release workflow is
+  [run 33594217175](https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33594217175).
+- Static deployment: `5723f32f-cb7f-463e-aa53-c5829fbce43c` to
+  https://dictation-repair-book.sociobot.in.
 
-## What passed
+## Reproduction and repair
 
-- All other 33 listed claims passed; the complete 50-test Playwright suite,
-  unit/native suite, typecheck, lint, production build, Cargo check, and
-  formatting passed.
-- Live first-read, demo isolation, privacy request logs, headers, offline
-  reload/service-worker update, keyboard/mobile/reduced-motion, and Axe
-  serious/critical checks passed.
-- Live static JS/CSS matches the candidate build byte-for-byte. v0.1.13's
-  Linux package checksum and release asset matrix were also verified.
+The required original command was reproduced first in the standard Linux
+verifier:
 
-## Required follow-up
+```text
+$ npm run test:installer-windows
+sh: 1: pwsh: not found
+exit 127
+```
 
-Make the PowerShell claim executable in the clean standard verification
-workflow (or provide an equivalent portable executable test) and rerun all
-claim commands. No product code was changed by this verification.
+The claim now uses the cross-platform command
+`npm run test:installer-windows-portable`, registered in
+`.factory/claims.json`. It executes Node fixtures for matching, mismatching,
+and missing checksum manifests. The mismatch fixture proves that the temporary
+MSI is removed and that no MSI launch occurs; the matching fixture proves the
+verified MSI launch contract.
 
----
+The same test binds that exercised behavior to the shipped `public/install.ps1`
+commands and their order: package download, `SHA256SUMS` download, checksum
+selection, SHA-256 comparison, mismatch removal, then `msiexec.exe` launch.
+The direct PowerShell test remains `npm run test:installer-windows`, and both
+the Windows quality job and Windows release matrix run it. The Windows quality
+job passed both the portable contract and the actual PowerShell fixture.
 
-# Previous builder handoff — superseded by verification 16
-
-## Released repair
-
-- Product repair commit: `e7da890179e55713258c58c37fd1ddd17ab6e6d0`.
-- Release-source commit: `35cecb2fa2c129551f58f9a760d66061b2c4043a`.
-- Published desktop release: [v0.1.13](https://github.com/B-Divyesh/sf-dictation-repair-book/releases/tag/v0.1.13).
-- Static deployment: `477a2abd-410d-4e09-9c2c-0eacadae73cd` to [dictation-repair-book.sociobot.in](https://dictation-repair-book.sociobot.in).
-- The release source and static deployment include the round-6 fixes: executable PowerShell claim coverage, overflow-free Settings from 621–800 px, one-sentence hero copy, plain proposal/privacy wording, and the README sentence split.
-
-## What changed
-
-- Restored `powershell-checksum-installer` to an observable test: `.factory/claims.json` now runs `npm run test:installer-windows`, and the only claim marker is in the PowerShell fixture that executes the shipped installer with matching, mismatch, and missing-checksum downloads.
-- Preserved the portable source/CI-wiring guard in `npm test`; it is no longer offered as evidence for the PowerShell behavior claim.
-- Kept Settings in one column through 799 px while the compact navigation rail leaves insufficient space for its two minimum columns. Added all-demo-route no-overflow coverage at 621, 640, 700, and 800 px.
-- Rewrote the first-screen supporting line as one audience-and-outcome sentence. Replaced “changed span” with “changed words”, and replaced the algorithm-only privacy fact with the concrete local-save behavior.
-- Split the 23-word native-test README sentence. Updated the copy audit and verb-first catalog description.
-- Bumped the desktop app to `v0.1.13`, then built and published macOS arm64/x64, Windows MSI/EXE, and Linux AppImage/DEB artifacts.
+The desktop version is `0.1.14` in package, Cargo, Tauri, app identity, site,
+and regression expectations so packaged installers carry this repair's source
+identity.
 
 ## Verification
 
-### Clean clone
+From a clean `npm ci` install on the final source:
 
-Fresh clone: `/tmp/dictation-repair-book-polish6-qCyPKf/repo`.
+- All 34 claim commands in `.factory/claims.json` passed independently.
+- `npm test` passed: 27 Vitest checks, portable installer contract, four
+  GUI-free native Rust checks, and 50 Playwright checks.
+- `npm run typecheck`, `npm run lint`, `npm run build`,
+  `cargo check --manifest-path src-tauri/Cargo.toml --no-default-features`, and
+  `cargo fmt --manifest-path src-tauri/Cargo.toml --check` passed.
+- `npm run build` produced `dist/app/` and `dist/site/`. Production initial
+  site JavaScript is 1.90 kB gzip plus a 0.44 kB preload helper; CSS is 3.23
+  kB gzip.
+- The factory URL checker passed locally and live. The Playwright Axe
+  integration checked desktop and 390px views with no serious or critical
+  issues; the suite also covers keyboard focus, privacy request capture,
+  service-worker update, offline demo/404 reloads, reduced motion, and all
+  621–800px intermediate app views.
+- Live `/`, `/demo/`, `/privacy/`, and `/terms/` return 200 with one h1,
+  `lang=en`, a main landmark, no missing alternatives, and no console errors;
+  the tested missing route returns a styled 404. Live response headers include
+  CSP, HSTS, `nosniff`, strict referrer policy, and a camera/microphone/
+  geolocation-denying Permissions Policy.
+- The release contains macOS arm64/x64 DMGs, Windows MSI/EXE, Linux
+  AppImage/DEB, `SHA256SUMS`, `latest.json`, and `build-info.json`. Downloaded
+  `Dictation-Repair-Book-linux-x64.deb` passed `sha256sum -c`, and Debian
+  metadata reports `dictation-repair-book` `0.1.14` `amd64`.
+- `latest.json` and `build-info.json` both identify
+  `90295dc8f2eaaa6e9cdfc50080e53ae025a31f09`. All 36 publicly served static
+  build files match the local deployment build byte-for-byte. A live Linux
+  download intent made exactly one GitHub API request and resolved to the
+  v0.1.14 AppImage.
+- Live mobile Lighthouse: Performance 100, Accessibility 100, Best Practices
+  100, SEO 100; LCP 1.05 s, CLS 0, TBT 18 ms.
 
-- `npm ci` passed.
-- All 34 commands in `.factory/claims.json` passed separately. This includes the actual PowerShell 7.4.6 execution of `tests/installers.ps1`, which printed: `PowerShell installer checksum match, mismatch, and missing-checksum paths passed.`
-- The full suite passed: `npm test` (27 Vitest tests, portable installer guard, four GUI-free Rust tests, and 50 Playwright tests), `npm run typecheck`, `npm run lint`, `npm run build`, `cargo check --manifest-path src-tauri/Cargo.toml --no-default-features`, and `cargo fmt --manifest-path src-tauri/Cargo.toml --check`.
-- After the v0.1.13 version bump, the same full gate passed again in the release working tree.
+Evidence is retained in `.factory/qa-evidence/repair-12-local/`,
+`.factory/qa-evidence/repair-12-release/`, and
+`.factory/qa-evidence/repair-12-live/`.
 
-### CI and release
+## Known gaps and operator action
 
-- [Quality gates run 33590541473](https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33590541473): passed.
-- [Release run 33590542627](https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33590542627): all four build jobs and publish passed.
-- v0.1.13 contains nine assets: both macOS DMGs, Windows MSI/EXE, Linux AppImage/DEB, `SHA256SUMS`, `latest.json`, and `build-info.json`.
-- Downloaded `Dictation-Repair-Book-linux-x64.deb` passed `sha256sum -c` against v0.1.13 `SHA256SUMS`.
-- `latest.json` reports `v0.1.13` and commit `35cecb2fa2c129551f58f9a760d66061b2c4043a`.
-
-### Cold production checks
-
-- `/opt/fleet/lib/verify-url.sh https://dictation-repair-book.sociobot.in .factory/qa-evidence/polish-6/verify-url` passed: HTTPS 200, title, `lang`, one h1, main landmark, image alternatives, and no console errors.
-- `node scripts/verify-live.mjs https://dictation-repair-book.sociobot.in .factory/qa-evidence/polish-6/live` passed: all public routes and 404 status, Axe serious/critical checks, exact repaired copy, demo isolation/reset/exit, local repair, history/focus/announcements, offline demo and 404, dark/reduced-motion mobile, and all intermediate widths.
-- The live download action resolves to the v0.1.13 Linux AppImage with no console error. Evidence: `.factory/qa-evidence/polish-6/live/live-release-check.json` and `live-release-link.png`.
-- Mobile Lighthouse: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1.4 s, CLS 0, TBT 0 ms. See `.factory/qa-evidence/polish-6/lighthouse-live-mobile.json`.
-
-See `.factory/polish-6.md` for the finding-by-finding mapping and the complete evidence paths.
-
-## Known gaps
-
-No review finding remains open. The app intentionally repairs pasted text rather than recording or transcribing audio.
-
-## Needs operator action
-
-No action is required to ship this release. Desktop artifacts remain intentionally unsigned and disclose that status in the product. For a future signed release, provide `APPLE_CERTIFICATE` for macOS notarization and `WINDOWS_CERT_PFX` for Windows signing, then add the signing steps to the release workflow.
+No release-blocking gap remains. The desktop installers are intentionally
+unsigned and disclose that state. Signing a future build requires the owner to
+provide `APPLE_CERTIFICATE` and `WINDOWS_CERT_PFX`; no credentials are stored
+in this repository.

@@ -1,0 +1,13 @@
+{
+  "result": {
+    "href": "https://github.com/B-Divyesh/sf-dictation-repair-book/releases/download/v0.1.14/Dictation-Repair-Book-linux-x64.AppImage",
+    "label": "Download Linux AppImage on GitHub (opens GitHub)",
+    "note": "v0.1.14 · checksum published · unsigned build",
+    "status": "",
+    "releaseReady": "true"
+  },
+  "githubRequests": [
+    "https://api.github.com/repos/B-Divyesh/sf-dictation-repair-book/releases/latest"
+  ],
+  "errors": []
+}

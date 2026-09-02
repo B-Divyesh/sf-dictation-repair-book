@@ -1,0 +1,262 @@
+{
+  "checkedAt": "2026-09-02T05:29:29.728Z",
+  "files": 36,
+  "ignored": [
+    "staticwebapp.config.json"
+  ],
+  "failures": [],
+  "rows": [
+    {
+      "path": "/404.html",
+      "status": 200,
+      "local": "9a2255901d6203fd9a4443fc00f634f074ea18d591fc6430ce9779c1422f242e",
+      "remote": "9a2255901d6203fd9a4443fc00f634f074ea18d591fc6430ce9779c1422f242e",
+      "match": true
+    },
+    {
+      "path": "/apple-touch-icon.png",
+      "status": 200,
+      "local": "b12692a98e2b70e3987770db08720509ebd8746cc2b6832aa7049f825742204c",
+      "remote": "b12692a98e2b70e3987770db08720509ebd8746cc2b6832aa7049f825742204c",
+      "match": true
+    },
+    {
+      "path": "/assets/core-DlQNAQKj.js",
+      "status": 200,
+      "local": "4ee62df86811328a242666feb45cda054667e8b90e67afa95a0f9beccc15594d",
+      "remote": "4ee62df86811328a242666feb45cda054667e8b90e67afa95a0f9beccc15594d",
+      "match": true
+    },
+    {
+      "path": "/assets/core-DlQNAQKj.js.map",
+      "status": 200,
+      "local": "5f5d11e4b913b76497e1f7274731e905a2d00be60f08b65932b3dade8f5570ae",
+      "remote": "5f5d11e4b913b76497e1f7274731e905a2d00be60f08b65932b3dade8f5570ae",
+      "match": true
+    },
+    {
+      "path": "/assets/demo-YsmzMj3d.js",
+      "status": 200,
+      "local": "ad06ddc4e845f692bc0c3bad6fbf15dc271aada38b3e344ffbcd30260c0bc55a",
+      "remote": "ad06ddc4e845f692bc0c3bad6fbf15dc271aada38b3e344ffbcd30260c0bc55a",
+      "match": true
+    },
+    {
+      "path": "/assets/demo-YsmzMj3d.js.map",
+      "status": 200,
+      "local": "f78d7bcdd493728ad164f035fc60c7b8b23fbbacb176e5af6743991abc0f0666",
+      "remote": "f78d7bcdd493728ad164f035fc60c7b8b23fbbacb176e5af6743991abc0f0666",
+      "match": true
+    },
+    {
+      "path": "/assets/demo-qrs-CWgL.css",
+      "status": 200,
+      "local": "650b9e6f06234300200849d6e1961b6fadef4755fd5aa410ba87fc0aa0a9b737",
+      "remote": "650b9e6f06234300200849d6e1961b6fadef4755fd5aa410ba87fc0aa0a9b737",
+      "match": true
+    },
+    {
+      "path": "/assets/hero-ledger-1536.webp",
+      "status": 200,
+      "local": "a814c405dcfca3e2da7ec9affb5cf356c0761c47ca093c6f62ee3fe6c405fa97",
+      "remote": "a814c405dcfca3e2da7ec9affb5cf356c0761c47ca093c6f62ee3fe6c405fa97",
+      "match": true
+    },
+    {
+      "path": "/assets/hero-ledger-768.webp",
+      "status": 200,
+      "local": "637e614855f280c86adaaed493207d9435a955a21ee9b3bbafb4d90aad0abe51",
+      "remote": "637e614855f280c86adaaed493207d9435a955a21ee9b3bbafb4d90aad0abe51",
+      "match": true
+    },
+    {
+      "path": "/assets/hero-ledger.jpg",
+      "status": 200,
+      "local": "05fc04ca2e8300fa209d5f66a5014a2342d769d92b0ea82251f6f282138da767",
+      "remote": "05fc04ca2e8300fa209d5f66a5014a2342d769d92b0ea82251f6f282138da767",
+      "match": true
+    },
+    {
+      "path": "/assets/index-BrQt8BRm.js",
+      "status": 200,
+      "local": "6e2595f46f8b554cdd4ed6375641fd0927c2fb37ebe0040ce26ec8ada8118d07",
+      "remote": "6e2595f46f8b554cdd4ed6375641fd0927c2fb37ebe0040ce26ec8ada8118d07",
+      "match": true
+    },
+    {
+      "path": "/assets/index-BrQt8BRm.js.map",
+      "status": 200,
+      "local": "41ed0ffed9a2f7aaa3cb03f164cfb295cfe813f31825be9d4e9a849b4532bdab",
+      "remote": "41ed0ffed9a2f7aaa3cb03f164cfb295cfe813f31825be9d4e9a849b4532bdab",
+      "match": true
+    },
+    {
+      "path": "/assets/index-oEGPrSfE.js",
+      "status": 200,
+      "local": "348df1497eea98d04b878046e960ae1dd196b79ba64694eece79ee23e52ad42d",
+      "remote": "348df1497eea98d04b878046e960ae1dd196b79ba64694eece79ee23e52ad42d",
+      "match": true
+    },
+    {
+      "path": "/assets/index-oEGPrSfE.js.map",
+      "status": 200,
+      "local": "17908973da4dff19e8ae989a824b61240375610a73590c8d3cefd502813cb0fb",
+      "remote": "17908973da4dff19e8ae989a824b61240375610a73590c8d3cefd502813cb0fb",
+      "match": true
+    },
+    {
+      "path": "/assets/modulepreload-polyfill-B5Qt9EMX.js",
+      "status": 200,
+      "local": "607112fb81d7899ceedf89cdb1b3540a53eb96ad5e4202fb1e22f873281de839",
+      "remote": "607112fb81d7899ceedf89cdb1b3540a53eb96ad5e4202fb1e22f873281de839",
+      "match": true
+    },
+    {
+      "path": "/assets/modulepreload-polyfill-B5Qt9EMX.js.map",
+      "status": 200,
+      "local": "c9c3b703479907e6c487d5835bbbc82c9f623643700dfcc648ec158790947c76",
+      "remote": "c9c3b703479907e6c487d5835bbbc82c9f623643700dfcc648ec158790947c76",
+      "match": true
+    },
+    {
+      "path": "/assets/notFound-DRIMxf1u.js.map",
+      "status": 200,
+      "local": "9b865021f615240e0deb59b22f654d6f8b897b02bcdde9bc2b577d92b29c375d",
+      "remote": "9b865021f615240e0deb59b22f654d6f8b897b02bcdde9bc2b577d92b29c375d",
+      "match": true
+    },
+    {
+      "path": "/assets/privacy-DRIMxf1u.js.map",
+      "status": 200,
+      "local": "2b5560997fe0e743fb1ac3f12c7adda06a4ac40569fb4bdf9dd03d7a85b863db",
+      "remote": "2b5560997fe0e743fb1ac3f12c7adda06a4ac40569fb4bdf9dd03d7a85b863db",
+      "match": true
+    },
+    {
+      "path": "/assets/site-D642qofu.css",
+      "status": 200,
+      "local": "c7d90327a3ac81a67a2a0a03ef4eb4fadf571a7f174af452e3a451bc306249ed",
+      "remote": "c7d90327a3ac81a67a2a0a03ef4eb4fadf571a7f174af452e3a451bc306249ed",
+      "match": true
+    },
+    {
+      "path": "/assets/social-card.jpg",
+      "status": 200,
+      "local": "52441580571da56d86128ef41d312795fea4870a280860163129306c40320dfc",
+      "remote": "52441580571da56d86128ef41d312795fea4870a280860163129306c40320dfc",
+      "match": true
+    },
+    {
+      "path": "/assets/terms-DRIMxf1u.js.map",
+      "status": 200,
+      "local": "a023b64bf9447565054f1a962b06bc89eb93e7cbd5e96689af3f2c0fec380cdf",
+      "remote": "a023b64bf9447565054f1a962b06bc89eb93e7cbd5e96689af3f2c0fec380cdf",
+      "match": true
+    },
+    {
+      "path": "/assets/walkthrough-capture.png",
+      "status": 200,
+      "local": "1e665ac2dc81553510bdeb4eb33a0ebbf750f4dbc915459b13e2457eac18ecce",
+      "remote": "1e665ac2dc81553510bdeb4eb33a0ebbf750f4dbc915459b13e2457eac18ecce",
+      "match": true
+    },
+    {
+      "path": "/assets/walkthrough-rules.png",
+      "status": 200,
+      "local": "90fd4b9fcd3ca6b1db2c9ab906c22539558b3b0badd6ffdbaf08610e7037c36b",
+      "remote": "90fd4b9fcd3ca6b1db2c9ab906c22539558b3b0badd6ffdbaf08610e7037c36b",
+      "match": true
+    },
+    {
+      "path": "/assets/walkthrough-settings.png",
+      "status": 200,
+      "local": "ed0530f743b9dba09a3d1d84d1c352c5744e372ab9a27a22e52675e0908f1333",
+      "remote": "ed0530f743b9dba09a3d1d84d1c352c5744e372ab9a27a22e52675e0908f1333",
+      "match": true
+    },
+    {
+      "path": "/assets/walkthrough-test.png",
+      "status": 200,
+      "local": "3911d2a8335308923596be5f3a0223b89ee0ae5d8d1caeb00eaec21a6cc64a90",
+      "remote": "3911d2a8335308923596be5f3a0223b89ee0ae5d8d1caeb00eaec21a6cc64a90",
+      "match": true
+    },
+    {
+      "path": "/demo/index.html",
+      "status": 200,
+      "local": "b53279853784644a982c2a51ba286c44cce2f38859be9cf3a228cae997ae14bd",
+      "remote": "b53279853784644a982c2a51ba286c44cce2f38859be9cf3a228cae997ae14bd",
+      "match": true
+    },
+    {
+      "path": "/favicon.svg",
+      "status": 200,
+      "local": "2cc746470ab4b27a004a8c6a7ea1b02637cd3a876ed673121798bf8cf0c86a2d",
+      "remote": "2cc746470ab4b27a004a8c6a7ea1b02637cd3a876ed673121798bf8cf0c86a2d",
+      "match": true
+    },
+    {
+      "path": "/index.html",
+      "status": 200,
+      "local": "38e58e89f59ae2511ef3ffadd92cc563817da82044ba61c1bba08b1d6e5c8694",
+      "remote": "38e58e89f59ae2511ef3ffadd92cc563817da82044ba61c1bba08b1d6e5c8694",
+      "match": true
+    },
+    {
+      "path": "/install.ps1",
+      "status": 200,
+      "local": "33f9f89e2df4e7dbf777c01671391159d98583db81489ee7a0f3b48021accbb4",
+      "remote": "33f9f89e2df4e7dbf777c01671391159d98583db81489ee7a0f3b48021accbb4",
+      "match": true
+    },
+    {
+      "path": "/install.sh",
+      "status": 200,
+      "local": "dfbf2c87b25eeac5981410d9b6a1af4f5daec26665639e429bb30f263113b96a",
+      "remote": "dfbf2c87b25eeac5981410d9b6a1af4f5daec26665639e429bb30f263113b96a",
+      "match": true
+    },
+    {
+      "path": "/privacy/index.html",
+      "status": 200,
+      "local": "f33a8af8ae60da220b987d2ca3830368debc23c91f7622e688b61274482e9611",
+      "remote": "f33a8af8ae60da220b987d2ca3830368debc23c91f7622e688b61274482e9611",
+      "match": true
+    },
+    {
+      "path": "/qa.css",
+      "status": 200,
+      "local": "68d000c4f08b03ec12008c291b7f40958855cf8b08b0d349855b151d972631da",
+      "remote": "68d000c4f08b03ec12008c291b7f40958855cf8b08b0d349855b151d972631da",
+      "match": true
+    },
+    {
+      "path": "/robots.txt",
+      "status": 200,
+      "local": "2cd3a3e9c8e409e5b1246f3140b7da6eee434205c99a933c613397dcb99f4e09",
+      "remote": "2cd3a3e9c8e409e5b1246f3140b7da6eee434205c99a933c613397dcb99f4e09",
+      "match": true
+    },
+    {
+      "path": "/sitemap.xml",
+      "status": 200,
+      "local": "bf7b512930aff99c149bdc2e9bbc53ada45eb2378e55fe89d9a1753b64bf0655",
+      "remote": "bf7b512930aff99c149bdc2e9bbc53ada45eb2378e55fe89d9a1753b64bf0655",
+      "match": true
+    },
+    {
+      "path": "/sw.js",
+      "status": 200,
+      "local": "22b3ed62ae06f2ce1c28c55615ec0ec24d361d9acf53bcc7de1117871c7a8784",
+      "remote": "22b3ed62ae06f2ce1c28c55615ec0ec24d361d9acf53bcc7de1117871c7a8784",
+      "match": true
+    },
+    {
+      "path": "/terms/index.html",
+      "status": 200,
+      "local": "8b11a200a79a238ce888538de0617763005e16c02247b2faa343b66332ac5fe6",
+      "remote": "8b11a200a79a238ce888538de0617763005e16c02247b2faa343b66332ac5fe6",
+      "match": true
+    }
+  ]
+}
