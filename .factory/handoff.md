@@ -1,24 +1,29 @@
-# Polish round 4 handoff — PASS
+# Polish round 4 retry 1 handoff — PASS
 
 ## Shipped
 
-- Fixed the reopened browser-history defect. Returning from Test to `/demo/?demo=1` now restores the default **Approved rules** view, focuses its h1, and announces it. Forward restores Test in the same way.
-- Added the deterministic Playwright regression and the same cold-live assertion to `scripts/verify-live.mjs`.
-- Retained and reverified every repair from reviews 1–3: isolated browser/native samples, all claim tests, real routes and metadata, 404 status, mobile layout, accessibility, privacy, offline behavior, installers, and release artifacts.
-- Updated the catalog description to a 92-character verb-first sentence and refreshed the copy audit.
-- Deployed `dist/site` from product commit `cde5814c0522ad5e069345300f07ee898a0d43dd` to <https://dictation-repair-book.sociobot.in>. Azure deployment id: `6e4c677d-2735-4e38-815a-1fd578dfc320`.
+- Made `npm test` portable on Linux by moving real PowerShell execution to `npm run test:installer-windows`.
+- Kept checksum coverage intact. The portable test checks the shipped checksum-before-launch control flow and both Windows CI call sites. Windows executes the shipped `install.ps1` with matching, mismatching, and missing checksums.
+- Added push, pull-request, and manual quality CI with a Linux product suite and a Windows installer job. The release workflow runs the same Windows fixture.
+- Retained every review 1–4 repair, including one-click isolated sample data, demo reset/exit, native sample isolation, real routes and titles, Back/Forward focus, the designed 404, legal links, mobile layout, privacy, offline use, and accessible controls.
+- Updated the catalog line to a 79-character verb-first description and published version 0.1.11.
 
 ## Verification
 
-- Fresh clone at `cde5814c0522ad5e069345300f07ee898a0d43dd`: all 34 claim commands passed separately. Evidence: `.factory/qa-evidence/polish-4/clean-clone/claim-run.log`.
-- `npm test`: 27 Vitest tests, the executable shell/PowerShell installer contract, four Rust tests, and 46 Playwright tests passed. PowerShell 7.5.4 was supplied as an isolated test runtime.
-- `npm run typecheck`, `npm run lint`, `npm run build`, `cargo check --no-default-features`, and `cargo fmt --check` passed. Build output includes `dist/app/index.html` and `dist/site/index.html`; landing JavaScript is 1.88 KB gzip.
-- Focused regression: `browser Back restores the default demo Rules view and Forward restores Test` passed. Evidence: `.factory/qa-evidence/polish-4/back-regression.log`.
-- Cold live history result: Back URL `/demo/?demo=1`, h1/announcement `Approved rules`, focused `true`; Forward URL includes `view=test`, h1/announcement `Test your repair book`, focused `true`. Evidence: `.factory/qa-evidence/polish-4/live/live-recheck.json`.
-- Live route, console, semantic, Axe, mobile, reduced-motion, privacy, and offline checks passed. `/`, `/demo/`, `/privacy/`, and `/terms/` return 200; the designed missing route returns 404. Evidence and screenshots: `.factory/qa-evidence/polish-4/live/`.
-- `/opt/fleet/lib/verify-url.sh` passed with no console errors, one h1, `lang=en`, a main landmark, and complete image alt text.
-- Live mobile Lighthouse: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1.1 s, CLS 0, TBT 0 ms. Evidence: `.factory/qa-evidence/polish-4/lighthouse-live-mobile.json`.
-- The live demo JavaScript hash matches the deployed local build. GitHub main contains repair commit `cde5814` and its retained evidence. The v0.1.10 release still exposes all required platform artifacts, and its Linux DEB matches the published SHA-256 checksum.
+- Product/release commit: `e3fa407cc2be1bfa4521be618a8130f730c89db0`.
+- Fresh clone: all 34 claim commands passed separately. `npm test` passed 27 Vitest tests, the portable installer contract, four Rust tests, and 46 Playwright tests.
+- Fresh clone: `npm run typecheck`, `npm run lint`, `npm run build`, `cargo check --no-default-features`, and `cargo fmt --check` passed.
+- Build output: `dist/app/index.html` and `dist/site/index.html`; initial landing JavaScript is 1.88 KB gzip and CSS is 3.23 KB gzip.
+- Cross-platform quality: [run 33577027016](https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33577027016) passed Linux and Windows. The Windows log ends with “PowerShell installer checksum match, mismatch, and missing-checksum paths passed.”
+- Desktop release: [run 33577561255](https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33577561255) passed macOS arm64, macOS x64, Windows x64, Linux x64, and release publication.
+- Release: [v0.1.11](https://github.com/B-Divyesh/sf-dictation-repair-book/releases/tag/v0.1.11) contains two DMGs, MSI, EXE, AppImage, DEB, `SHA256SUMS`, `latest.json`, and `build-info.json`. The Linux DEB checksum passed and its metadata is version 0.1.11, amd64.
+- Static deployment: Azure deployment `4b4d461c-0799-4578-a888-95c49b8d182c` at <https://dictation-repair-book.sociobot.in>.
+- Cold live check: `/`, `/demo/`, `/privacy/`, and `/terms/` return 200; the designed missing route returns 404. Titles, `lang=en`, one h1, main landmark, alt text, console, Axe, mobile overflow, 44 px controls, reduced motion, offline routes, and demo egress pass.
+- History regression: Back restores `/demo/?demo=1`, **Approved rules**, h1 focus, and its announcement. Forward restores Test in the same way.
+- Deployment identity: all 36 served build files match `dist/site` by SHA-256. The live `install.ps1` hash matches the shipped source.
+- Download path: a cold Linux visit resolves the platform action to the v0.1.11 AppImage and shows “v0.1.11 · checksum published · unsigned build” without a console error.
+- Live Lighthouse mobile: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1.1 s, CLS 0, TBT 0 ms.
+- Evidence and screenshots: `.factory/qa-evidence/polish-4-retry1/live/`.
 
 ## Run locally
 
@@ -28,10 +33,16 @@ npm test
 npm run typecheck
 npm run lint
 npm run build
+cargo check --manifest-path src-tauri/Cargo.toml --no-default-features
+cargo fmt --manifest-path src-tauri/Cargo.toml --check
 ```
 
-PowerShell 7 is required for the executable Windows installer fixture on Linux.
+Run the executable Windows installer fixture on Windows:
 
-## Known gaps and next steps
+```powershell
+npm run test:installer-windows
+```
 
-No review finding or product-scope gap remains. Current desktop packages are intentionally unsigned and the site discloses this. Future signing would require operator-owned Apple and Windows certificates; the current workflow expects no signing secrets and needs no operator action for this release.
+## Known gaps and operator action
+
+No review finding or product-scope gap remains. Desktop packages are intentionally unsigned and the site discloses this. Signing later requires operator-owned Apple and Windows certificates; the current workflow expects no signing secrets. No operator action is required for this release.

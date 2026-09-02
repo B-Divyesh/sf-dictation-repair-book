@@ -1,0 +1,45 @@
+{
+  "checked_at": "2026-09-02T01:08:00Z",
+  "source_commit": "e3fa407cc2be1bfa4521be618a8130f730c89db0",
+  "clean_clone": {
+    "claims_passed": 34,
+    "claims_total": 34,
+    "vitest_passed": 27,
+    "rust_passed": 4,
+    "playwright_passed": 46,
+    "typecheck": "pass",
+    "lint": "pass",
+    "build": "pass",
+    "cargo_check": "pass",
+    "cargo_fmt": "pass"
+  },
+  "ci": {
+    "quality_run": "https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33577027016",
+    "quality_conclusion": "success",
+    "windows_fixture": "PowerShell installer checksum match, mismatch, and missing-checksum paths passed.",
+    "release_run": "https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33577561255",
+    "release_conclusion": "success"
+  },
+  "release": {
+    "url": "https://github.com/B-Divyesh/sf-dictation-repair-book/releases/tag/v0.1.11",
+    "version": "v0.1.11",
+    "asset_count": 9,
+    "linux_deb_sha256": "09c8ed4a39b0be11d3d555a556f21c67b41fa0f480c19b3aa28a861c82780dd3",
+    "checksum_verified": true
+  },
+  "deployment": {
+    "id": "4b4d461c-0799-4578-a888-95c49b8d182c",
+    "url": "https://dictation-repair-book.sociobot.in",
+    "served_files_matching_build": 36,
+    "served_files_checked": 36
+  },
+  "lighthouse_mobile": {
+    "performance": 100,
+    "accessibility": 100,
+    "best_practices": 100,
+    "seo": 100,
+    "lcp_seconds": 1.1,
+    "cls": 0,
+    "tbt_ms": 0
+  }
+}

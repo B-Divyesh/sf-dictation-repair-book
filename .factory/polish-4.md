@@ -1,6 +1,6 @@
 # Polish round 4
 
-Repair base: `9221c07380724bb41e595d543cd21c28a9a799b1`. Product repair: `cde5814c0522ad5e069345300f07ee898a0d43dd`. This round re-read every review and polish record, retained every earlier repair, and closed the reopened F-1-2 regression. The exact live route, focus, and announcement states are in `qa-evidence/polish-4/live/live-recheck.json`. Shared cold captures are `live-landing-desktop.png`, `live-landing-390.png`, `live-demo-desktop.png`, and `live-demo-390.png` in that directory.
+Repair base: `986b2bcd62784cef5aa0f1978e60597369f6a1e0`. Product repair and release source: `e3fa407cc2be1bfa4521be618a8130f730c89db0`. This retry re-read every review and polish record, retained every earlier repair, and made the installer gate portable without removing the real Windows test. Fresh live evidence is under `.factory/qa-evidence/polish-4-retry1/live/`. The exact route, focus, announcement, mobile, Axe, privacy, and offline states are in `live-recheck.json`; cold captures are `live-landing-desktop.png`, `live-landing-390.png`, `live-demo-desktop.png`, and `live-demo-390.png`.
 
 | Finding | Change made or retained repair | Evidence |
 | --- | --- | --- |
@@ -10,7 +10,7 @@ Repair base: `9221c07380724bb41e595d543cd21c28a9a799b1`. Product repair: `cde581
 | F-1-4 | Installer commands remain labelled, focusable scroll regions with visible focus. | E2E `landing page is accessible`; mobile Axe in `live/live-a11y.json`; `live/live-landing-390.png`; live `/`. |
 | F-1-5 | The service worker retains valid route variants and constructs 404 responses for unknown routes online and offline. | E2E `service-worker controlled unknown routes keep their 404 status online and offline`; `live/live-route-check.json`; live `/polish-four-missing-page` = 404. |
 | F-1-6 | The encryption claim still saves and loads through the production vault and rejects plaintext on disk. | `@claim:encrypted-vault`; `clean-clone/claim-run.log`; `live/live-landing-desktop.png`; live `/privacy/`. |
-| F-1-7 | The declared PowerShell claim executes the shipped installer through matching and mismatching checksum fixtures. | `@claim:powershell-checksum-installer`; `clean-clone/claim-run.log`; `live/live-landing-desktop.png`; live `/install.ps1`. |
+| F-1-7 | The Linux claim gate now checks the shipped checksum-before-launch control flow and required CI wiring without requiring `pwsh`. Real Windows CI executes the shipped installer against matching, mismatching, and missing checksums; only the verified MSI reaches the launcher. | `npm run test:installer-contract`; `npm run test:installer-windows`; [quality run 33577027016](https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33577027016); [release run 33577561255](https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33577561255); live `/install.ps1`. |
 | F-1-8 | Release preparation still runs against fixture bundles and validates the generated manifest and hashes. | `@claim:release-matrix`; `clean-clone/claim-run.log`; `live/release-summary.json`; live release API check. |
 | F-1-9 | Reset and exit still preserve byte-identical real storage while deleting only demo state and demo license keys. | `@claim:demo-sandbox`; `clean-clone/claim-run.log`; `live/live-demo-desktop.png`; live `/demo/?demo=1`. |
 | F-1-10 | A clean visitor can open and use the sample without an account. | `@claim:no-account`; `clean-clone/claim-run.log`; `live/live-demo-390.png`; live `/demo/?demo=1`. |
@@ -46,11 +46,15 @@ Repair base: `9221c07380724bb41e595d543cd21c28a9a799b1`. Product repair: `cde581
 | F-2-10 | Demo section navigation remains semantic links with real query URLs. | E2E route-history tests; `live/live-demo-desktop.png`; live `/demo/?demo=1&view=test`. |
 | F-2-11 | Privacy copy still states that the app does not record typing, read other fields, or keep audio. | `@claim:explicit-access`; `.factory/copy-audit.md`; `live/live-landing-desktop.png`; live `/#privacy`. |
 | F-3-1 | The untestable public artwork-provenance sentence remains absent; source provenance stays in `.factory/design.md`. | E2E/live verifier absence assertion; `.factory/copy-audit.md`; `live/live-landing-desktop.png`; live `/`. |
+| C-4-1 | Removed unconditional `pwsh` from `npm test`; added a portable source/CI contract and dedicated Windows job, while keeping the executable PowerShell fixture mandatory in quality and release CI. | Fresh-clone `npm test`; `@claim:powershell-checksum-installer`; Windows output “PowerShell installer checksum match, mismatch, and missing-checksum paths passed” in runs 33577027016 and 33577561255. |
 
 ## Final evidence
 
-- All 34 `.factory/claims.json` commands passed separately from a fresh clone at `cde5814c0522ad5e069345300f07ee898a0d43dd`; see `qa-evidence/polish-4/clean-clone/claim-run.log`.
-- That clone also passed `npm test` (27 Vitest, executable installer contract, four Rust tests, 46 Playwright tests), typecheck, lint, build, Cargo check, and Cargo formatting.
-- Live Lighthouse mobile scores are Performance 100, Accessibility 100, Best Practices 100, and SEO 100; LCP 1.1 s, CLS 0, TBT 0 ms.
-- The deployed demo JavaScript SHA-256 matches `dist/site` exactly. The published v0.1.10 Linux package also matches `SHA256SUMS`.
+- All 34 `.factory/claims.json` commands passed separately from a fresh clone at `e3fa407cc2be1bfa4521be618a8130f730c89db0`.
+- That clone passed `npm test` (27 Vitest, portable installer contract, four Rust tests, 46 Playwright tests), typecheck, lint, build, Cargo check, and Cargo formatting. The first browser rerun encountered a Chromium process crash; the focused lifecycle test and the complete rerun both passed, and Linux CI passed independently.
+- GitHub quality run [33577027016](https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33577027016) passed both the Linux product suite and the real Windows PowerShell fixture.
+- Release run [33577561255](https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33577561255) passed all four platform jobs and published [v0.1.11](https://github.com/B-Divyesh/sf-dictation-repair-book/releases/tag/v0.1.11) with all required assets.
+- Static deployment `4b4d461c-0799-4578-a888-95c49b8d182c` passed the cold verifier. All 36 public build files match `dist/site` byte-for-byte.
+- Fresh live evidence: `.factory/qa-evidence/polish-4-retry1/live/`. Lighthouse mobile scores are Performance 100, Accessibility 100, Best Practices 100, and SEO 100; LCP 1.1 s, CLS 0, TBT 0 ms.
+- The v0.1.11 Linux DEB passed `sha256sum -c`; `latest.json` and `build-info.json` name the exact release commit. The live detected-platform action resolves to the v0.1.11 AppImage with no console error.
 - No finding remains unresolved.
