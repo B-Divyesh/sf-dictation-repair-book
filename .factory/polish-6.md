@@ -1,0 +1,67 @@
+# Polish round 6 — PASS
+
+Repair base: `a78d4467c8cda12a4c42d0d326d0af28cf46baf7`. Product repair: `e7da890179e55713258c58c37fd1ddd17ab6e6d0`; released source: `35cecb2fa2c129551f58f9a760d66061b2c4043a` (`v0.1.13`). The static build was deployed to [dictation-repair-book.sociobot.in](https://dictation-repair-book.sociobot.in) on 2026-09-02 UTC. Cold-live evidence is in `.factory/qa-evidence/polish-6/`.
+
+Each row maps a finding from every review and earlier polish record to its current repair and evidence. `live-recheck.json` checks the production routes, demo isolation, focus/history, Axe, offline behavior, exact repaired wording, and all four demo views at 621, 640, 700, and 800 px. Screenshots are `live-landing-desktop.png`, `live-landing-390.png`, `live-demo-desktop.png`, `live-demo-390.png`, and `live-demo-settings-640.png` under `.factory/qa-evidence/polish-6/live/`.
+
+| Finding | Change made | Evidence |
+| --- | --- | --- |
+| F-1-1 | Demo banner stays in normal mobile flow above the active heading. | E2E `demo banner does not cover the active heading on a 390px phone`; `live-demo-390.png`; [live demo](https://dictation-repair-book.sociobot.in/demo/?demo=1). |
+| F-1-2 | Query URLs, Back/Forward, h1 focus, and polite announcements restore every demo screen. | E2E `browser Back restores the default demo Rules view and Forward restores Test`; `live-recheck.json`; [live Test](https://dictation-repair-book.sociobot.in/demo/?demo=1&view=test). |
+| F-1-3 | The native first-run flow retains **Load sample repair book** with memory-only guards; the site retains four captioned native screenshots. | `@claim:native-sample-isolation`; `live-landing-desktop.png`; [live walkthrough](https://dictation-repair-book.sociobot.in/#walkthrough). |
+| F-1-4 | Install command regions remain labelled, focusable scroll areas with a designed focus ring. | E2E `landing page is accessible`; `live-a11y.json`; [live install](https://dictation-repair-book.sociobot.in/#install). |
+| F-1-5 | Service worker normalizes valid routes and returns constructed 404 responses online and offline. | E2E `service-worker controlled unknown routes keep their 404 status online and offline`; `live-route-check.json`; [live 404](https://dictation-repair-book.sociobot.in/polish-six-missing-page). |
+| F-1-6 | The production vault round-trip saves a full repair book, rejects plaintext on disk, and reloads it. | `@claim:encrypted-vault`; clean-clone claim log; [live privacy](https://dictation-repair-book.sociobot.in/privacy/). |
+| F-1-7 | The manifest now declares `npm run test:installer-windows`; its lone claim marker is in `tests/installers.ps1`, which executes the shipped installer through matching, mismatch, and missing-checksum fixtures. | `@claim:powershell-checksum-installer`; clean-clone PowerShell output; [live install.ps1](https://dictation-repair-book.sociobot.in/install.ps1). |
+| F-1-8 | Fixture release preparation validates all six installer bundles, checksums, and manifest hashes. | `@claim:release-matrix`; clean-clone claim log; [release workflow](https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33590542627). |
+| F-1-9 | Reset and Start for real preserve byte-identical real storage and delete only demo keys. | `@claim:demo-sandbox`; `live-recheck.json`; [live demo](https://dictation-repair-book.sociobot.in/demo/?demo=1). |
+| F-1-10 | The realistic sample opens and repairs text without authentication. | `@claim:no-account`; `live-demo-desktop.png`; [live demo](https://dictation-repair-book.sociobot.in/demo/?demo=1). |
+| F-1-11 | Compatibility wording is limited to pasted dictation text and local replacements. | `@claim:local-repair`; `copy-audit.md`; [live limits](https://dictation-repair-book.sociobot.in/#limits). |
+| F-1-12 | Overlapping approved rules apply longest first. | `@claim:longest-rule-first`; clean-clone claim log; [live Test](https://dictation-repair-book.sociobot.in/demo/?demo=1&view=test). |
+| F-1-13 | Fresh native vault directories receive distinct random 32-byte keys. | `@claim:per-device-key`; clean-clone claim log; [live privacy](https://dictation-repair-book.sociobot.in/privacy/). |
+| F-1-14 | The same native production-key test verifies Unix mode `0600`. | `@claim:per-device-key`; clean-clone claim log; [live privacy](https://dictation-repair-book.sociobot.in/privacy/). |
+| F-1-15 | Privacy copy states the OS-user access boundary instead of an untestable backup guarantee. | `copy-audit.md`; `@claim:encrypted-vault`; [live privacy](https://dictation-repair-book.sociobot.in/privacy/). |
+| F-1-16 | Merchant-of-record wording remains absent; free rules and exports are claim-backed. | `@claim:free-book`, `@claim:portable-exports`; `live-landing-desktop.png`; [live price](https://dictation-repair-book.sociobot.in/#price). |
+| F-1-17 | Request capture proves license verification sends the token without repair-book text. | `@claim:license-request-privacy`; clean-clone claim log; [live privacy](https://dictation-repair-book.sociobot.in/privacy/). |
+| F-1-18 | Public privacy wording remains bounded to tested demo and license-request behavior. | `@claim:private-demo`, `@claim:website-privacy`; `live-recheck.json`; [live privacy](https://dictation-repair-book.sociobot.in/privacy/). |
+| F-1-19 | The unsupported reproducible-build promise remains absent. | `copy-audit.md`; clean-clone full gate; [live home](https://dictation-repair-book.sociobot.in/). |
+| F-1-20 | Current unsigned-build disclosure is visible and configuration-tested. | `@claim:unsigned-build`; `live-landing-desktop.png`; [live install](https://dictation-repair-book.sociobot.in/#install). |
+| F-1-21 | Copy distinguishes installer checksum verification from direct-download checksum publication. | `@claim:checksum-installers`, `@claim:powershell-checksum-installer`; `live-landing-desktop.png`; [live install](https://dictation-repair-book.sociobot.in/#install). |
+| F-1-22 | The h1 names the actual correction-to-rule job. | E2E `landing page fits a 390px phone`; `live-landing-390.png`; [live home](https://dictation-repair-book.sociobot.in/). |
+| F-1-23 | Privacy language names fields and keystrokes plainly. | `copy-audit.md`; `live-landing-390.png`; [live home](https://dictation-repair-book.sociobot.in/). |
+| F-1-24 | Workflow copy describes saved edits and local replacements without recognizer claims. | `@claim:local-repair`; `copy-audit.md`; [live how it works](https://dictation-repair-book.sociobot.in/#how). |
+| F-1-25 | The privacy heading names repair-book storage. | E2E `every public route has complete metadata and one semantic page heading`; `live-landing-desktop.png`; [live privacy](https://dictation-repair-book.sociobot.in/privacy/). |
+| F-1-26 | The FAQ names export and deletion directly. | `copy-audit.md`; `live-landing-desktop.png`; [live limits](https://dictation-repair-book.sociobot.in/#limits). |
+| F-1-27 | Download and license controls name their immediate result. | E2E `landing page is accessible`; `live-landing-desktop.png`; [live home](https://dictation-repair-book.sociobot.in/). |
+| F-1-28 | Visitor and README terminology consistently use **rule** and **repair book**. | `copy-audit.md`; `live-demo-390.png`; [live demo](https://dictation-repair-book.sociobot.in/demo/?demo=1). |
+| F-1-29 | Privacy, offline, and price facts fit at 390×844; Try is the sole primary action. | E2E `landing page fits a 390px phone`; `live-landing-390.png`; [live home](https://dictation-repair-book.sociobot.in/). |
+| F-1-30 | Landing, demo, legal, and 404 routes retain shared chrome, legal links, one h1, and per-route metadata. | E2E `every public route has complete metadata and one semantic page heading`; `live-route-check.json`; [live demo](https://dictation-repair-book.sociobot.in/demo/). |
+| F-2-1 | Public and checkout price remains $12 USD once. | `@claim:checkout-price`; clean-clone claim log; [live price](https://dictation-repair-book.sociobot.in/#price). |
+| F-2-2 | Build-output claim asserts both `dist/app/` and `dist/site/`. | `@claim:build-output`; clean-clone full gate; [live home](https://dictation-repair-book.sociobot.in/). |
+| F-2-3 | Release source/version refusal remains inventoried and tested. | `@claim:release-source-identity`; clean-clone claim log; [v0.1.13 release workflow](https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33590542627). |
+| F-2-4 | Approved entries are rules and their collection is a repair book. | `copy-audit.md`; `live-demo-390.png`; [live demo](https://dictation-repair-book.sociobot.in/demo/?demo=1). |
+| F-2-5 | Shipped sample sources remain Notes and VS Code. | `@claim:portable-exports`; `live-demo-desktop.png`; [live demo](https://dictation-repair-book.sociobot.in/demo/?demo=1). |
+| F-2-6 | Tape and privacy copy specify storage, export, and erase boundaries. | `copy-audit.md`; `live-landing-desktop.png`; [live home](https://dictation-repair-book.sociobot.in/). |
+| F-2-7 | The contextual FAQ heading is “Product limits and compatibility.” | `copy-audit.md`; `live-landing-desktop.png`; [live limits](https://dictation-repair-book.sociobot.in/#limits). |
+| F-2-8 | Internal release-repair wording remains absent from public footers. | `copy-audit.md`; `live-landing-390.png`; [live home](https://dictation-repair-book.sociobot.in/). |
+| F-2-9 | README names the three version files and the tag-based release procedure. | `@claim:release-source-identity`; clean-clone claim log; [release workflow](https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33590542627). |
+| F-2-10 | Demo section controls are semantic links with real query URLs. | E2E `demo sections use real query URLs, restore with history, announce, and focus their h1`; `live-recheck.json`; [live Settings](https://dictation-repair-book.sociobot.in/demo/?demo=1&view=settings). |
+| F-2-11 | Privacy copy states that the app does not record typing, read other fields, or keep audio. | `@claim:explicit-access`; `copy-audit.md`; [live privacy](https://dictation-repair-book.sociobot.in/privacy/). |
+| F-3-1 | Unverifiable public artwork-provenance copy remains absent; source provenance stays in `design.md`. | E2E/live absence assertion; `live-landing-desktop.png`; [live home](https://dictation-repair-book.sociobot.in/). |
+| C-4-1 | The portable structural guard remains in `npm test`; the declared PowerShell claim has moved back to the executable PowerShell fixture. | `npm run test:installer-contract` and `@claim:powershell-checksum-installer`; clean-clone claim log; [live install.ps1](https://dictation-repair-book.sociobot.in/install.ps1). |
+| F-5-1 | GitHub and checkout links visibly identify their off-site destination at desktop and phone widths. | E2E `GitHub and checkout links disclose their external destination on desktop and mobile`; `live-landing-390.png`; [live home](https://dictation-repair-book.sociobot.in/). |
+| F-6-1 | Settings stays one column from 621–799 px; all demo views are overflow-free at 621, 640, 700, and 800 px. | E2E `every demo route fits through the Settings breakpoint`; `live-demo-settings-640.png`, `live-recheck.json`; [live Settings](https://dictation-repair-book.sociobot.in/demo/?demo=1&view=settings). |
+| DRB-QA-15-01 | The earlier handoff overflow observation is closed by the same responsive Settings breakpoint and all-route width assertion. | E2E `every demo route fits through the Settings breakpoint`; `live-demo-settings-640.png`; [live Settings](https://dictation-repair-book.sociobot.in/demo/?demo=1&view=settings). |
+| F-6-2 | The hero now has one 19-word audience-and-outcome sentence. | E2E `landing uses one plain audience-and-outcome sentence`; `live-landing-390.png`; [live home](https://dictation-repair-book.sociobot.in/). |
+| F-6-3 | “Changed span” is now “The app finds the changed words.” | E2E `landing uses one plain audience-and-outcome sentence`; `live-landing-desktop.png`; [live how it works](https://dictation-repair-book.sociobot.in/#how). |
+| F-6-4 | The landing privacy fact now describes encrypting the repair-book file before saving it locally. | E2E `landing uses one plain audience-and-outcome sentence`; `live-landing-desktop.png`; [live privacy section](https://dictation-repair-book.sociobot.in/#privacy-first). |
+| F-6-5 | The 23-word README sentence is split into two sentences of 10 and 13 words. | `copy-audit.md`; clean-clone full gate; [repository README](https://github.com/B-Divyesh/sf-dictation-repair-book/blob/main/README.md). |
+
+## Verification
+
+- Clean clone `/tmp/dictation-repair-book-polish6-qCyPKf/repo`: all 34 `.factory/claims.json` commands passed independently. The PowerShell claim ran with PowerShell 7.4.6 and printed “PowerShell installer checksum match, mismatch, and missing-checksum paths passed.”
+- The same clone passed `npm test` (27 unit tests, portable installer guard, four native Rust tests, 50 Playwright tests), `npm run typecheck`, `npm run lint`, `npm run build`, `cargo check --no-default-features`, and `cargo fmt --check`.
+- `/opt/fleet/lib/verify-url.sh` passed cold. `scripts/verify-live.mjs` passed against production: semantic routes, Axe serious/critical checks, exact repaired copy, demo isolation, history/focus, offline demo/404, and intermediate widths all pass.
+- Live mobile Lighthouse: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1.4 s, CLS 0, TBT 0 ms (`lighthouse-live-mobile.json`).
+
+No review or polish finding remains unresolved.

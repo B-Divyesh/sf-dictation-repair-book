@@ -1,43 +1,54 @@
-# Review 6 handoff — FAIL
+# Polish round 6 handoff — PASS
 
-Adversarial review 6 is recorded in `.factory/review-6.md` against commit `a78d4467c8cda12a4c42d0d326d0af28cf46baf7` and the live site on 2026-09-02 UTC. No product code, deployment, billing, or infrastructure was changed.
+## Released repair
 
-## What was done
+- Product repair commit: `e7da890179e55713258c58c37fd1ddd17ab6e6d0`.
+- Release-source commit: `35cecb2fa2c129551f58f9a760d66061b2c4043a`.
+- Published desktop release: [v0.1.13](https://github.com/B-Divyesh/sf-dictation-repair-book/releases/tag/v0.1.13).
+- Static deployment: `477a2abd-410d-4e09-9c2c-0eacadae73cd` to [dictation-repair-book.sociobot.in](https://dictation-repair-book.sociobot.in).
+- The release source and static deployment include the round-6 fixes: executable PowerShell claim coverage, overflow-free Settings from 621–800 px, one-sentence hero copy, plain proposal/privacy wording, and the README sentence split.
 
-- Captured cold 390×844 and 1440×900 first reads before scrolling.
-- Audited every landing and README sentence with word counts and checked headings, terminology, jargon, and action labels.
-- Entered the one-click sample, verified realistic data, Reset, Start for real, real-storage isolation, same-origin requests, local repair, offline reload, and route history/focus.
-- Ran all 34 commands from `.factory/claims.json` separately in a clean clone.
-- Ran the full clean-clone `npm test`, build, typecheck, and lint gates.
-- Crawled live links; inspected metadata, headers, 404 behavior, responsive widths, Axe results, reduced motion, and the visual system.
-- Rechecked every finding from reviews 1–5, polish records 1–5, and the prior handoff in live behavior and source.
+## What changed
 
-## Result
+- Restored `powershell-checksum-installer` to an observable test: `.factory/claims.json` now runs `npm run test:installer-windows`, and the only claim marker is in the PowerShell fixture that executes the shipped installer with matching, mismatch, and missing-checksum downloads.
+- Preserved the portable source/CI-wiring guard in `npm test`; it is no longer offered as evidence for the PowerShell behavior claim.
+- Kept Settings in one column through 799 px while the compact navigation rail leaves insufficient space for its two minimum columns. Added all-demo-route no-overflow coverage at 621, 640, 700, and 800 px.
+- Rewrote the first-screen supporting line as one audience-and-outcome sentence. Replaced “changed span” with “changed words”, and replaced the algorithm-only privacy fact with the concrete local-save behavior.
+- Split the 23-word native-test README sentence. Updated the copy audit and verb-first catalog description.
+- Bumped the desktop app to `v0.1.13`, then built and published macOS arm64/x64, Windows MSI/EXE, and Linux AppImage/DEB artifacts.
 
-Verdict: **FAIL** with six findings:
+## Verification
 
-- **Blocking F-1-7:** the declared PowerShell checksum claim command only checks source structure and CI wiring; it does not execute the shipped PowerShell fixture.
-- **Minor F-6-1:** live Settings width is 726px at a 640px viewport; the defect spans roughly 621–729px.
-- **Minor F-6-2:** the hero uses two supporting sentences instead of the required one-sentence audience/outcome line.
-- **Minor F-6-3:** “The app isolates the changed span” uses avoidable implementation jargon.
-- **Minor F-6-4:** “AES-256-GCM vault stored on your device” is an algorithm-only first-read privacy line.
-- **Minor F-6-5:** one README sentence is 23 words, above the 22-word hard cap.
+### Clean clone
 
-All declared claim commands exit successfully, but `powershell-checksum-installer` is not adequate evidence for its promise. No unlisted landing/README claim was found.
+Fresh clone: `/tmp/dictation-repair-book-polish6-qCyPKf/repo`.
 
-## Verification commands
+- `npm ci` passed.
+- All 34 commands in `.factory/claims.json` passed separately. This includes the actual PowerShell 7.4.6 execution of `tests/installers.ps1`, which printed: `PowerShell installer checksum match, mismatch, and missing-checksum paths passed.`
+- The full suite passed: `npm test` (27 Vitest tests, portable installer guard, four GUI-free Rust tests, and 50 Playwright tests), `npm run typecheck`, `npm run lint`, `npm run build`, `cargo check --manifest-path src-tauri/Cargo.toml --no-default-features`, and `cargo fmt --manifest-path src-tauri/Cargo.toml --check`.
+- After the v0.1.13 version bump, the same full gate passed again in the release working tree.
 
-```sh
-npm ci
-npm test
-npm run build
-npm run typecheck
-npm run lint
-node scripts/verify-live.mjs https://dictation-repair-book.sociobot.in /tmp/drb-review-6/verify-live
-```
+### CI and release
 
-The clean clone used for this review was `/tmp/drb-review6-clean-JVwFSS`. Temporary logs and screenshots are under `/tmp/drb-review-6/`; they are not repository changes.
+- [Quality gates run 33590541473](https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33590541473): passed.
+- [Release run 33590542627](https://github.com/B-Divyesh/sf-dictation-repair-book/actions/runs/33590542627): all four build jobs and publish passed.
+- v0.1.13 contains nine assets: both macOS DMGs, Windows MSI/EXE, Linux AppImage/DEB, `SHA256SUMS`, `latest.json`, and `build-info.json`.
+- Downloaded `Dictation-Repair-Book-linux-x64.deb` passed `sha256sum -c` against v0.1.13 `SHA256SUMS`.
+- `latest.json` reports `v0.1.13` and commit `35cecb2fa2c129551f58f9a760d66061b2c4043a`.
 
-## Next steps
+### Cold production checks
 
-Make the executable PowerShell fixture the declared claim test, repair the Settings breakpoint/minimum columns, and apply the four copy rewrites in the review. Add intermediate-width overflow coverage before rerunning review 7.
+- `/opt/fleet/lib/verify-url.sh https://dictation-repair-book.sociobot.in .factory/qa-evidence/polish-6/verify-url` passed: HTTPS 200, title, `lang`, one h1, main landmark, image alternatives, and no console errors.
+- `node scripts/verify-live.mjs https://dictation-repair-book.sociobot.in .factory/qa-evidence/polish-6/live` passed: all public routes and 404 status, Axe serious/critical checks, exact repaired copy, demo isolation/reset/exit, local repair, history/focus/announcements, offline demo and 404, dark/reduced-motion mobile, and all intermediate widths.
+- The live download action resolves to the v0.1.13 Linux AppImage with no console error. Evidence: `.factory/qa-evidence/polish-6/live/live-release-check.json` and `live-release-link.png`.
+- Mobile Lighthouse: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1.4 s, CLS 0, TBT 0 ms. See `.factory/qa-evidence/polish-6/lighthouse-live-mobile.json`.
+
+See `.factory/polish-6.md` for the finding-by-finding mapping and the complete evidence paths.
+
+## Known gaps
+
+No review finding remains open. The app intentionally repairs pasted text rather than recording or transcribing audio.
+
+## Needs operator action
+
+No action is required to ship this release. Desktop artifacts remain intentionally unsigned and disclose that status in the product. For a future signed release, provide `APPLE_CERTIFICATE` for macOS notarization and `WINDOWS_CERT_PFX` for Windows signing, then add the signing steps to the release workflow.

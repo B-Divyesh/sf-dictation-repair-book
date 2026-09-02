@@ -57,8 +57,10 @@ try {
       facts: await page.locator('.first-screen-facts').boundingBox()
     };
     assert(hero.h1 === 'Turn dictation corrections into reusable rules.', `unexpected headline: ${hero.h1}`);
-    assert(/dictation users.*names.*medications.*code terms.*workplace jargon/i.test(hero.audience), `unexpected audience: ${hero.audience}`);
+    assert(hero.audience === 'For dictation users with uncommon names, medications, code terms, or workplace jargon, this turns explicit corrections into reusable rules.', `unexpected audience: ${hero.audience}`);
     assert(hero.action && hero.result && hero.facts && hero.facts.y + hero.facts.height <= 900, 'first screen is incomplete on desktop');
+    assert(await page.getByText('The app finds the changed words.').isVisible(), 'proposal wording regressed');
+    assert(await page.getByText('The native app encrypts the repair-book file before saving it on your device.').isVisible(), 'privacy fact regressed');
     assert(!await page.getByText(/Hero artwork is original AI-generated/i).count(), 'removed provenance claim is still public');
     await page.locator('.hero-art img').evaluate((image) => image.decode());
     for (const image of await page.locator('.walkthrough-frames img').all()) {
@@ -132,6 +134,25 @@ try {
     assert(await page.evaluate(() => localStorage.getItem('drb_web_preview_state')) === sentinel, 'Start for real changed real preview data');
     report.desktop = { hero, history: { back: backState, forward: forwardState }, foreignDemoRequests, errors, finalUrl: page.url() };
     assert(errors.length === 0, `desktop flow logged ${errors.join(' | ')}`);
+    await context.close();
+  }
+
+  {
+    const context = await browser.newContext({ viewport: { width: 621, height: 844 } });
+    const page = await context.newPage();
+    const widths = {};
+    for (const width of [621, 640, 700, 800]) {
+      await page.setViewportSize({ width, height: 844 });
+      widths[width] = {};
+      for (const view of ['capture', 'rules', 'test', 'settings']) {
+        await page.goto(`${origin}/demo/?demo=1&view=${view}`, { waitUntil: 'networkidle' });
+        const layout = await page.evaluate(() => [document.documentElement.scrollWidth, document.documentElement.clientWidth]);
+        widths[width][view] = layout;
+        assert(layout[0] === layout[1], `${width}px ${view} demo route overflows`);
+      }
+    }
+    report.intermediateWidths = widths;
+    await page.screenshot({ path: `${evidence}/live-demo-settings-640.png`, fullPage: true });
     await context.close();
   }
 
