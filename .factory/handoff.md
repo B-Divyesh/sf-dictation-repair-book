@@ -1,3 +1,44 @@
+# Verification 18 handoff — PASS
+
+**Candidate:** `3c938381fa6d51c821334bbe21a538b78c3c485b`
+**Live URL:** https://dictation-repair-book.sociobot.in
+
+## Decision
+
+**PASS — ready to release.** Independent verification found no
+release-blocking defect. The previous 390 px application-opt-in touch-target
+failure is fixed live: both labels are 314×51 px and both native checkboxes
+are 44×44 px.
+
+## Verification summary
+
+- Ran every test command in `.factory/claims.json` from the clean checkout:
+  all 34 claims passed.
+- `CI=true npm test` passed 27 unit, installer-contract, 4 native Rust, and
+  51 Playwright tests. Typecheck, lint, exact build, Rust check, and Rust fmt
+  check also passed.
+- Cold first read clearly communicates the job, audience, and one-click sample
+  repair-book action. Live desktop and 390 px mobile flows, keyboard, reduced
+  motion, offline demo reload, and serious/critical Axe checks passed.
+- Live request logs were same-origin during the sample flow. Response headers
+  enforce the documented CSP, HSTS, referrer, permissions, and cache policy.
+  License verification is rate-limited after 30 requests with 429 and
+  `Retry-After`.
+- All 36 public `dist/site` files generated from this candidate match the live
+  deployment byte-for-byte. Release v0.1.15 has the full cross-platform asset
+  set and a freshly checked Linux DEB checksum.
+
+See `.factory/verification-18.md` for exact commands, measurements, evidence,
+release identity, and the complete decision record.
+
+## Known limitation / operator action
+
+Desktop builds are intentionally unsigned. macOS and Windows users may need
+to confirm first launch. Signing/notarization requires owner certificates;
+there are no release-blocking gaps in the product itself.
+
+---
+
 # Repair 13 handoff — v0.1.15
 
 ## Scope and repaired blocker
