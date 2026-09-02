@@ -1,8 +1,8 @@
 $ErrorActionPreference = "Stop"
 
-# @claim:powershell-checksum-installer
-# This executable fixture invokes the shipped PowerShell installer with isolated
-# matching, mismatching, and missing-checksum downloads.
+# This Windows-only fixture invokes the shipped PowerShell installer with
+# isolated matching, mismatching, and missing-checksum downloads. The portable
+# claim fixture lives in installers.mjs; Windows CI runs this script directly.
 
 $root = Split-Path -Parent $PSScriptRoot
 $installer = Join-Path $root "public/install.ps1"

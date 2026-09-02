@@ -54,9 +54,11 @@ clean Linux clone without GTK or WebKit development metadata:
 cargo test --manifest-path src-tauri/Cargo.toml --no-default-features
 ```
 
-`npm test` runs a portable structural check of the PowerShell installer and
-its required CI wiring. Run `npm run test:installer-windows` in PowerShell to
-execute the shipped script with matching, mismatching, and missing checksums.
+`npm run test:installer-windows-portable` is the cross-platform checksum
+fixture used by the claim suite. It runs matching, mismatching, and
+missing-checksum cases and checks their ordered link to the shipped PowerShell
+script. Windows CI also runs `npm run test:installer-windows` in PowerShell to
+execute the shipped script with the same fixtures.
 
 `npm run build` creates `dist/app/` for the desktop webview and `dist/site/` for the static site deployment.
 
