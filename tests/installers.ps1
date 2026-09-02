@@ -13,7 +13,7 @@ $originalTemp = $env:TEMP
 $env:TEMP = $tempRoot
 
 function Invoke-InstallerFixture([string]$Mode) {
-  $script:fixtureMode = $Mode
+  $global:drbFixtureMode = $Mode
   $global:drbStarted = $false
   $global:drbLaunch = $null
   Remove-Item (Join-Path $tempRoot $file) -ErrorAction SilentlyContinue
@@ -22,8 +22,8 @@ function Invoke-InstallerFixture([string]$Mode) {
     param([string]$Uri, [string]$OutFile)
     if ($Uri -like "*SHA256SUMS") {
       $package = [Text.Encoding]::UTF8.GetBytes("fixture package")
-      $hash = if ($script:fixtureMode -eq "Match") { ([Security.Cryptography.SHA256]::Create().ComputeHash($package) | ForEach-Object { $_.ToString("x2") }) -join "" } else { "0" * 64 }
-      $listedFile = if ($script:fixtureMode -eq "Missing") { "Different-Package.msi" } else { $file }
+      $hash = if ($global:drbFixtureMode -eq "Match") { ([Security.Cryptography.SHA256]::Create().ComputeHash($package) | ForEach-Object { $_.ToString("x2") }) -join "" } else { "0" * 64 }
+      $listedFile = if ($global:drbFixtureMode -eq "Missing") { "Different-Package.msi" } else { $file }
       [IO.File]::WriteAllText($OutFile, "$hash  $listedFile`n")
     } else {
       [IO.File]::WriteAllText($OutFile, "fixture package")
@@ -57,6 +57,9 @@ try {
 } finally {
   Remove-Item Function:\global:Invoke-WebRequest -ErrorAction SilentlyContinue
   Remove-Item Function:\global:Start-Process -ErrorAction SilentlyContinue
+  Remove-Variable drbFixtureMode -Scope Global -ErrorAction SilentlyContinue
+  Remove-Variable drbStarted -Scope Global -ErrorAction SilentlyContinue
+  Remove-Variable drbLaunch -Scope Global -ErrorAction SilentlyContinue
   $env:TEMP = $originalTemp
   Remove-Item -Recurse -Force $tempRoot -ErrorAction SilentlyContinue
 }
