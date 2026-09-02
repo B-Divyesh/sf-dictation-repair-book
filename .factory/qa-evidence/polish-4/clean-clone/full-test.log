@@ -1,0 +1,74 @@
+
+> dictation-repair-book@0.1.10 test
+> npm run test:unit && npm run test:installer-contract && npm run test:native && npm run test:e2e
+
+
+> dictation-repair-book@0.1.10 test:unit
+> vitest run
+
+
+ RUN  v3.2.7 /tmp/dictation-repair-book-polish-4.6JwDNL
+
+ ✓ tests/repair.test.ts (27 tests) 4383ms
+   ✓ static deployment guards > @claim:artifact-identity embeds the exact release tag and full source commit in the packaged webview  746ms
+   ✓ static deployment guards > @claim:build-output runs the production build and writes both product roots  1616ms
+   ✓ static deployment guards > @claim:checkout-price verifies the live one-time USD checkout price before public copy is released  1550ms
+
+ Test Files  1 passed (1)
+      Tests  27 passed (27)
+   Start at  00:26:39
+   Duration  4.99s (transform 107ms, setup 0ms, collect 126ms, tests 4.38s, environment 0ms, prepare 135ms)
+
+
+> dictation-repair-book@0.1.10 test:installer-contract
+> node tests/installers.mjs && pwsh -NoLogo -NoProfile -File tests/installers.ps1
+
+PowerShell installer static smoke check passed. The executable checksum claim runs tests/installers.ps1.
+Verified SHA256. Starting the unsigned Windows installer...
+Dictation Repair Book installer finished. Windows may show an unsigned-publisher warning on first launch.
+PowerShell installer checksum match and mismatch paths passed.
+
+> dictation-repair-book@0.1.10 test:native
+> cargo test --manifest-path src-tauri/Cargo.toml --no-default-features
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.18s
+     Running unittests src/lib.rs (src-tauri/target/debug/deps/dictation_repair_book_lib-af9942334d483f8e)
+
+running 4 tests
+test privacy::tests::claim_native_erase_removes_vault_and_key ... ok
+test privacy::tests::claim_encrypted_vault_uses_aes_256_gcm ... ok
+test privacy::tests::claim_per_device_key_is_random_and_private_on_unix ... ok
+test privacy::tests::rejects_partially_shaped_state_before_encryption ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (src-tauri/target/debug/deps/dictation_repair_book-e28beb6e91b9f725)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests dictation_repair_book_lib
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+> dictation-repair-book@0.1.10 test:e2e
+> node scripts/run-e2e.mjs
+
+[WebServer] (node:16291) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:16278) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:16345) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 46 tests using 1 worker
+(node:16364) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16364) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+··············································
+  46 passed (42.7s)
