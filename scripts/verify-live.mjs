@@ -17,7 +17,7 @@ await mkdir(evidence, { recursive: true });
 const browser = await chromium.launch({ headless: true });
 
 try {
-  for (const path of ['/', '/demo/', '/privacy/', '/terms/', '/polish-three-missing-page']) {
+  for (const path of ['/', '/demo/', '/privacy/', '/terms/', '/polish-four-missing-page']) {
     const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
     const page = await context.newPage();
     const errors = [];
@@ -83,6 +83,21 @@ try {
     const foreignDemoRequests = requests.filter((url) => new URL(url).origin !== origin);
     assert(foreignDemoRequests.length === 0, `demo made external requests: ${foreignDemoRequests.join(', ')}`);
     await page.screenshot({ path: `${evidence}/live-demo-desktop.png`, fullPage: true });
+
+    await page.getByRole('link', { name: 'Test' }).click();
+    assert(new URL(page.url()).search === '?demo=1&view=test', `Test opened ${page.url()}`);
+    await page.goBack();
+    const defaultRulesHeading = page.getByRole('heading', { name: 'Approved rules' });
+    await page.waitForFunction(() => document.activeElement?.tagName === 'H1' && document.activeElement.textContent?.includes('Approved rules'));
+    assert(new URL(page.url()).search === '?demo=1', `Back restored ${page.url()}, not the default demo URL`);
+    assert(await defaultRulesHeading.evaluate((node) => node === document.activeElement), 'Back did not focus the default Rules heading');
+    assert(await page.locator('#route-announcement').innerText() === 'Approved rules', 'Back did not announce the default Rules view');
+    await page.goForward();
+    const forwardTestHeading = page.getByRole('heading', { name: 'Test your repair book' });
+    await page.waitForFunction(() => document.activeElement?.tagName === 'H1' && document.activeElement.textContent?.includes('Test your repair book'));
+    assert(new URL(page.url()).search === '?demo=1&view=test', `Forward restored ${page.url()}, not Test`);
+    assert(await forwardTestHeading.evaluate((node) => node === document.activeElement), 'Forward did not focus the Test heading');
+    assert(await page.locator('#route-announcement').innerText() === 'Test your repair book', 'Forward did not announce Test');
 
     await page.goto(`${origin}/demo/?view=test`, { waitUntil: 'networkidle' });
     const testHeading = page.getByRole('heading', { name: 'Test your repair book' });
@@ -152,7 +167,7 @@ try {
     await context.setOffline(true);
     const demo = await page.goto(`${origin}/demo`);
     assert(demo?.status() === 200 && await page.getByText('Kubernetes', { exact: true }).isVisible(), 'offline demo did not open');
-    const missing = await page.goto(`${origin}/polish-three-offline-missing`);
+    const missing = await page.goto(`${origin}/polish-four-offline-missing`);
     assert(missing?.status() === 404 && await page.getByRole('heading', { name: 'Page not found' }).isVisible(), 'offline missing route lost its 404');
     report.offline = { demoStatus: demo?.status(), missingStatus: missing?.status() };
     await context.close();

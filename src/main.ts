@@ -185,8 +185,11 @@ app.addEventListener('submit', async (event) => {
 });
 
 function restoreRouteFromLocation() {
-  const target = pageFromLocation();
-  if (target && target !== page) { page = target; notice = ''; render(true); }
+  // Demo URLs without an explicit view are the canonical Rules route. History
+  // can return to that URL after another view has been pushed, so resolve the
+  // same default here that we use during initial load.
+  const target = pageFromLocation() || (isDemo() ? 'rules' : 'capture');
+  if (target !== page) { page = target; notice = ''; render(true); }
 }
 window.addEventListener('popstate', restoreRouteFromLocation);
 

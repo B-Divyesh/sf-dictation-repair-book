@@ -190,6 +190,27 @@ test('demo sections use real query URLs, restore with history, announce, and foc
   expect(routes.every((route) => route?.includes('view=') && !route.startsWith('#'))).toBe(true);
 });
 
+test('browser Back restores the default demo Rules view and Forward restores Test', async ({ page }) => {
+  await page.goto('/demo/?demo=1');
+  await expect(page).toHaveURL(/\/demo\/\?demo=1$/);
+  await expect(page.getByRole('heading', { level: 1, name: 'Approved rules' })).toBeVisible();
+
+  await page.getByRole('link', { name: 'Test' }).click();
+  await expect(page).toHaveURL(/\/demo\/\?demo=1&view=test$/);
+  await expect(page.getByRole('heading', { level: 1, name: 'Test your repair book' })).toBeFocused();
+  await expect(page.locator('#route-announcement')).toHaveText('Test your repair book');
+
+  await page.goBack();
+  await expect(page).toHaveURL(/\/demo\/\?demo=1$/);
+  await expect(page.getByRole('heading', { level: 1, name: 'Approved rules' })).toBeFocused();
+  await expect(page.locator('#route-announcement')).toHaveText('Approved rules');
+
+  await page.goForward();
+  await expect(page).toHaveURL(/\/demo\/\?demo=1&view=test$/);
+  await expect(page.getByRole('heading', { level: 1, name: 'Test your repair book' })).toBeFocused();
+  await expect(page.locator('#route-announcement')).toHaveText('Test your repair book');
+});
+
 test('Settings uses a complete sequential heading outline', async ({ page }) => {
   await page.goto('/demo/?demo=1&view=settings');
   const outline = await page.locator('h1, h2, h3, h4, h5, h6').evaluateAll((headings) => headings.map((heading) => ({

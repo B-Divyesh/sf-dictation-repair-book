@@ -1,6 +1,6 @@
-# Copy audit — polish round 3
+# Copy audit — polish round 4
 
-Reviewed 2026-09-01. This is the complete visitor-facing sentence and heading audit for the landing page. Menu labels, button labels, command strings, version text, and the product name are labels rather than sentences; they are included in the final label check below. **Rule** means one saved replacement. **Repair book** means the saved collection. “Whisper vocabulary prompt” is only the name of that export format.
+Reviewed 2026-09-02. This is the complete visitor-facing sentence and heading audit for the landing page. Menu labels, button labels, command strings, version text, and the product name are labels rather than sentences; they are included in the final label check below. **Rule** means one saved replacement. **Repair book** means the saved collection. “Whisper vocabulary prompt” is only the name of that export format.
 
 ## Landing sentences and headings
 
@@ -85,3 +85,5 @@ The headline names the job, the next sentence names the audience, and **Try it w
 | Whisper format | Whisper vocabulary prompt | Export-format name only. |
 
 Labels are concrete verbs or names: **Try it with sample data**, **Download for your computer**, **Copy command**, **Buy once — $12**, **Enter license token**, and **Verify license**. No audited landing sentence exceeds 22 words or uses a banned marketing word. The checkout amount is consistently `$12`; `@claim:checkout-price` checks the live session when available and its recorded read-only response during checkout-service outages.
+
+The catalog description is 92 characters and starts with the verb **Turn**: “Turn saved dictation corrections into private rules you can inspect, test, export, or erase.”
