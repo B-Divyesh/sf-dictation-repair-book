@@ -1,26 +1,12 @@
-# Verification 14 handoff — PASS
+# Review 5 handoff — FAIL
 
-Candidate `3fd96a2508454c9108ac92a522741ce1ee63d867` is accepted for
-<https://dictation-repair-book.sociobot.in>. It changes only factory
-documentation/evidence from the `v0.1.11` product source; the deployed
-application is the same code.
+This work order performed an adversarial review only; it did not modify product code or deployment resources.
 
-Independent verification passed: all 34 claim commands, `npm test` (27 unit,
-installer contract, 4 Rust, 46 Playwright), typecheck, lint, production build,
-Cargo check/format, live route/a11y/keyboard/privacy/offline/mobile checks,
-fresh Lighthouse (100/100/100/100), and a newly downloaded Linux DEB checksum.
-There are no defects or known product gaps.
+Reviewed commit: `b67ff87c66543a934b59032fb6d10650dec429a8`.
 
-Run locally:
+- Wrote `.factory/review-5.md`.
+- Verified the live site cold at 390×844 and 1440×900, including demo isolation, reset/exit, offline service-worker behavior, route history/focus, metadata, 404, links, console, and mobile Axe.
+- From a fresh clone, ran all 34 declared claim commands separately; all passed.
+- Ran `npm test`, `npm run typecheck`, `npm run lint`, and `npm run build` in that clone; all passed.
 
-```sh
-npm ci
-npm test
-npm run typecheck && npm run lint && npm run build
-cargo check --manifest-path src-tauri/Cargo.toml --no-default-features
-cargo fmt --manifest-path src-tauri/Cargo.toml --check
-```
-
-The desktop builds are intentionally unsigned; the product discloses the OS
-confirmation users may see. Full evidence is in `.factory/verification-14.md`
-and `.factory/verification-artifacts-14/`.
+Known gap: F-5-1 remains. The landing's GitHub and checkout links do not visibly identify that they leave the product site. The required concrete wording changes are in the review. Therefore the review verdict is FAIL until that one issue is fixed and rechecked.
