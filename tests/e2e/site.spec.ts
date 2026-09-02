@@ -352,7 +352,7 @@ test('@claim:free-book keeps the first 25 approved rules free', async ({ page })
   await page.getByLabel('What you meant').fill('deploy kube');
   await page.getByRole('button', { name: /Propose a rule/ }).click();
   await expect(page.getByText('Free book full.')).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Unlock unlimited on Sociobot checkout (opens Sociobot checkout)' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Unlock unlimited on Sociobot checkout (opens Sociobot checkout)' })).toHaveAttribute('href', /api\.sociobot\.in\/api\/v1\/products\/dictation-repair-book\/checkout$/);
   await expect(page.getByText(/\$12 once/)).toBeVisible();
   await page.evaluate(() => {
     localStorage.setItem('sb_license:dictation-repair-book', 'valid-license');

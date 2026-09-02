@@ -41,6 +41,17 @@ test('app fits a 390px window and keeps navigation reachable', async ({ page }) 
   expect(width.scroll).toBe(width.client);
 });
 
+test('desktop checkout link names Sociobot on desktop and mobile', async ({ page }) => {
+  for (const viewport of [{ width: 1180, height: 780 }, { width: 390, height: 760 }]) {
+    await page.setViewportSize(viewport);
+    await page.getByRole('link', { name: 'Settings' }).click();
+    await expect(
+      page.getByRole('link', { name: 'Buy $12 license on Sociobot checkout (opens Sociobot checkout)', exact: true }),
+      `${viewport.width}px checkout disclosure`
+    ).toHaveAttribute('href', /api\.sociobot\.in\/api\/v1\/products\/dictation-repair-book\/checkout$/);
+  }
+});
+
 test('web preview identifies its release version without exposing book data', async ({ page }) => {
   await expect(page.getByText('v0.1.11 · local preview', { exact: true })).toBeVisible();
 });
