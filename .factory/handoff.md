@@ -1,3 +1,40 @@
+# Review 7 handoff — PASS
+
+**Implementation:** `7d8465476dcb9e28f48a8ae5a4a4fc27dea9c821`
+**Nominated documentation candidate:** `3c938381fa6d51c821334bbe21a538b78c3c485b`
+**Review input documentation:** `908f423bdcd448e000efa97abcbc3c7c13e1ef97`
+**Live URL:** https://dictation-repair-book.sociobot.in
+
+## Review decision
+
+**PASS — zero findings and zero untested claims.** Review 7 ran all 34 claim
+commands separately from a clean clone, then ran the complete test, type,
+lint, build, Rust check, and formatting gates. Fresh desktop and phone browser
+checks covered the first screen, sample isolation/reset/exit, valid and invalid
+paths, history and focus, all public routes, offline use, dark/light Axe scans,
+touch targets, reduced motion, links, headers, and the expected designed 404.
+
+All 36 public site files matched the live deployment byte-for-byte. Mobile
+Lighthouse scored 100 in Performance, Accessibility, Best Practices, and SEO.
+The scoped license verifier allowed 30 invalid requests, then returned 429 with
+`Retry-After`.
+
+A fresh v0.1.15 Linux DEB matched its published checksum and was installed with
+its declared dependencies. In clean native profiles, its sample did not create
+a real vault. A real source/rule survived restart and repaired fresh text. The
+local key was mode `0600`, and the encrypted file contained no plaintext term.
+
+See `.factory/review-7.md` for the claim table, earlier-finding disposition,
+measurements, and exact decision record. No product code or deployment changed.
+
+## Known limitation / operator action
+
+Desktop builds are intentionally unsigned, as disclosed on the site and in the
+README. Signing and notarization still require owner certificates. This is not
+a product finding.
+
+---
+
 # Verification 18 handoff — PASS
 
 **Candidate:** `3c938381fa6d51c821334bbe21a538b78c3c485b`
